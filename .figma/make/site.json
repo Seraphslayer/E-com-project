@@ -1,0 +1,10 @@
+{
+  "description": "This e-commerce platform features a customer storefront and an admin portal, offering seamless shopping, secure payments, and efficient inventory management.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
