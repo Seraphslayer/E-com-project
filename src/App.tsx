@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import RoleSelect from './pages/RoleSelect'
 import StorefrontLayout from './pages/storefront/StorefrontLayout'
 import Shop from './pages/storefront/Shop'
+import AllProductsPage from './pages/storefront/AllProductsPage'
 import CartPage from './pages/storefront/CartPage'
 import CheckoutPage from './pages/storefront/CheckoutPage'
 import OrdersPage from './pages/storefront/OrdersPage'
@@ -22,6 +23,7 @@ export default function App() {
 
         <Route path="/store" element={<StorefrontLayout />}>
           <Route index element={<Shop />} />
+          <Route path="products" element={<AllProductsPage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="orders" element={<OrdersPage />} />

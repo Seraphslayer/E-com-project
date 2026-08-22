@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Star, ShoppingCart, Check, SlidersHorizontal, ArrowRight, Heart, MessageCircle } from 'lucide-react'
 import { products, blogPosts, Product } from '../../data/mockData'
 import { useCart } from '../../store/cartStore'
@@ -107,9 +107,23 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 export default function Shop() {
-  const [category, setCategory] = useState('All')
+  const [searchParams] = useSearchParams()
+  const paramCategory = searchParams.get('category')
+  const [category, setCategory] = useState(
+    paramCategory && categories.includes(paramCategory) ? paramCategory : 'All'
+  )
   const [sort, setSort] = useState('Featured')
   const [showReviews, setShowReviews] = useState(false)
+
+  // Keep the shop in sync when a mega-menu link (or any other page) sends
+  // us here with a ?category= param, e.g. /store?category=Electronics
+  useEffect(() => {
+    const cat = searchParams.get('category')
+    if (cat && categories.includes(cat)) {
+      setCategory(cat)
+      document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [searchParams])
 
   const filtered = products
     .filter(p => category === 'All' || p.category === category)
@@ -201,6 +215,12 @@ export default function Shop() {
         <section id="products" className="py-4 scroll-mt-20">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-display font-bold text-2xl text-[#0D0D0D] tracking-tight">All Products</h2>
+            <Link
+              to="/store/products"
+              className="font-mono text-xs text-[#6B6B6B] hover:text-[#0047FF] transition-colors underline underline-offset-2"
+            >
+              View all →
+            </Link>
           </div>
 
           <div className="flex items-center justify-between mb-6 flex-wrap gap-3">

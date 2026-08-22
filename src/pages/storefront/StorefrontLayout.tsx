@@ -1,26 +1,38 @@
+import { useState } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { ShoppingBag, Package, Users, ArrowLeft, ShoppingCart, Search } from 'lucide-react'
+import { ShoppingBag, Package, Users, ArrowLeft, ShoppingCart, Search, Cpu } from 'lucide-react'
 import { useCart } from '../../store/cartStore'
 import ChatWidget from '../../components/ChatWidget'
 import PromoBar from '../../components/PromoBar'
 import Footer from '../../components/Footer'
+import { AllProductsMenu, CategoryMenu } from '../../components/MegaMenu'
 
 const navItems = [
-  { to: '/store', label: 'Shop', icon: ShoppingBag, end: true },
   { to: '/store/orders', label: 'Orders', icon: Package },
   { to: '/store/community', label: 'Community', icon: Users },
 ]
 
+type ActiveMenu = 'all' | 'electronics' | null
+
 export default function StorefrontLayout() {
   const navigate = useNavigate()
   const { count } = useCart()
+  const [activeMenu, setActiveMenu] = useState<ActiveMenu>(null)
+
+  const handleMenuNavigate = (path: string) => {
+    navigate(path)
+    setActiveMenu(null)
+  }
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col">
       <PromoBar />
 
       {/* Top nav */}
-      <header className="sticky top-0 z-40 bg-white border-b border-[#E2E2E2]">
+      <header
+        className="sticky top-0 z-40 bg-white border-b border-[#E2E2E2]"
+        onMouseLeave={() => setActiveMenu(null)}
+      >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-6">
           <div className="flex items-center gap-4 shrink-0">
             <button
@@ -40,11 +52,48 @@ export default function StorefrontLayout() {
           </div>
 
           <nav className="hidden md:flex items-center gap-1 shrink-0">
-            {navItems.map(({ to, label, icon: Icon, end }) => (
+            <NavLink
+              to="/store"
+              end
+              onMouseEnter={() => setActiveMenu('all')}
+              className={({ isActive }) =>
+                `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
+                  isActive || activeMenu === 'all'
+                    ? 'text-[#0047FF] font-medium'
+                    : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <ShoppingBag size={14} />
+                  <span className="font-sans">Shop</span>
+                  {(isActive || activeMenu === 'all') && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
+                  )}
+                </>
+              )}
+            </NavLink>
+
+            <button
+              onMouseEnter={() => setActiveMenu('electronics')}
+              onClick={() => handleMenuNavigate('/store/products?category=Electronics')}
+              className={`relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
+                activeMenu === 'electronics' ? 'text-[#0047FF] font-medium' : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
+              }`}
+            >
+              <Cpu size={14} />
+              <span className="font-sans">Electronics</span>
+              {activeMenu === 'electronics' && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
+              )}
+            </button>
+
+            {navItems.map(({ to, label, icon: Icon }) => (
               <NavLink
                 key={to}
                 to={to}
-                end={end}
+                onMouseEnter={() => setActiveMenu(null)}
                 className={({ isActive }) =>
                   `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
                     isActive
@@ -80,6 +129,7 @@ export default function StorefrontLayout() {
           <div className="flex items-center gap-3 shrink-0">
             <NavLink
               to="/store/cart"
+              onMouseEnter={() => setActiveMenu(null)}
               className={({ isActive }) =>
                 `relative w-9 h-9 flex items-center justify-center transition-colors ${
                   isActive ? 'text-[#0047FF]' : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
@@ -99,6 +149,11 @@ export default function StorefrontLayout() {
             </div>
           </div>
         </div>
+
+        {activeMenu === 'all' && <AllProductsMenu onNavigate={handleMenuNavigate} />}
+        {activeMenu === 'electronics' && (
+          <CategoryMenu category="Electronics" onNavigate={handleMenuNavigate} />
+        )}
       </header>
 
       <main className="flex-1">
