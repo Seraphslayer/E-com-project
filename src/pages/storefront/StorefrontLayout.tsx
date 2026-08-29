@@ -1,28 +1,48 @@
-import { useState } from 'react'
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { ShoppingBag, Package, Users, ArrowLeft, ShoppingCart, Search, Cpu } from 'lucide-react'
-import { useCart } from '../../store/cartStore'
-import ChatWidget from '../../components/ChatWidget'
-import PromoBar from '../../components/PromoBar'
-import Footer from '../../components/Footer'
-import { AllProductsMenu, CategoryMenu } from '../../components/MegaMenu'
+import { useState } from "react";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import {
+  ShoppingBag,
+  Package,
+  Users,
+  ArrowLeft,
+  ShoppingCart,
+  Search,
+  Cpu,
+  User,
+  LogOut,
+} from "lucide-react";
+import { useCart } from "../../store/cartStore";
+import ChatWidget from "../../components/ChatWidget";
+import PromoBar from "../../components/PromoBar";
+import Footer from "../../components/Footer";
+import { AllProductsMenu, CategoryMenu } from "../../components/MegaMenu";
 
 const navItems = [
-  { to: '/store/orders', label: 'Orders', icon: Package },
-  { to: '/store/community', label: 'Community', icon: Users },
-]
+  { to: "/store/orders", label: "Orders", icon: Package },
+  { to: "/store/community", label: "Community", icon: Users },
+];
 
-type ActiveMenu = 'all' | 'electronics' | null
+type ActiveMenu = "all" | "electronics" | null;
 
 export default function StorefrontLayout() {
-  const navigate = useNavigate()
-  const { count } = useCart()
-  const [activeMenu, setActiveMenu] = useState<ActiveMenu>(null)
+  const navigate = useNavigate();
+  const { count } = useCart();
+  const [activeMenu, setActiveMenu] = useState<ActiveMenu>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [accountOpen, setAccountOpen] = useState(false);
 
   const handleMenuNavigate = (path: string) => {
-    navigate(path)
-    setActiveMenu(null)
-  }
+    navigate(path);
+    setActiveMenu(null);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    navigate(
+      q ? `/store/products?search=${encodeURIComponent(q)}` : "/store/products",
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col">
@@ -36,18 +56,24 @@ export default function StorefrontLayout() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-6">
           <div className="flex items-center gap-4 shrink-0">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               className="hidden lg:flex items-center gap-1.5 text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
             >
               <ArrowLeft size={14} />
-              <span className="font-mono text-[11px] tracking-widest uppercase">Exit</span>
+              <span className="font-mono text-[11px] tracking-widest uppercase">
+                Exit
+              </span>
             </button>
             <div className="hidden lg:block w-px h-4 bg-[#E2E2E2]" />
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 bg-[#0047FF] flex items-center justify-center">
-                <span className="font-display font-bold text-white text-sm">M</span>
+                <span className="font-display font-bold text-white text-sm">
+                  M
+                </span>
               </div>
-              <span className="font-display font-semibold text-lg text-[#0D0D0D] tracking-tight">MERX</span>
+              <span className="font-display font-semibold text-lg text-[#0D0D0D] tracking-tight">
+                MERX
+              </span>
             </div>
           </div>
 
@@ -55,12 +81,12 @@ export default function StorefrontLayout() {
             <NavLink
               to="/store"
               end
-              onMouseEnter={() => setActiveMenu('all')}
+              onMouseEnter={() => setActiveMenu("all")}
               className={({ isActive }) =>
                 `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                  isActive || activeMenu === 'all'
-                    ? 'text-[#0047FF] font-medium'
-                    : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
+                  isActive || activeMenu === "all"
+                    ? "text-[#0047FF] font-medium"
+                    : "text-[#6B6B6B] hover:text-[#0D0D0D]"
                 }`
               }
             >
@@ -68,7 +94,7 @@ export default function StorefrontLayout() {
                 <>
                   <ShoppingBag size={14} />
                   <span className="font-sans">Shop</span>
-                  {(isActive || activeMenu === 'all') && (
+                  {(isActive || activeMenu === "all") && (
                     <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
                   )}
                 </>
@@ -76,15 +102,19 @@ export default function StorefrontLayout() {
             </NavLink>
 
             <button
-              onMouseEnter={() => setActiveMenu('electronics')}
-              onClick={() => handleMenuNavigate('/store/products?category=Electronics')}
+              onMouseEnter={() => setActiveMenu("electronics")}
+              onClick={() =>
+                handleMenuNavigate("/store/products?category=Electronics")
+              }
               className={`relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                activeMenu === 'electronics' ? 'text-[#0047FF] font-medium' : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
+                activeMenu === "electronics"
+                  ? "text-[#0047FF] font-medium"
+                  : "text-[#6B6B6B] hover:text-[#0D0D0D]"
               }`}
             >
               <Cpu size={14} />
               <span className="font-sans">Electronics</span>
-              {activeMenu === 'electronics' && (
+              {activeMenu === "electronics" && (
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
               )}
             </button>
@@ -97,8 +127,8 @@ export default function StorefrontLayout() {
                 className={({ isActive }) =>
                   `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
                     isActive
-                      ? 'text-[#0047FF] font-medium'
-                      : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
+                      ? "text-[#0047FF] font-medium"
+                      : "text-[#6B6B6B] hover:text-[#0D0D0D]"
                   }`
                 }
               >
@@ -116,14 +146,19 @@ export default function StorefrontLayout() {
           </nav>
 
           <div className="flex-1 max-w-md ml-auto">
-            <div className="flex items-center gap-2 border border-[#E2E2E2] bg-[#F5F5F5] px-3 h-9 focus-within:border-[#0047FF] transition-colors">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="flex items-center gap-2 border border-[#E2E2E2] bg-[#F5F5F5] px-3 h-9 focus-within:border-[#0047FF] transition-colors"
+            >
               <Search size={14} className="text-[#6B6B6B] shrink-0" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products…"
                 className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#9B9B9B] min-w-0"
               />
-            </div>
+            </form>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
@@ -132,27 +167,70 @@ export default function StorefrontLayout() {
               onMouseEnter={() => setActiveMenu(null)}
               className={({ isActive }) =>
                 `relative w-9 h-9 flex items-center justify-center transition-colors ${
-                  isActive ? 'text-[#0047FF]' : 'text-[#6B6B6B] hover:text-[#0D0D0D]'
+                  isActive
+                    ? "text-[#0047FF]"
+                    : "text-[#6B6B6B] hover:text-[#0D0D0D]"
                 }`
               }
             >
               <ShoppingCart size={17} />
               {count > 0 && (
                 <span className="absolute top-0 right-0 w-4 h-4 bg-[#0047FF] text-white font-mono text-[10px] flex items-center justify-center">
-                  {count > 9 ? '9+' : count}
+                  {count > 9 ? "9+" : count}
                 </span>
               )}
             </NavLink>
             <div className="w-px h-5 bg-[#E2E2E2]" />
-            <div className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center text-xs font-mono text-[#0D0D0D] shrink-0">
-              EV
+            <div className="relative">
+              <button
+                onClick={() => setAccountOpen((o) => !o)}
+                onBlur={() => setTimeout(() => setAccountOpen(false), 150)}
+                className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center text-xs font-mono text-[#0D0D0D] shrink-0 hover:bg-[#E2E2E2] transition-colors"
+              >
+                EV
+              </button>
+              {accountOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-[#E2E2E2] shadow-lg z-50">
+                  <div className="px-4 py-3 border-b border-[#E2E2E2]">
+                    <p className="font-sans text-sm font-medium text-[#0D0D0D]">
+                      Elena Vasquez
+                    </p>
+                    <p className="font-mono text-[10px] text-[#6B6B6B]">
+                      elena.v@email.com
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigate("/store/orders");
+                      setAccountOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#F5F5F5] transition-colors"
+                  >
+                    <User size={14} className="text-[#6B6B6B]" /> My Orders
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigate("/");
+                      setAccountOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#F5F5F5] transition-colors border-t border-[#E2E2E2]"
+                  >
+                    <LogOut size={14} className="text-[#6B6B6B]" /> Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        {activeMenu === 'all' && <AllProductsMenu onNavigate={handleMenuNavigate} />}
-        {activeMenu === 'electronics' && (
-          <CategoryMenu category="Electronics" onNavigate={handleMenuNavigate} />
+        {activeMenu === "all" && (
+          <AllProductsMenu onNavigate={handleMenuNavigate} />
+        )}
+        {activeMenu === "electronics" && (
+          <CategoryMenu
+            category="Electronics"
+            onNavigate={handleMenuNavigate}
+          />
         )}
       </header>
 
@@ -163,5 +241,5 @@ export default function StorefrontLayout() {
       <Footer />
       <ChatWidget />
     </div>
-  )
+  );
 }
