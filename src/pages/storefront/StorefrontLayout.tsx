@@ -3,6 +3,7 @@ import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
   ShoppingBag,
   X,
+  ArrowRight,
   ArrowLeft,
   ShoppingCart,
   Search,
@@ -20,7 +21,7 @@ import ChatWidget from "../../components/ChatWidget";
 import PromoBar from "../../components/PromoBar";
 import Footer from "../../components/Footer";
 import { AllProductsMenu, CategoryMenu } from "../../components/MegaMenu";
-import { company } from "../../data/companyInfo";
+import { categories, company } from "../../data/companyInfo";
 
 const navCategories = [
   { name: "Land Mobile Communication", label: "Land Mobile", icon: Radio },
@@ -147,33 +148,16 @@ export default function StorefrontLayout() {
           <div className="flex-1" />
 
           <div className="flex items-center justify-end">
-            <form
-              onSubmit={handleSearchSubmit}
-              className={`flex items-center overflow-hidden border bg-[#F5F5F5] transition-all duration-300 ease-out h-9 ${
-                searchOpen
-                  ? "w-56 sm:w-72 border-[#E2E2E2] focus-within:border-[#0047FF] opacity-100 px-3 mr-2"
-                  : "w-0 border-transparent opacity-0 px-0 mr-0"
-              }`}
-            >
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") setSearchOpen(false);
-                }}
-                placeholder="Search products…"
-                tabIndex={searchOpen ? 0 : -1}
-                className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#9B9B9B] min-w-0"
-              />
-            </form>
             <button
               type="button"
-              onClick={() => setSearchOpen((o) => !o)}
-              onMouseEnter={() => setActiveMenu(null)}
+              onClick={() => {
+                setActiveMenu(null);
+                setSearchOpen((o) => !o);
+              }}
               aria-label={searchOpen ? "Close search" : "Open search"}
-              className="w-9 h-9 flex items-center justify-center text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
+              className={`w-9 h-9 flex items-center justify-center transition-colors ${
+                searchOpen ? "text-[#0047FF]" : "text-[#6B6B6B] hover:text-[#0D0D0D]"
+              }`}
             >
               {searchOpen ? <X size={17} /> : <Search size={17} />}
             </button>
@@ -249,14 +233,73 @@ export default function StorefrontLayout() {
           </div>
         </div>
 
-        {activeMenu === "all" && (
+        {!searchOpen && activeMenu === "all" && (
           <AllProductsMenu onNavigate={handleMenuNavigate} />
         )}
-        {activeMenu && activeMenu !== "all" && (
+        {!searchOpen && activeMenu && activeMenu !== "all" && (
           <CategoryMenu
             category={activeMenu}
             onNavigate={handleMenuNavigate}
           />
+        )}
+        {searchOpen && (
+          <>
+            <div
+              className="absolute top-full left-0 right-0 h-screen bg-black/30"
+              onClick={() => setSearchOpen(false)}
+            />
+            <div className="absolute top-full left-0 right-0 bg-white border-b border-[#E2E2E2] shadow-sm">
+              <div className="max-w-7xl mx-auto px-6 py-8">
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="flex items-center gap-3 border-b border-[#E2E2E2] focus-within:border-[#0047FF] pb-3 transition-colors"
+                >
+                  <Search size={20} className="text-[#6B6B6B] shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") setSearchOpen(false);
+                    }}
+                    placeholder="Search FGT products"
+                    className="flex-1 bg-transparent outline-none font-display text-2xl sm:text-3xl text-[#0D0D0D] placeholder:text-[#B0B0B0] min-w-0"
+                  />
+                </form>
+
+                <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mt-8 mb-3">
+                  Quick Links
+                </p>
+                <ul className="space-y-2.5">
+                  {[
+                    { label: "Shop All Products", to: "/store/products" },
+                    ...categories.map((c) => ({
+                      label: c.name,
+                      to: `/store/products?category=${encodeURIComponent(c.name)}`,
+                    })),
+                    { label: "Request a Quote", to: "/store/quote" },
+                  ].map(({ label, to }) => (
+                    <li key={label}>
+                      <button
+                        onClick={() => {
+                          navigate(to);
+                          setSearchOpen(false);
+                        }}
+                        className="group flex items-center gap-3 font-display font-semibold text-[#0D0D0D] hover:text-[#0047FF] transition-colors"
+                      >
+                        <ArrowRight
+                          size={13}
+                          className="text-[#B0B0B0] group-hover:text-[#0047FF] transition-colors"
+                        />
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </>
         )}
       </header>
 
