@@ -7,6 +7,10 @@ import {
   ShoppingCart,
   Search,
   Camera,
+  Radio,
+  Fingerprint,
+  Speaker,
+  Laptop,
   User,
   LogOut,
   FileText,
@@ -18,9 +22,16 @@ import Footer from "../../components/Footer";
 import { AllProductsMenu, CategoryMenu } from "../../components/MegaMenu";
 import { company } from "../../data/companyInfo";
 
-const FEATURED_CATEGORY = "CCTV Surveillance";
+const navCategories = [
+  { name: "Land Mobile Communication", label: "Land Mobile", icon: Radio },
+  { name: "CCTV Surveillance", label: "CCTV", icon: Camera },
+  { name: "Access Control", label: "Access Control", icon: Fingerprint },
+  { name: "Audio & Visual", label: "Audio & Visual", icon: Speaker },
+  { name: "IT Equipment & Peripherals", label: "IT Equipment", icon: Laptop },
+];
 
-type ActiveMenu = "all" | "featured" | null;
+// "all" opens the Shop mega menu; any other string is a category name.
+type ActiveMenu = string | null;
 
 export default function StorefrontLayout() {
   const navigate = useNavigate();
@@ -109,23 +120,28 @@ export default function StorefrontLayout() {
               )}
             </NavLink>
 
-            <button
-              onMouseEnter={() => setActiveMenu("featured")}
-              onClick={() =>
-                handleMenuNavigate(`/store/products?category=${encodeURIComponent(FEATURED_CATEGORY)}`)
-              }
-              className={`relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                activeMenu === "featured"
-                  ? "text-[#0047FF] font-medium"
-                  : "text-[#6B6B6B] hover:text-[#0D0D0D]"
-              }`}
-            >
-              <Camera size={14} />
-              <span className="font-sans">CCTV Surveillance</span>
-              {activeMenu === "featured" && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
-              )}
-            </button>
+            {navCategories.map(({ name, label, icon: Icon }) => (
+              <button
+                key={name}
+                onMouseEnter={() => setActiveMenu(name)}
+                onClick={() =>
+                  handleMenuNavigate(
+                    `/store/products?category=${encodeURIComponent(name)}`,
+                  )
+                }
+                className={`relative hidden lg:flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap transition-colors ${
+                  activeMenu === name
+                    ? "text-[#0047FF] font-medium"
+                    : "text-[#6B6B6B] hover:text-[#0D0D0D]"
+                }`}
+              >
+                <Icon size={14} />
+                <span className="font-sans">{label}</span>
+                {activeMenu === name && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
+                )}
+              </button>
+            ))}
           </nav>
 
           <div className="flex-1" />
@@ -236,9 +252,9 @@ export default function StorefrontLayout() {
         {activeMenu === "all" && (
           <AllProductsMenu onNavigate={handleMenuNavigate} />
         )}
-        {activeMenu === "featured" && (
+        {activeMenu && activeMenu !== "all" && (
           <CategoryMenu
-            category={FEATURED_CATEGORY}
+            category={activeMenu}
             onNavigate={handleMenuNavigate}
           />
         )}
