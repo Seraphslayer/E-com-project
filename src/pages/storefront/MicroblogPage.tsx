@@ -78,7 +78,7 @@ export default function MicroblogPage() {
         <div>
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Community — Service 08</p>
           <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Microblog</h1>
-          <p className="text-[#6B6B6B] text-sm mt-1">Stories, guides, and community posts from the Merx community.</p>
+          <p className="text-[#6B6B6B] text-sm mt-1">Project updates, product guides, and announcements from FGT Trading OPC.</p>
         </div>
         <button
           onClick={() => setComposing(!composing)}
@@ -124,7 +124,7 @@ export default function MicroblogPage() {
 
       <div className="mt-8 bg-[#0D0D0D] p-6 flex items-center justify-between">
         <div>
-          <p className="font-display font-bold text-white text-lg">Join the Merx Community</p>
+          <p className="font-display font-bold text-white text-lg">Stay Updated with FGT Trading OPC</p>
           <p className="text-white/50 font-sans text-sm mt-1">Get early access to new arrivals, style tips, and exclusive discounts.</p>
         </div>
         <div className="flex gap-2">

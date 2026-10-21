@@ -16,6 +16,7 @@ import { products, Product } from "../../data/mockData";
 import { useCart } from "../../store/cartStore";
 import { megaCategoryTiles } from "../../components/MegaMenu";
 import FeatureTag from "../../components/FeatureTag";
+import { formatPHP } from "../../data/companyInfo";
 
 const sortOptions = [
   "Featured",
@@ -26,10 +27,10 @@ const sortOptions = [
 ];
 
 const priceBuckets = [
-  { label: "Under $50", test: (p: number) => p < 50 },
-  { label: "$50 – $150", test: (p: number) => p >= 50 && p < 150 },
-  { label: "$150 – $300", test: (p: number) => p >= 150 && p < 300 },
-  { label: "$300+", test: (p: number) => p >= 300 },
+  { label: "Under ₱10,000", test: (p: number) => p < 10000 },
+  { label: "₱10,000 – ₱30,000", test: (p: number) => p >= 10000 && p < 30000 },
+  { label: "₱30,000 – ₱75,000", test: (p: number) => p >= 30000 && p < 75000 },
+  { label: "₱75,000+", test: (p: number) => p >= 75000 },
 ];
 
 const ratingBuckets = [4.5, 4, 3.5];
@@ -146,25 +147,34 @@ function ProductGridCard({
           <div className="mt-auto flex items-center justify-between">
             <div className="flex items-baseline gap-2">
               <span className="font-display font-bold text-[#0D0D0D] text-lg">
-                ${product.price}
+                {formatPHP(product.price)}
               </span>
               {product.originalPrice && (
                 <span className="font-sans text-sm text-[#B0B0B0] line-through">
-                  ${product.originalPrice}
+                  {formatPHP(product.originalPrice)}
                 </span>
               )}
             </div>
-            <button
-              onClick={handleAdd}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-wide transition-colors ${
-                added || inCart
-                  ? "bg-[#00875A] text-white"
-                  : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
-              }`}
-            >
-              {added ? <Check size={12} /> : <ShoppingCart size={12} />}
-              {added ? "Added" : inCart ? "In Cart" : "Add to Cart"}
-            </button>
+            {product.quoteOnly ? (
+              <Link
+                to={`/store/quote?product=${encodeURIComponent(product.name)}`}
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-wide border border-[#0047FF] text-[#0047FF] hover:bg-[#0047FF] hover:text-white transition-colors"
+              >
+                Request Quote
+              </Link>
+            ) : (
+              <button
+                onClick={handleAdd}
+                className={`flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-wide transition-colors ${
+                  added || inCart
+                    ? "bg-[#00875A] text-white"
+                    : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
+                }`}
+              >
+                {added ? <Check size={12} /> : <ShoppingCart size={12} />}
+                {added ? "Added" : inCart ? "In Cart" : "Add to Cart"}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -231,25 +241,34 @@ function ProductGridCard({
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-2">
             <span className="font-display font-bold text-[#0D0D0D] text-lg">
-              ${product.price}
+              {formatPHP(product.price)}
             </span>
             {product.originalPrice && (
               <span className="font-sans text-sm text-[#B0B0B0] line-through">
-                ${product.originalPrice}
+                {formatPHP(product.originalPrice)}
               </span>
             )}
           </div>
-          <button
-            onClick={handleAdd}
-            className={`flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide transition-colors ${
-              added || inCart
-                ? "bg-[#00875A] text-white"
-                : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
-            }`}
-          >
-            {added ? <Check size={12} /> : <ShoppingCart size={12} />}
-            {added ? "Added" : inCart ? "In Cart" : "Add"}
-          </button>
+          {product.quoteOnly ? (
+            <Link
+              to={`/store/quote?product=${encodeURIComponent(product.name)}`}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide border border-[#0047FF] text-[#0047FF] hover:bg-[#0047FF] hover:text-white transition-colors"
+            >
+              Quote
+            </Link>
+          ) : (
+            <button
+              onClick={handleAdd}
+              className={`flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide transition-colors ${
+                added || inCart
+                  ? "bg-[#00875A] text-white"
+                  : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
+              }`}
+            >
+              {added ? <Check size={12} /> : <ShoppingCart size={12} />}
+              {added ? "Added" : inCart ? "In Cart" : "Add"}
+            </button>
+          )}
         </div>
       </div>
     </div>

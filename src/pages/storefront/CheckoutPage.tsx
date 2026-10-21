@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle, CreditCard, Lock, Truck, ChevronRight } from 'lucide-react'
 import { useCart } from '../../store/cartStore'
+import { formatPHP } from '../../data/companyInfo'
 
 type Step = 'shipping' | 'payment' | 'confirm'
 
@@ -17,8 +18,8 @@ export default function CheckoutPage() {
   const { cart, total, clearCart } = useCart()
   const navigate = useNavigate()
 
-  const shipping = total > 100 ? 0 : 9.99
-  const tax = total * 0.08
+  const shipping = total > 20000 ? 0 : 850
+  const tax = total * 0.12
   const orderTotal = total + shipping + tax
 
   const stepIndex = steps.findIndex(s => s.key === step)
@@ -35,13 +36,13 @@ export default function CheckoutPage() {
           <CheckCircle size={32} className="text-[#00875A]" />
         </div>
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-2">Order Confirmed</p>
-        <h1 className="font-display font-bold text-3xl text-[#0D0D0D] mb-3">Thank you, Elena!</h1>
+        <h1 className="font-display font-bold text-3xl text-[#0D0D0D] mb-3">Thank you!</h1>
         <p className="text-[#6B6B6B] font-sans text-sm mb-2">
           Your order <span className="font-mono text-[#0D0D0D]">ORD-20095</span> has been placed.
         </p>
         <p className="text-[#6B6B6B] font-sans text-sm mb-8">
-          A confirmation has been sent to <span className="font-mono text-[#0D0D0D]">elena.v@email.com</span>.
-          Estimated delivery: <strong>Aug 12–14, 2026</strong>.
+          A confirmation has been sent to <span className="font-mono text-[#0D0D0D]">your email</span>.
+          Our team will follow up to confirm delivery or installation schedule.
         </p>
         <div className="flex gap-3 justify-center">
           <button
@@ -100,13 +101,13 @@ export default function CheckoutPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { label: 'First Name', placeholder: 'Elena', span: 1 },
-                  { label: 'Last Name', placeholder: 'Vasquez', span: 1 },
-                  { label: 'Email', placeholder: 'elena.v@email.com', span: 2 },
-                  { label: 'Address', placeholder: '742 Evergreen Terrace', span: 2 },
-                  { label: 'City', placeholder: 'Springfield', span: 1 },
-                  { label: 'ZIP', placeholder: '62701', span: 1 },
-                  { label: 'Country', placeholder: 'United States', span: 2 },
+                  { label: 'Contact Person', placeholder: 'Juan Dela Cruz', span: 1 },
+                  { label: 'Office / Department', placeholder: 'General Services Office', span: 1 },
+                  { label: 'Email', placeholder: 'procurement@lgu.gov.ph', span: 2 },
+                  { label: 'Delivery Address', placeholder: 'City Hall Compound, Brgy. Poblacion', span: 2 },
+                  { label: 'City / Municipality', placeholder: 'Dasmariñas City', span: 1 },
+                  { label: 'Province', placeholder: 'Cavite', span: 1 },
+                  { label: 'Country', placeholder: 'Philippines', span: 2 },
                 ].map(({ label, placeholder, span }) => (
                   <div key={label} className={span === 2 ? 'col-span-2' : ''}>
                     <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">{label}</label>
@@ -122,9 +123,9 @@ export default function CheckoutPage() {
                 <label className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2 block">Shipping Method</label>
                 <div className="space-y-2">
                   {[
-                    { id: 'std', label: 'Standard — 5–7 business days', price: 'Free', selected: true },
-                    { id: 'exp', label: 'Express — 2–3 business days', price: '$14.99', selected: false },
-                    { id: 'ovn', label: 'Overnight — Next business day', price: '$29.99', selected: false },
+                    { id: 'std', label: 'Standard Delivery — 5–7 business days', price: 'Free', selected: true },
+                    { id: 'exp', label: 'Priority Delivery — 2–3 business days', price: formatPHP(650), selected: false },
+                    { id: 'ins', label: 'Delivery + On-site Installation', price: formatPHP(1500), selected: false },
                   ].map(opt => (
                     <label key={opt.id} className="flex items-center gap-3 border border-[#E2E2E2] px-4 py-3 cursor-pointer hover:border-[#0047FF] transition-colors">
                       <input type="radio" name="shipping" defaultChecked={opt.selected} className="accent-[#0047FF]" />
@@ -169,11 +170,18 @@ export default function CheckoutPage() {
                 </div>
                 <div className="col-span-2">
                   <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Name on Card</label>
-                  <input defaultValue="Elena Vasquez" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors" />
+                  <input defaultValue="Juan Dela Cruz" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors" />
                 </div>
               </div>
+              <div className="mt-4 grid grid-cols-4 gap-2">
+                {["Card", "GCash", "Maya", "GrabPay"].map((method) => (
+                  <div key={method} className="border border-[#E2E2E2] px-2 py-1.5 text-center">
+                    <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">{method}</p>
+                  </div>
+                ))}
+              </div>
               <div className="mt-4 bg-[#F5F5F5] px-4 py-3">
-                <p className="font-mono text-[11px] text-[#6B6B6B]">Demo mode: no real payment is processed.</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B]">Demo mode: no real payment is processed. Secured by PayMongo.</p>
               </div>
               <div className="mt-6 flex gap-3">
                 <button onClick={() => setStep('shipping')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>
@@ -197,23 +205,23 @@ export default function CheckoutPage() {
                       <p className="font-sans text-sm text-[#0D0D0D] font-medium">{product.name}</p>
                       <p className="font-mono text-[11px] text-[#6B6B6B]">Qty: {quantity}</p>
                     </div>
-                    <span className="font-display font-semibold text-sm">${(product.price * quantity).toFixed(2)}</span>
+                    <span className="font-display font-semibold text-sm">{formatPHP(product.price * quantity)}</span>
                   </div>
                 ))}
               </div>
               <div className="border-t border-[#E2E2E2] pt-4 space-y-2 mb-6 text-sm">
-                <div className="flex justify-between"><span className="text-[#6B6B6B]">Subtotal</span><span className="font-display font-semibold">${total.toFixed(2)}</span></div>
-                <div className="flex justify-between"><span className="text-[#6B6B6B]">Shipping</span><span className="font-display font-semibold text-[#00875A]">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span></div>
-                <div className="flex justify-between"><span className="text-[#6B6B6B]">Tax</span><span className="font-display font-semibold">${tax.toFixed(2)}</span></div>
+                <div className="flex justify-between"><span className="text-[#6B6B6B]">Subtotal</span><span className="font-display font-semibold">{formatPHP(total)}</span></div>
+                <div className="flex justify-between"><span className="text-[#6B6B6B]">Shipping</span><span className="font-display font-semibold text-[#00875A]">{shipping === 0 ? 'Free' : formatPHP(shipping)}</span></div>
+                <div className="flex justify-between"><span className="text-[#6B6B6B]">VAT (12%)</span><span className="font-display font-semibold">{formatPHP(Math.round(tax))}</span></div>
                 <div className="flex justify-between pt-2 border-t border-[#E2E2E2]">
                   <span className="font-display font-bold">Total</span>
-                  <span className="font-display font-bold text-lg text-[#0047FF]">${orderTotal.toFixed(2)}</span>
+                  <span className="font-display font-bold text-lg text-[#0047FF]">{formatPHP(Math.round(orderTotal))}</span>
                 </div>
               </div>
               <div className="flex gap-3">
                 <button onClick={() => setStep('payment')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>
                 <button onClick={placeOrder} className="flex-1 bg-[#0047FF] text-white py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#0035CC] transition-colors flex items-center justify-center gap-2">
-                  <Lock size={14} /> Place Order — ${orderTotal.toFixed(2)}
+                  <Lock size={14} /> Place Order — {formatPHP(Math.round(orderTotal))}
                 </button>
               </div>
             </div>
@@ -228,14 +236,14 @@ export default function CheckoutPage() {
               {cart.map(({ product, quantity }) => (
                 <div key={product.id} className="flex justify-between items-center">
                   <span className="font-sans text-sm text-[#0D0D0D] truncate flex-1 mr-2">{product.name} ×{quantity}</span>
-                  <span className="font-mono text-sm text-[#0D0D0D]">${(product.price * quantity).toFixed(2)}</span>
+                  <span className="font-mono text-sm text-[#0D0D0D]">{formatPHP(product.price * quantity)}</span>
                 </div>
               ))}
             </div>
             <div className="border-t border-[#E2E2E2] pt-3">
               <div className="flex justify-between">
                 <span className="font-display font-bold text-sm">Total</span>
-                <span className="font-display font-bold text-[#0047FF]">${orderTotal.toFixed(2)}</span>
+                <span className="font-display font-bold text-[#0047FF]">{formatPHP(Math.round(orderTotal))}</span>
               </div>
             </div>
           </div>

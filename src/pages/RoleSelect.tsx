@@ -22,9 +22,9 @@ export default function RoleSelect() {
       <header className="border-b border-white/10 px-8 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-7 h-7 bg-[#0047FF] flex items-center justify-center">
-            <span className="font-display font-bold text-white text-sm">M</span>
+            <span className="font-display font-bold text-white text-sm">F</span>
           </div>
-          <span className="font-display font-semibold text-white tracking-tight text-lg">MERX</span>
+          <span className="font-display font-semibold text-white tracking-tight text-lg">FGT Trading OPC</span>
         </div>
         <span className="font-mono text-[11px] text-white/30 tracking-widest uppercase">v2.4.1</span>
       </header>

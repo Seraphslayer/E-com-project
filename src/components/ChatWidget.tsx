@@ -59,7 +59,7 @@ export default function ChatWidget() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[#00FF88] rounded-full" />
               <div>
-                <p className="font-display font-semibold text-white text-sm">Merx Support</p>
+                <p className="font-display font-semibold text-white text-sm">FGT Support</p>
                 <p className="font-mono text-[10px] text-white/60">Chat Plugin — Service 07</p>
               </div>
             </div>

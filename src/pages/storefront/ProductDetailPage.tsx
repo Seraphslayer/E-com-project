@@ -12,10 +12,12 @@ import {
   ChevronRight,
   CheckCircle,
   ThumbsUp,
+  FileText,
 } from "lucide-react";
 import { products, reviews } from "../../data/mockData";
 import { useCart } from "../../store/cartStore";
 import FeatureTag from "../../components/FeatureTag";
+import { formatPHP } from "../../data/companyInfo";
 
 type Tab = "description" | "specs" | "reviews";
 
@@ -103,7 +105,7 @@ export default function ProductDetailPage() {
         </Link>
         <ChevronRight size={11} />
         <Link
-          to={`/store/products?category=${product.category}`}
+          to={`/store/products?category=${encodeURIComponent(product.category)}`}
           className="hover:text-[#0047FF] transition-colors"
         >
           {product.category}
@@ -155,19 +157,24 @@ export default function ProductDetailPage() {
 
           <div className="flex items-baseline gap-3 mb-5">
             <span className="font-display font-bold text-3xl text-[#0D0D0D]">
-              ${product.price}
+              {formatPHP(product.price)}
             </span>
             {product.originalPrice && (
               <span className="font-sans text-lg text-[#B0B0B0] line-through">
-                ${product.originalPrice}
+                {formatPHP(product.originalPrice)}
               </span>
             )}
             {discount && (
               <span className="font-mono text-xs text-[#00875A] tracking-wide">
-                You save ${(product.originalPrice! - product.price).toFixed(2)}
+                You save {formatPHP(product.originalPrice! - product.price)}
               </span>
             )}
           </div>
+          {product.quoteOnly && (
+            <p className="font-mono text-[11px] text-[#6B6B6B] tracking-wide mb-5 -mt-3">
+              Listed price is indicative — final pricing depends on quantity, installation, and site requirements.
+            </p>
+          )}
 
           <p className="text-[#6B6B6B] text-sm leading-relaxed mb-5 max-w-md">
             {product.description}
@@ -182,44 +189,64 @@ export default function ProductDetailPage() {
           )}
 
           {/* Quantity + actions */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center border border-[#E2E2E2]">
-              <button
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-                className="w-10 h-11 flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
-                aria-label="Decrease quantity"
-              >
-                <Minus size={13} />
-              </button>
-              <span className="w-10 text-center font-mono text-sm">{qty}</span>
-              <button
-                onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
-                className="w-10 h-11 flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
-                aria-label="Increase quantity"
-              >
-                <Plus size={13} />
-              </button>
-            </div>
-
-            <button
-              onClick={handleAdd}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 font-mono text-sm tracking-widest uppercase transition-colors ${
-                added || inCart
-                  ? "bg-[#00875A] text-white"
-                  : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
-              }`}
+          {product.quoteOnly ? (
+            <Link
+              to={`/store/quote?product=${encodeURIComponent(product.name)}`}
+              className="w-full flex items-center justify-center gap-2 py-3.5 font-mono text-sm tracking-widest uppercase bg-[#0047FF] text-white hover:bg-[#0035CC] transition-colors mb-6"
             >
-              {added ? <Check size={15} /> : <ShoppingCart size={15} />}
-              {added ? "Added" : inCart ? "In Cart — Add More" : "Add to Cart"}
-            </button>
-          </div>
+              <FileText size={15} />
+              Request a Quote
+            </Link>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center border border-[#E2E2E2]">
+                  <button
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    className="w-10 h-11 flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus size={13} />
+                  </button>
+                  <span className="w-10 text-center font-mono text-sm">{qty}</span>
+                  <button
+                    onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
+                    className="w-10 h-11 flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus size={13} />
+                  </button>
+                </div>
 
-          <button
-            onClick={handleBuyNow}
-            className="w-full border border-[#0D0D0D] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#0D0D0D] hover:text-white transition-colors mb-6"
-          >
-            Buy Now
-          </button>
+                <button
+                  onClick={handleAdd}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 font-mono text-sm tracking-widest uppercase transition-colors ${
+                    added || inCart
+                      ? "bg-[#00875A] text-white"
+                      : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
+                  }`}
+                >
+                  {added ? <Check size={15} /> : <ShoppingCart size={15} />}
+                  {added ? "Added" : inCart ? "In Cart — Add More" : "Add to Cart"}
+                </button>
+              </div>
+
+              <button
+                onClick={handleBuyNow}
+                className="w-full border border-[#0D0D0D] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#0D0D0D] hover:text-white transition-colors mb-3"
+              >
+                Buy Now
+              </button>
+
+              <Link
+                to={`/store/quote?product=${encodeURIComponent(product.name)}`}
+                className="w-full flex items-center justify-center gap-2 py-3 font-mono text-xs tracking-widest uppercase text-[#6B6B6B] hover:text-[#0047FF] transition-colors mb-6 border border-dashed border-[#E2E2E2] hover:border-[#0047FF]"
+              >
+                <FileText size={13} />
+                Need bulk pricing or installation? Request a Quote
+              </Link>
+            </>
+          )}
 
           {/* Trust row */}
           <div className="grid grid-cols-3 gap-3 border-t border-[#E2E2E2] pt-5">
@@ -402,7 +429,7 @@ export default function ProductDetailPage() {
                     {p.name}
                   </h3>
                   <span className="font-display font-bold text-[#0D0D0D]">
-                    ${p.price}
+                    {formatPHP(p.price)}
                   </span>
                 </div>
               </Link>

@@ -1,28 +1,26 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
   ShoppingBag,
-  Package,
-  Users,
+  X,
   ArrowLeft,
   ShoppingCart,
   Search,
-  Cpu,
+  Camera,
   User,
   LogOut,
+  FileText,
 } from "lucide-react";
 import { useCart } from "../../store/cartStore";
 import ChatWidget from "../../components/ChatWidget";
 import PromoBar from "../../components/PromoBar";
 import Footer from "../../components/Footer";
 import { AllProductsMenu, CategoryMenu } from "../../components/MegaMenu";
+import { company } from "../../data/companyInfo";
 
-const navItems = [
-  { to: "/store/orders", label: "Orders", icon: Package },
-  { to: "/store/community", label: "Community", icon: Users },
-];
+const FEATURED_CATEGORY = "CCTV Surveillance";
 
-type ActiveMenu = "all" | "electronics" | null;
+type ActiveMenu = "all" | "featured" | null;
 
 export default function StorefrontLayout() {
   const navigate = useNavigate();
@@ -30,6 +28,12 @@ export default function StorefrontLayout() {
   const [activeMenu, setActiveMenu] = useState<ActiveMenu>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
 
   const handleMenuNavigate = (path: string) => {
     navigate(path);
@@ -42,6 +46,7 @@ export default function StorefrontLayout() {
     navigate(
       q ? `/store/products?search=${encodeURIComponent(q)}` : "/store/products",
     );
+    setSearchOpen(false);
   };
 
   return (
@@ -68,11 +73,14 @@ export default function StorefrontLayout() {
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 bg-[#0047FF] flex items-center justify-center">
                 <span className="font-display font-bold text-white text-sm">
-                  M
+                  F
                 </span>
               </div>
-              <span className="font-display font-semibold text-lg text-[#0D0D0D] tracking-tight">
-                MERX
+              <span className="font-display font-semibold text-lg text-[#0D0D0D] tracking-tight leading-none">
+                {company.shortName}
+                <span className="block font-mono text-[8px] text-[#6B6B6B] tracking-widest uppercase font-normal">
+                  Trading OPC
+                </span>
               </span>
             </div>
           </div>
@@ -102,66 +110,68 @@ export default function StorefrontLayout() {
             </NavLink>
 
             <button
-              onMouseEnter={() => setActiveMenu("electronics")}
+              onMouseEnter={() => setActiveMenu("featured")}
               onClick={() =>
-                handleMenuNavigate("/store/products?category=Electronics")
+                handleMenuNavigate(`/store/products?category=${encodeURIComponent(FEATURED_CATEGORY)}`)
               }
               className={`relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                activeMenu === "electronics"
+                activeMenu === "featured"
                   ? "text-[#0047FF] font-medium"
                   : "text-[#6B6B6B] hover:text-[#0D0D0D]"
               }`}
             >
-              <Cpu size={14} />
-              <span className="font-sans">Electronics</span>
-              {activeMenu === "electronics" && (
+              <Camera size={14} />
+              <span className="font-sans">CCTV Surveillance</span>
+              {activeMenu === "featured" && (
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
               )}
             </button>
-
-            {navItems.map(({ to, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                onMouseEnter={() => setActiveMenu(null)}
-                className={({ isActive }) =>
-                  `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                    isActive
-                      ? "text-[#0047FF] font-medium"
-                      : "text-[#6B6B6B] hover:text-[#0D0D0D]"
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <Icon size={14} />
-                    <span className="font-sans">{label}</span>
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
-                    )}
-                  </>
-                )}
-              </NavLink>
-            ))}
           </nav>
 
-          <div className="flex-1 max-w-md ml-auto">
+          <div className="flex-1" />
+
+          <div className="flex items-center justify-end">
             <form
               onSubmit={handleSearchSubmit}
-              className="flex items-center gap-2 border border-[#E2E2E2] bg-[#F5F5F5] px-3 h-9 focus-within:border-[#0047FF] transition-colors"
+              className={`flex items-center overflow-hidden border bg-[#F5F5F5] transition-all duration-300 ease-out h-9 ${
+                searchOpen
+                  ? "w-56 sm:w-72 border-[#E2E2E2] focus-within:border-[#0047FF] opacity-100 px-3 mr-2"
+                  : "w-0 border-transparent opacity-0 px-0 mr-0"
+              }`}
             >
-              <Search size={14} className="text-[#6B6B6B] shrink-0" />
               <input
+                ref={searchInputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") setSearchOpen(false);
+                }}
                 placeholder="Search products…"
+                tabIndex={searchOpen ? 0 : -1}
                 className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#9B9B9B] min-w-0"
               />
             </form>
+            <button
+              type="button"
+              onClick={() => setSearchOpen((o) => !o)}
+              onMouseEnter={() => setActiveMenu(null)}
+              aria-label={searchOpen ? "Close search" : "Open search"}
+              className="w-9 h-9 flex items-center justify-center text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
+            >
+              {searchOpen ? <X size={17} /> : <Search size={17} />}
+            </button>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
+            <NavLink
+              to="/store/quote"
+              onMouseEnter={() => setActiveMenu(null)}
+              className="hidden sm:flex items-center gap-1.5 border border-[#0047FF] text-[#0047FF] px-3 py-1.5 font-mono text-[11px] tracking-wide uppercase hover:bg-[#0047FF] hover:text-white transition-colors"
+            >
+              <FileText size={12} />
+              Request a Quote
+            </NavLink>
             <NavLink
               to="/store/cart"
               onMouseEnter={() => setActiveMenu(null)}
@@ -226,9 +236,9 @@ export default function StorefrontLayout() {
         {activeMenu === "all" && (
           <AllProductsMenu onNavigate={handleMenuNavigate} />
         )}
-        {activeMenu === "electronics" && (
+        {activeMenu === "featured" && (
           <CategoryMenu
-            category="Electronics"
+            category={FEATURED_CATEGORY}
             onNavigate={handleMenuNavigate}
           />
         )}

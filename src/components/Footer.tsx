@@ -1,25 +1,19 @@
 import { useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Check, Phone, Mail, MapPin } from "lucide-react";
+import { company, categories } from "../data/companyInfo";
 
-const shopLinks = [
-  "All Products",
-  "New Arrivals",
-  "Best Sellers",
-  "Deals",
-  "Gift Cards",
-];
+const shopLinks = categories.map((c) => c.name);
 const helpLinks = [
   "Contact Us",
-  "Shipping Info",
-  "Returns & Exchanges",
-  "Size Guide",
+  "Request a Quote",
+  "Installation & Support",
   "Track Order",
 ];
 const policyLinks = [
   "Privacy Policy",
   "Terms of Service",
-  "Shopping Policy",
-  "Accessibility",
+  "Procurement & Bidding",
 ];
 
 function SocialIcon({ path, label }: { path: string; label: string }) {
@@ -73,17 +67,30 @@ export default function Footer() {
           <div className="flex items-center gap-2 mb-4">
             <div className="w-6 h-6 bg-[#0047FF] flex items-center justify-center">
               <span className="font-display font-bold text-white text-xs">
-                M
+                F
               </span>
             </div>
             <span className="font-display font-semibold text-[#0D0D0D] tracking-tight">
-              MERX
+              {company.name}
             </span>
           </div>
           <p className="text-sm text-[#6B6B6B] leading-relaxed mb-4">
-            Electronics, apparel, and everyday essentials curated for the modern
-            buyer. Designed to last, priced to move.
+            {company.description}
           </p>
+          <div className="space-y-2 mb-4">
+            <a href={`tel:${company.contact.mobile.replace(/\s/g, "")}`} className="flex items-start gap-2 text-sm text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors">
+              <Phone size={13} className="mt-0.5 shrink-0" />
+              {company.contact.mobile} · {company.contact.phone}
+            </a>
+            <a href={`mailto:${company.contact.email}`} className="flex items-start gap-2 text-sm text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors">
+              <Mail size={13} className="mt-0.5 shrink-0" />
+              {company.contact.email}
+            </a>
+            <p className="flex items-start gap-2 text-sm text-[#6B6B6B]">
+              <MapPin size={13} className="mt-0.5 shrink-0" />
+              {company.contact.address}
+            </p>
+          </div>
           <div className="flex items-center gap-3">
             {socials.map((s) => (
               <SocialIcon key={s.label} {...s} />
@@ -98,12 +105,12 @@ export default function Footer() {
           <ul className="space-y-2.5">
             {shopLinks.map((link) => (
               <li key={link}>
-                <a
-                  href="#"
+                <Link
+                  to={`/store/products?category=${encodeURIComponent(link)}`}
                   className="text-sm text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
                 >
                   {link}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -116,12 +123,12 @@ export default function Footer() {
           <ul className="space-y-2.5">
             {helpLinks.map((link) => (
               <li key={link}>
-                <a
-                  href="#"
+                <Link
+                  to={link === "Request a Quote" ? "/store/quote" : "/store"}
                   className="text-sm text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
                 >
                   {link}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -166,7 +173,7 @@ export default function Footer() {
       <div className="border-t border-[#E2E2E2]">
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-mono text-[11px] text-[#6B6B6B]">
-            © 2026 MERX. All rights reserved.
+            © 2026 {company.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-5 flex-wrap justify-center">
             {policyLinks.map((link) => (

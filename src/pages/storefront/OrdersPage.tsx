@@ -1,12 +1,13 @@
 import { Package, Truck, CheckCircle, Clock, XCircle, ExternalLink } from 'lucide-react'
+import { formatPHP } from '../../data/companyInfo'
 
 type Status = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
 
 const myOrders = [
-  { id: 'ORD-20095', date: 'Aug 8, 2026', status: 'processing' as Status, items: [{ name: 'Merx Pro Wireless Headphones', qty: 1, price: 249 }], total: 249 },
-  { id: 'ORD-20094', date: 'Aug 6, 2026', status: 'shipped' as Status, items: [{ name: 'Merino Wool Crew Sweater', qty: 1, price: 145 }, { name: 'Canvas Tote Bag', qty: 1, price: 38 }], total: 193, tracking: 'UPS1Z9999W01234567', eta: 'Aug 10, 2026' },
-  { id: 'ORD-20091', date: 'Jul 29, 2026', status: 'delivered' as Status, items: [{ name: 'Ceramic Pour-Over Set', qty: 1, price: 64 }], total: 64, deliveredOn: 'Aug 2, 2026' },
-  { id: 'ORD-20089', date: 'Jul 20, 2026', status: 'cancelled' as Status, items: [{ name: 'Mechanical Keyboard TKL', qty: 1, price: 189 }], total: 189 },
+  { id: 'ORD-20095', date: 'Aug 8, 2026', status: 'processing' as Status, items: [{ name: 'NX-5700 VHF/UHF Portable Radio', qty: 1, price: 8500 }], total: 8500 },
+  { id: 'ORD-20094', date: 'Aug 6, 2026', status: 'shipped' as Status, items: [{ name: 'DS-2CD2387 4K Turret Network Camera', qty: 2, price: 6950 }, { name: 'Back-UPS Pro 1500VA', qty: 1, price: 9800 }], total: 23700, tracking: 'LBC1Z9999W01234567', eta: 'Aug 10, 2026' },
+  { id: 'ORD-20091', date: 'Jul 29, 2026', status: 'delivered' as Status, items: [{ name: 'AC-200 Biometric Access Controller', qty: 1, price: 11300 }], total: 11300, deliveredOn: 'Aug 2, 2026' },
+  { id: 'ORD-20089', date: 'Jul 20, 2026', status: 'cancelled' as Status, items: [{ name: 'Shure SM58 Wired Dynamic Mic', qty: 2, price: 7200 }], total: 14400 },
 ]
 
 const statusConfig: Record<Status, { icon: any; label: string; color: string; bg: string }> = {
@@ -82,7 +83,7 @@ export default function OrdersPage() {
                     <Icon size={11} />
                     {cfg.label}
                   </span>
-                  <span className="font-display font-bold text-lg text-[#0D0D0D]">${order.total}</span>
+                  <span className="font-display font-bold text-lg text-[#0D0D0D]">{formatPHP(order.total)}</span>
                 </div>
               </div>
 
@@ -91,7 +92,7 @@ export default function OrdersPage() {
                 {order.items.map(item => (
                   <div key={item.name} className="flex justify-between items-center">
                     <span className="font-sans text-sm text-[#0D0D0D]">{item.name} <span className="text-[#6B6B6B]">×{item.qty}</span></span>
-                    <span className="font-mono text-sm text-[#6B6B6B]">${item.price}</span>
+                    <span className="font-mono text-sm text-[#6B6B6B]">{formatPHP(item.price)}</span>
                   </div>
                 ))}
               </div>
