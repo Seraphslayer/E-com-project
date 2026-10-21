@@ -80,8 +80,8 @@ function ProductCard({ product }: { product: Product }) {
     : null;
 
   return (
-    <div className="group bg-white border border-[#E2E2E2] hover:border-[#0047FF] transition-colors duration-200">
-      <Link to={`/store/product/${product.id}`} className="block relative overflow-hidden bg-[#F5F5F5] aspect-square">
+    <div className="group bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200">
+      <Link to={`/store/product/${product.id}`} className="block relative overflow-hidden bg-[#EBF0F0] aspect-square">
         <img
           src={product.image}
           alt={product.name}
@@ -102,7 +102,7 @@ function ProductCard({ product }: { product: Product }) {
       <div className="p-4">
         <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1">{product.brand}</p>
         <Link to={`/store/product/${product.id}`}>
-          <h3 className="font-display font-semibold text-[#0D0D0D] text-sm leading-snug mb-2 hover:text-[#0047FF] transition-colors">
+          <h3 className="font-display font-semibold text-[#0D0D0D] text-sm leading-snug mb-2 hover:text-[#856A00] transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -122,7 +122,7 @@ function ProductCard({ product }: { product: Product }) {
           {product.quoteOnly ? (
             <Link
               to={`/store/quote?product=${encodeURIComponent(product.name)}`}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide border border-[#0047FF] text-[#0047FF] hover:bg-[#0047FF] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide border border-[#D4B63A] text-[#856A00] hover:bg-[#EACD51] hover:text-[#0D0D0D] transition-colors"
             >
               Quote
             </Link>
@@ -130,7 +130,7 @@ function ProductCard({ product }: { product: Product }) {
             <button
               onClick={handleAdd}
               className={`flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide transition-colors ${
-                added || inCart ? "bg-[#00875A] text-white" : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
+                added || inCart ? "bg-[#00875A] text-white" : "bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A]"
               }`}
             >
               {added ? <Check size={12} /> : <ShoppingCart size={12} />}
@@ -148,8 +148,8 @@ function ExpandableCapability({ title, body, defaultOpen = false }: { title: str
   return (
     <div className="border-b border-white/10 py-4">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-4 text-left group">
-        <span className="font-display font-semibold text-white text-base group-hover:text-[#4D82FF] transition-colors">{title}</span>
-        <span className="w-7 h-7 border border-white/20 flex items-center justify-center flex-shrink-0 group-hover:border-[#4D82FF] transition-colors">
+        <span className="font-display font-semibold text-white text-base group-hover:text-[#EACD51] transition-colors">{title}</span>
+        <span className="w-7 h-7 border border-white/20 flex items-center justify-center flex-shrink-0 group-hover:border-[#EACD51] transition-colors">
           {open ? <Minus size={13} className="text-white" /> : <Plus size={13} className="text-white" />}
         </span>
       </button>
@@ -232,7 +232,7 @@ export default function Shop() {
           </div>
           <Link
             to="/store/quote"
-            className="bg-[#0047FF] text-white font-mono text-[11px] tracking-wide px-4 py-1.5 hover:bg-[#0035CC] transition-colors"
+            className="bg-[#EACD51] text-[#0D0D0D] font-mono text-[11px] tracking-wide px-4 py-1.5 hover:bg-[#D4B63A] transition-colors"
           >
             Request a Quote
           </Link>
@@ -261,7 +261,7 @@ export default function Shop() {
             <div className="flex items-center gap-3 flex-wrap">
               <button
                 onClick={() => scrollTo("products")}
-                className="bg-[#0047FF] text-white font-mono text-xs tracking-wide px-6 py-3 hover:bg-[#0035CC] transition-colors"
+                className="bg-[#EACD51] text-[#0D0D0D] font-mono text-xs tracking-wide px-6 py-3 hover:bg-[#D4B63A] transition-colors"
               >
                 BROWSE CATALOG
               </button>
@@ -315,7 +315,7 @@ export default function Shop() {
               <Link
                 key={c.slug}
                 to={`/store/products?category=${encodeURIComponent(c.name)}`}
-                className="group shrink-0 w-72 bg-white/5 border border-white/10 hover:border-[#4D82FF] transition-colors"
+                className="group shrink-0 w-72 bg-white/5 border border-white/10 hover:border-[#EACD51] transition-colors"
               >
                 {tile && (
                   <div className="aspect-video overflow-hidden">
@@ -323,9 +323,9 @@ export default function Shop() {
                   </div>
                 )}
                 <div className="p-5">
-                  <h3 className="font-display font-semibold text-white text-base mb-2 group-hover:text-[#4D82FF] transition-colors">{c.name}</h3>
+                  <h3 className="font-display font-semibold text-white text-base mb-2 group-hover:text-[#EACD51] transition-colors">{c.name}</h3>
                   <p className="text-white/50 text-xs leading-relaxed mb-3">{c.blurb}</p>
-                  <span className="font-mono text-[10px] text-white/40 tracking-wide flex items-center gap-1 group-hover:text-[#4D82FF] transition-colors">
+                  <span className="font-mono text-[10px] text-white/40 tracking-wide flex items-center gap-1 group-hover:text-[#EACD51] transition-colors">
                     EXPLORE <ArrowRight size={11} />
                   </span>
                 </div>
@@ -373,14 +373,14 @@ export default function Shop() {
                 }}
                 className="group text-left"
               >
-                <div className="aspect-square overflow-hidden bg-[#F5F5F5] mb-3">
+                <div className="aspect-square overflow-hidden bg-[#EBF0F0] mb-3">
                   <img
                     src={tile.image}
                     alt={tile.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <p className="font-display font-semibold text-sm text-[#0D0D0D] group-hover:text-[#0047FF] transition-colors leading-snug">
+                <p className="font-display font-semibold text-sm text-[#0D0D0D] group-hover:text-[#856A00] transition-colors leading-snug">
                   {tile.name}
                 </p>
               </button>
@@ -403,7 +403,7 @@ export default function Shop() {
             </p>
             <Link
               to="/store/quote"
-              className="bg-[#0047FF] text-white font-mono text-xs tracking-wide px-6 py-3 hover:bg-[#0035CC] transition-colors flex items-center gap-2 w-fit"
+              className="bg-[#EACD51] text-[#0D0D0D] font-mono text-xs tracking-wide px-6 py-3 hover:bg-[#D4B63A] transition-colors flex items-center gap-2 w-fit"
             >
               REQUEST A QUOTE <ArrowRight size={13} />
             </Link>
@@ -416,7 +416,7 @@ export default function Shop() {
             <h2 className="font-display font-bold text-2xl text-[#0D0D0D] tracking-tight">Catalog</h2>
             <Link
               to="/store/products"
-              className="font-mono text-xs text-[#6B6B6B] hover:text-[#0047FF] transition-colors underline underline-offset-2"
+              className="font-mono text-xs text-[#6B6B6B] hover:text-[#856A00] transition-colors underline underline-offset-2"
             >
               View all →
             </Link>
@@ -443,7 +443,7 @@ export default function Shop() {
               <button
                 onClick={() => setShowReviews(!showReviews)}
                 className={`flex items-center gap-2 px-3 py-1.5 font-mono text-xs tracking-wide border transition-colors ${
-                  showReviews ? "border-[#0047FF] text-[#0047FF] bg-[#0047FF]/5" : "border-[#E2E2E2] text-[#6B6B6B] hover:border-[#0D0D0D]"
+                  showReviews ? "border-[#D4B63A] text-[#856A00] bg-[#EACD51]/15" : "border-[#E2E2E2] text-[#6B6B6B] hover:border-[#0D0D0D]"
                 }`}
               >
                 <Star size={12} />
@@ -508,7 +508,7 @@ export default function Shop() {
                 <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">{group}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {brands.map((b) => (
-                    <span key={b} className="font-sans text-xs text-[#0D0D0D] bg-[#F5F5F5] px-2 py-1">
+                    <span key={b} className="font-sans text-xs text-[#0D0D0D] bg-[#EBF0F0] px-2 py-1">
                       {b}
                     </span>
                   ))}
@@ -524,7 +524,7 @@ export default function Shop() {
             <h2 className="font-display font-bold text-2xl text-[#0D0D0D] tracking-tight">Updates & Guides</h2>
             <Link
               to="/store/community"
-              className="font-mono text-xs text-[#6B6B6B] hover:text-[#0047FF] transition-colors underline underline-offset-2"
+              className="font-mono text-xs text-[#6B6B6B] hover:text-[#856A00] transition-colors underline underline-offset-2"
             >
               View all
             </Link>
@@ -532,15 +532,15 @@ export default function Shop() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogPosts.slice(0, 3).map((post) => (
               <Link to="/store/community" key={post.id} className="group block">
-                <div className="aspect-video overflow-hidden bg-[#F5F5F5] mb-3">
+                <div className="aspect-video overflow-hidden bg-[#EBF0F0] mb-3">
                   <img
                     src={post.image || "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=400&fit=crop&auto=format"}
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <p className="font-mono text-[10px] text-[#0047FF] tracking-widest uppercase mb-1.5">{post.category}</p>
-                <h3 className="font-display font-semibold text-[#0D0D0D] leading-snug mb-2 group-hover:text-[#0047FF] transition-colors">
+                <p className="font-mono text-[10px] text-[#856A00] tracking-widest uppercase mb-1.5">{post.category}</p>
+                <h3 className="font-display font-semibold text-[#0D0D0D] leading-snug mb-2 group-hover:text-[#856A00] transition-colors">
                   {post.title}
                 </h3>
                 <div className="flex items-center gap-3 font-mono text-[10px] text-[#6B6B6B]">

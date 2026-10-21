@@ -39,12 +39,12 @@ export default function QuoteRequestPage() {
         <p className="text-[#6B6B6B] font-sans text-sm mb-8">
           Our team will review your request and reach out within 1–2 business days with a formal quotation.
           For urgent inquiries, call us at{" "}
-          <a href={`tel:${company.contact.phone}`} className="text-[#0047FF] font-mono">{company.contact.phone}</a>.
+          <a href={`tel:${company.contact.phone}`} className="text-[#856A00] font-mono">{company.contact.phone}</a>.
         </p>
         <div className="flex gap-3 justify-center">
           <button
             onClick={() => navigate("/store")}
-            className="bg-[#0047FF] text-white px-6 py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+            className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
           >
             Back to Store
           </button>
@@ -55,12 +55,12 @@ export default function QuoteRequestPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-10">
-      <Link to="/store" className="inline-flex items-center gap-1.5 font-mono text-xs text-[#6B6B6B] hover:text-[#0047FF] transition-colors mb-6">
+      <Link to="/store" className="inline-flex items-center gap-1.5 font-mono text-xs text-[#6B6B6B] hover:text-[#856A00] transition-colors mb-6">
         <ArrowLeft size={12} /> Back to store
       </Link>
 
       <div className="mb-8 max-w-2xl">
-        <p className="font-mono text-[11px] text-[#0047FF] tracking-widest uppercase mb-1">Request a Quote</p>
+        <p className="font-mono text-[11px] text-[#856A00] tracking-widest uppercase mb-1">Request a Quote</p>
         <h1 className="font-display font-bold text-3xl sm:text-4xl text-[#0D0D0D] tracking-tight mb-3">
           Tell us about your project
         </h1>
@@ -83,7 +83,7 @@ export default function QuoteRequestPage() {
                 value={form.name}
                 onChange={update("name")}
                 placeholder="Juan Dela Cruz"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -95,7 +95,7 @@ export default function QuoteRequestPage() {
                 value={form.organization}
                 onChange={update("organization")}
                 placeholder="LGU, office, or business name"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -108,7 +108,7 @@ export default function QuoteRequestPage() {
                 value={form.email}
                 onChange={update("email")}
                 placeholder="you@organization.gov.ph"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -121,7 +121,7 @@ export default function QuoteRequestPage() {
                 value={form.phone}
                 onChange={update("phone")}
                 placeholder="09XX XXX XXXX"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function QuoteRequestPage() {
             <select
               value={form.category}
               onChange={update("category")}
-              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors bg-white"
+              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors bg-white"
             >
               <option value="">Select a category</option>
               {categories.map((c) => (
@@ -152,7 +152,7 @@ export default function QuoteRequestPage() {
               value={form.items}
               onChange={update("items")}
               placeholder="e.g. 12x IP cameras for perimeter coverage"
-              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors"
+              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
             />
           </div>
 
@@ -165,13 +165,13 @@ export default function QuoteRequestPage() {
               onChange={update("message")}
               rows={5}
               placeholder="Site location, quantity, timeline, whether installation is needed, budget range, etc."
-              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#0047FF] transition-colors resize-none"
+              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors resize-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#0047FF] text-white py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#0035CC] transition-colors"
+            className="w-full bg-[#EACD51] text-[#0D0D0D] py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#D4B63A] transition-colors"
           >
             <FileText size={15} /> Submit Request
           </button>

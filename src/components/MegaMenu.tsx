@@ -87,12 +87,12 @@ export function AllProductsMenu({ onNavigate }: MenuNavProps) {
                 <li key={c.name}>
                   <button
                     onClick={() => onNavigate(`/store/products?category=${encodeURIComponent(c.name)}`)}
-                    className="w-full flex items-center gap-3 px-2 py-2 text-left hover:bg-[#F5F5F5] transition-colors group"
+                    className="w-full flex items-center gap-3 px-2 py-2 text-left hover:bg-[#EBF0F0] transition-colors group"
                   >
-                    <span className="w-8 h-8 bg-[#F5F5F5] flex items-center justify-center flex-shrink-0">
-                      <Icon size={15} className="text-[#6B6B6B] group-hover:text-[#0047FF] transition-colors" />
+                    <span className="w-8 h-8 bg-[#EBF0F0] flex items-center justify-center flex-shrink-0">
+                      <Icon size={15} className="text-[#6B6B6B] group-hover:text-[#856A00] transition-colors" />
                     </span>
-                    <span className="font-sans text-sm text-[#0D0D0D] group-hover:text-[#0047FF] transition-colors">
+                    <span className="font-sans text-sm text-[#0D0D0D] group-hover:text-[#856A00] transition-colors">
                       {c.name}
                     </span>
                   </button>
@@ -105,14 +105,14 @@ export function AllProductsMenu({ onNavigate }: MenuNavProps) {
               <button
                 key={l}
                 onClick={() => onNavigate("/store/products")}
-                className="w-full text-left px-2 py-1.5 font-mono text-xs tracking-wide text-[#6B6B6B] hover:text-[#0047FF] transition-colors"
+                className="w-full text-left px-2 py-1.5 font-mono text-xs tracking-wide text-[#6B6B6B] hover:text-[#856A00] transition-colors"
               >
                 {l}
               </button>
             ))}
             <button
               onClick={() => onNavigate("/store/quote")}
-              className="w-full text-left px-2 py-1.5 font-mono text-xs tracking-wide text-[#0047FF] hover:underline"
+              className="w-full text-left px-2 py-1.5 font-mono text-xs tracking-wide text-[#856A00] hover:underline"
             >
               Request a Quote →
             </button>
@@ -131,14 +131,14 @@ export function AllProductsMenu({ onNavigate }: MenuNavProps) {
                 onClick={() => onNavigate(`/store/products?category=${encodeURIComponent(c.name)}`)}
                 className="group text-left"
               >
-                <div className="aspect-square overflow-hidden bg-[#F5F5F5] mb-2">
+                <div className="aspect-square overflow-hidden bg-[#EBF0F0] mb-2">
                   <img
                     src={c.image}
                     alt={c.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <p className="font-display font-semibold text-sm text-[#0D0D0D] group-hover:text-[#0047FF] transition-colors leading-snug">
+                <p className="font-display font-semibold text-sm text-[#0D0D0D] group-hover:text-[#856A00] transition-colors leading-snug">
                   {c.name}
                 </p>
               </button>
@@ -155,7 +155,7 @@ export function AllProductsMenu({ onNavigate }: MenuNavProps) {
                 onClick={() =>
                   onNavigate(label === "Request a Quote" ? "/store/quote" : "/store/products")
                 }
-                className="flex items-center gap-2.5 text-left hover:text-[#0047FF] transition-colors"
+                className="flex items-center gap-2.5 text-left hover:text-[#856A00] transition-colors"
               >
                 <Icon size={15} className="text-[#6B6B6B]" />
                 <span className="font-sans text-sm text-[#0D0D0D]">{label}</span>
@@ -284,19 +284,19 @@ export function CategoryMenu({ category, onNavigate }: CategoryMenuProps) {
           )}
           <button
             onClick={() => onNavigate("/store/quote")}
-            className="w-full flex items-center justify-between gap-2 bg-[#F5F5F5] hover:bg-[#EEF2FF] px-4 py-3 mb-4 transition-colors group"
+            className="w-full flex items-center justify-between gap-2 bg-[#EBF0F0] hover:bg-[#FBF5D6] px-4 py-3 mb-4 transition-colors group"
           >
-            <span className="font-mono text-xs tracking-wide text-[#0D0D0D] group-hover:text-[#0047FF]">
+            <span className="font-mono text-xs tracking-wide text-[#0D0D0D] group-hover:text-[#856A00]">
               Request a Quote
             </span>
-            <ArrowRight size={13} className="text-[#6B6B6B] group-hover:text-[#0047FF]" />
+            <ArrowRight size={13} className="text-[#6B6B6B] group-hover:text-[#856A00]" />
           </button>
           <ul className="space-y-0.5">
             {subcategories.map((l) => (
               <li key={l}>
                 <button
                   onClick={() => onNavigate(`/store/products?category=${encodeURIComponent(category)}`)}
-                  className="w-full text-left px-2 py-1.5 font-sans text-sm text-[#6B6B6B] hover:text-[#0047FF] transition-colors"
+                  className="w-full text-left px-2 py-1.5 font-sans text-sm text-[#6B6B6B] hover:text-[#856A00] transition-colors"
                 >
                   {l}
                 </button>
@@ -320,7 +320,7 @@ export function CategoryMenu({ category, onNavigate }: CategoryMenuProps) {
                   <button
                     key={label}
                     onClick={() => onNavigate(`/store/products?category=${encodeURIComponent(category)}`)}
-                    className="flex items-center gap-2 hover:text-[#0047FF] transition-colors"
+                    className="flex items-center gap-2 hover:text-[#856A00] transition-colors"
                   >
                     <Icon size={14} className="text-[#6B6B6B]" />
                     <span className="font-sans text-sm text-[#0D0D0D]">{label}</span>

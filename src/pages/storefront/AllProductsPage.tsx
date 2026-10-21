@@ -80,9 +80,9 @@ function CheckboxRow({
           type="checkbox"
           checked={checked}
           onChange={onChange}
-          className="w-3.5 h-3.5 accent-[#0047FF]"
+          className="w-3.5 h-3.5 accent-[#D4B63A]"
         />
-        <span className="font-sans text-sm text-[#0D0D0D] group-hover:text-[#0047FF] transition-colors">
+        <span className="font-sans text-sm text-[#0D0D0D] group-hover:text-[#856A00] transition-colors">
           {label}
         </span>
       </span>
@@ -114,10 +114,10 @@ function ProductGridCard({
 
   if (view === "list") {
     return (
-      <div className="group flex gap-5 bg-white border border-[#E2E2E2] hover:border-[#0047FF] transition-colors duration-200 p-4">
+      <div className="group flex gap-5 bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200 p-4">
         <Link
           to={`/store/product/${product.id}`}
-          className="relative w-32 h-32 flex-shrink-0 overflow-hidden bg-[#F5F5F5] block"
+          className="relative w-32 h-32 flex-shrink-0 overflow-hidden bg-[#EBF0F0] block"
         >
           <img
             src={product.image}
@@ -135,7 +135,7 @@ function ProductGridCard({
             {product.brand}
           </p>
           <Link to={`/store/product/${product.id}`}>
-            <h3 className="font-display font-semibold text-[#0D0D0D] text-base leading-snug mb-1.5 hover:text-[#0047FF] transition-colors">
+            <h3 className="font-display font-semibold text-[#0D0D0D] text-base leading-snug mb-1.5 hover:text-[#856A00] transition-colors">
               {product.name}
             </h3>
           </Link>
@@ -158,7 +158,7 @@ function ProductGridCard({
             {product.quoteOnly ? (
               <Link
                 to={`/store/quote?product=${encodeURIComponent(product.name)}`}
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-wide border border-[#0047FF] text-[#0047FF] hover:bg-[#0047FF] hover:text-white transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-wide border border-[#D4B63A] text-[#856A00] hover:bg-[#EACD51] hover:text-[#0D0D0D] transition-colors"
               >
                 Request Quote
               </Link>
@@ -168,7 +168,7 @@ function ProductGridCard({
                 className={`flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-wide transition-colors ${
                   added || inCart
                     ? "bg-[#00875A] text-white"
-                    : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
+                    : "bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A]"
                 }`}
               >
                 {added ? <Check size={12} /> : <ShoppingCart size={12} />}
@@ -182,10 +182,10 @@ function ProductGridCard({
   }
 
   return (
-    <div className="group bg-white border border-[#E2E2E2] hover:border-[#0047FF] transition-colors duration-200">
+    <div className="group bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200">
       <Link
         to={`/store/product/${product.id}`}
-        className="block relative overflow-hidden bg-[#F5F5F5] aspect-square"
+        className="block relative overflow-hidden bg-[#EBF0F0] aspect-square"
       >
         <img
           src={product.image}
@@ -214,7 +214,7 @@ function ProductGridCard({
           {product.brand}
         </p>
         <Link to={`/store/product/${product.id}`}>
-          <h3 className="font-display font-semibold text-[#0D0D0D] text-sm leading-snug mb-2 hover:text-[#0047FF] transition-colors">
+          <h3 className="font-display font-semibold text-[#0D0D0D] text-sm leading-snug mb-2 hover:text-[#856A00] transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -252,7 +252,7 @@ function ProductGridCard({
           {product.quoteOnly ? (
             <Link
               to={`/store/quote?product=${encodeURIComponent(product.name)}`}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide border border-[#0047FF] text-[#0047FF] hover:bg-[#0047FF] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide border border-[#D4B63A] text-[#856A00] hover:bg-[#EACD51] hover:text-[#0D0D0D] transition-colors"
             >
               Quote
             </Link>
@@ -262,7 +262,7 @@ function ProductGridCard({
               className={`flex items-center gap-1.5 px-3 py-2 text-xs font-mono tracking-wide transition-colors ${
                 added || inCart
                   ? "bg-[#00875A] text-white"
-                  : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
+                  : "bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A]"
               }`}
             >
               {added ? <Check size={12} /> : <ShoppingCart size={12} />}
@@ -418,7 +418,7 @@ export default function AllProductsPage() {
       {activeFilterCount > 0 && (
         <button
           onClick={clearAll}
-          className="flex items-center gap-1.5 font-mono text-[11px] tracking-wide text-[#0047FF] hover:text-[#0035CC] mb-3"
+          className="flex items-center gap-1.5 font-mono text-[11px] tracking-wide text-[#856A00] hover:text-[#D4B63A] mb-3"
         >
           <X size={12} /> Clear all filters ({activeFilterCount})
         </button>
@@ -479,9 +479,9 @@ export default function AllProductsPage() {
                   setMinRating(minRating === rating ? null : rating);
                   setVisibleCount(PAGE_SIZE);
                 }}
-                className="w-3.5 h-3.5 accent-[#0047FF]"
+                className="w-3.5 h-3.5 accent-[#D4B63A]"
               />
-              <span className="flex items-center gap-1 font-sans text-sm text-[#0D0D0D] group-hover:text-[#0047FF] transition-colors">
+              <span className="flex items-center gap-1 font-sans text-sm text-[#0D0D0D] group-hover:text-[#856A00] transition-colors">
                 {rating}
                 <Star
                   size={11}
@@ -503,7 +503,7 @@ export default function AllProductsPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Breadcrumb + title */}
       <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#6B6B6B] tracking-wide mb-2">
-        <Link to="/store" className="hover:text-[#0047FF] transition-colors">
+        <Link to="/store" className="hover:text-[#856A00] transition-colors">
           Store
         </Link>
         <ChevronRight size={11} />
@@ -538,16 +538,16 @@ export default function AllProductsPage() {
           className="shrink-0 text-center group"
         >
           <div
-            className={`w-16 h-16 flex items-center justify-center bg-[#F5F5F5] mb-2 border-2 transition-colors ${
+            className={`w-16 h-16 flex items-center justify-center bg-[#EBF0F0] mb-2 border-2 transition-colors ${
               selectedCategories.length === 0
-                ? "border-[#0047FF]"
+                ? "border-[#D4B63A]"
                 : "border-transparent group-hover:border-[#D0D0D0]"
             }`}
           >
             <Grid3x3 size={20} className="text-[#6B6B6B]" />
           </div>
           <p
-            className={`font-mono text-[10px] tracking-wide ${selectedCategories.length === 0 ? "text-[#0047FF]" : "text-[#6B6B6B]"}`}
+            className={`font-mono text-[10px] tracking-wide ${selectedCategories.length === 0 ? "text-[#856A00]" : "text-[#6B6B6B]"}`}
           >
             All
           </p>
@@ -566,9 +566,9 @@ export default function AllProductsPage() {
               className="shrink-0 text-center group"
             >
               <div
-                className={`w-16 h-16 overflow-hidden bg-[#F5F5F5] mb-2 border-2 transition-colors ${
+                className={`w-16 h-16 overflow-hidden bg-[#EBF0F0] mb-2 border-2 transition-colors ${
                   isActive
-                    ? "border-[#0047FF]"
+                    ? "border-[#D4B63A]"
                     : "border-transparent group-hover:border-[#D0D0D0]"
                 }`}
               >
@@ -579,7 +579,7 @@ export default function AllProductsPage() {
                 />
               </div>
               <p
-                className={`font-mono text-[10px] tracking-wide ${isActive ? "text-[#0047FF]" : "text-[#6B6B6B]"}`}
+                className={`font-mono text-[10px] tracking-wide ${isActive ? "text-[#856A00]" : "text-[#6B6B6B]"}`}
               >
                 {tile.name}
               </p>
@@ -667,7 +667,7 @@ export default function AllProductsPage() {
               {searchTerm.trim() && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="flex items-center gap-1.5 border border-[#0047FF] text-[#0047FF] px-2.5 py-1 font-mono text-[11px] tracking-wide"
+                  className="flex items-center gap-1.5 border border-[#D4B63A] text-[#856A00] px-2.5 py-1 font-mono text-[11px] tracking-wide"
                 >
                   "{searchTerm.trim()}" <X size={10} />
                 </button>
@@ -678,7 +678,7 @@ export default function AllProductsPage() {
                   onClick={() =>
                     toggle(selectedCategories, c, setSelectedCategories)
                   }
-                  className="flex items-center gap-1.5 border border-[#0047FF] text-[#0047FF] px-2.5 py-1 font-mono text-[11px] tracking-wide"
+                  className="flex items-center gap-1.5 border border-[#D4B63A] text-[#856A00] px-2.5 py-1 font-mono text-[11px] tracking-wide"
                 >
                   {c} <X size={10} />
                 </button>
@@ -687,7 +687,7 @@ export default function AllProductsPage() {
                 <button
                   key={b}
                   onClick={() => toggle(selectedBrands, b, setSelectedBrands)}
-                  className="flex items-center gap-1.5 border border-[#0047FF] text-[#0047FF] px-2.5 py-1 font-mono text-[11px] tracking-wide"
+                  className="flex items-center gap-1.5 border border-[#D4B63A] text-[#856A00] px-2.5 py-1 font-mono text-[11px] tracking-wide"
                 >
                   {b} <X size={10} />
                 </button>
@@ -698,7 +698,7 @@ export default function AllProductsPage() {
                   onClick={() =>
                     toggle(selectedPriceBuckets, p, setSelectedPriceBuckets)
                   }
-                  className="flex items-center gap-1.5 border border-[#0047FF] text-[#0047FF] px-2.5 py-1 font-mono text-[11px] tracking-wide"
+                  className="flex items-center gap-1.5 border border-[#D4B63A] text-[#856A00] px-2.5 py-1 font-mono text-[11px] tracking-wide"
                 >
                   {p} <X size={10} />
                 </button>
@@ -706,7 +706,7 @@ export default function AllProductsPage() {
               {minRating && (
                 <button
                   onClick={() => setMinRating(null)}
-                  className="flex items-center gap-1.5 border border-[#0047FF] text-[#0047FF] px-2.5 py-1 font-mono text-[11px] tracking-wide"
+                  className="flex items-center gap-1.5 border border-[#D4B63A] text-[#856A00] px-2.5 py-1 font-mono text-[11px] tracking-wide"
                 >
                   {minRating}★ &amp; up <X size={10} />
                 </button>
@@ -734,7 +734,7 @@ export default function AllProductsPage() {
               </p>
               <button
                 onClick={clearAll}
-                className="mt-3 font-mono text-xs text-[#0047FF] hover:underline"
+                className="mt-3 font-mono text-xs text-[#856A00] hover:underline"
               >
                 Clear all filters
               </button>
@@ -779,7 +779,7 @@ export default function AllProductsPage() {
             {Sidebar}
             <button
               onClick={() => setMobileFiltersOpen(false)}
-              className="w-full mt-4 bg-[#0047FF] text-white py-3 font-mono text-xs tracking-widest uppercase"
+              className="w-full mt-4 bg-[#EACD51] text-[#0D0D0D] py-3 font-mono text-xs tracking-widest uppercase"
             >
               Show {filtered.length} Results
             </button>

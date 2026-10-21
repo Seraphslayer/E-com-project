@@ -23,7 +23,7 @@ export default function CartPage() {
         </p>
         <button
           onClick={() => navigate("/store")}
-          className="bg-[#0047FF] text-white px-6 py-3 font-mono text-sm tracking-wide hover:bg-[#0035CC] transition-colors"
+          className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-sm tracking-wide hover:bg-[#D4B63A] transition-colors"
         >
           Browse Shop
         </button>
@@ -63,7 +63,7 @@ export default function CartPage() {
               <div className="col-span-6 flex items-center gap-3">
                 <Link
                   to={`/store/product/${product.id}`}
-                  className="w-16 h-16 bg-[#F5F5F5] flex-shrink-0 overflow-hidden"
+                  className="w-16 h-16 bg-[#EBF0F0] flex-shrink-0 overflow-hidden"
                 >
                   <img
                     src={product.image}
@@ -76,7 +76,7 @@ export default function CartPage() {
                     {product.brand}
                   </p>
                   <Link to={`/store/product/${product.id}`}>
-                    <p className="font-display font-semibold text-sm text-[#0D0D0D] leading-snug hover:text-[#0047FF] transition-colors">
+                    <p className="font-display font-semibold text-sm text-[#0D0D0D] leading-snug hover:text-[#856A00] transition-colors">
                       {product.name}
                     </p>
                   </Link>
@@ -170,7 +170,7 @@ export default function CartPage() {
                 <span className="font-display font-bold text-[#0D0D0D]">
                   Order Total
                 </span>
-                <span className="font-display font-bold text-xl text-[#0047FF]">
+                <span className="font-display font-bold text-xl text-[#856A00]">
                   {formatPHP(orderTotal)}
                 </span>
               </div>
@@ -178,7 +178,7 @@ export default function CartPage() {
 
             <button
               onClick={() => navigate("/store/checkout")}
-              className="w-full bg-[#0047FF] text-white py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#0035CC] transition-colors"
+              className="w-full bg-[#EACD51] text-[#0D0D0D] py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#D4B63A] transition-colors"
             >
               Checkout
               <ArrowRight size={14} />
@@ -205,7 +205,7 @@ export default function CartPage() {
               <input
                 type="text"
                 placeholder="Enter code"
-                className="flex-1 border border-[#E2E2E2] px-3 py-2 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="flex-1 border border-[#E2E2E2] px-3 py-2 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
               <button className="px-4 py-2 border border-[#0D0D0D] font-mono text-xs tracking-wide hover:bg-[#0D0D0D] hover:text-white transition-colors">
                 Apply

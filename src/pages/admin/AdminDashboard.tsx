@@ -29,7 +29,7 @@ const stats = [
     value: "$38,900",
     change: +12.4,
     icon: DollarSign,
-    color: "#0047FF",
+    color: "#D4B63A",
   },
   {
     label: "Orders (Aug)",
@@ -54,11 +54,11 @@ const stats = [
   },
 ];
 
-const COLORS = ["#0047FF", "#7C3AED", "#00875A", "#FF8C00", "#FF3B00"];
+const COLORS = ["#D4B63A", "#7C3AED", "#00875A", "#FF8C00", "#FF3B00"];
 
 const statusColors: Record<string, string> = {
   pending: "#FF8C00",
-  processing: "#0047FF",
+  processing: "#856A00",
   shipped: "#7C3AED",
   delivered: "#00875A",
   cancelled: "#DC2626",
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
                 Last 6 months
               </p>
             </div>
-            <TrendingUp size={16} className="text-[#0047FF]" />
+            <TrendingUp size={16} className="text-[#856A00]" />
           </div>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart
@@ -135,8 +135,8 @@ export default function AdminDashboard() {
             >
               <defs>
                 <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0047FF" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="#0047FF" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#D4B63A" stopOpacity={0.15} />
+                  <stop offset="95%" stopColor="#D4B63A" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
               <Area
                 type="monotone"
                 dataKey="revenue"
-                stroke="#0047FF"
+                stroke="#D4B63A"
                 strokeWidth={2}
                 fill="url(#revGrad)"
               />
@@ -230,7 +230,7 @@ export default function AdminDashboard() {
           </p>
           <button
             onClick={() => navigate("/admin/orders")}
-            className="font-mono text-[11px] text-[#0047FF] hover:underline"
+            className="font-mono text-[11px] text-[#856A00] hover:underline"
           >
             View all →
           </button>
@@ -249,7 +249,7 @@ export default function AdminDashboard() {
               onClick={() => navigate("/admin/orders")}
               className="w-full grid grid-cols-5 gap-4 px-5 py-3 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center text-left"
             >
-              <span className="font-mono text-xs text-[#0047FF]">
+              <span className="font-mono text-xs text-[#856A00]">
                 {order.id}
               </span>
               <div>

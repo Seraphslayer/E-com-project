@@ -11,7 +11,7 @@ function Toggle({
   return (
     <button
       onClick={onChange}
-      className={`w-10 h-5 flex items-center px-0.5 transition-colors ${checked ? "bg-[#0047FF]" : "bg-[#E2E2E2]"}`}
+      className={`w-10 h-5 flex items-center px-0.5 transition-colors ${checked ? "bg-[#EACD51]" : "bg-[#E2E2E2]"}`}
       aria-pressed={checked}
     >
       <span
@@ -33,7 +33,7 @@ function SettingsCard({
   return (
     <div className="bg-white border border-[#E2E2E2]">
       <div className="flex items-center gap-2.5 px-6 py-4 border-b border-[#E2E2E2]">
-        <Icon size={15} className="text-[#0047FF]" />
+        <Icon size={15} className="text-[#856A00]" />
         <p className="font-mono text-[11px] text-[#0D0D0D] tracking-widest uppercase">
           {title}
         </p>
@@ -101,7 +101,7 @@ export default function AdminSettingsPage() {
             <input
               value={storeName}
               onChange={(e) => setStoreName(e.target.value)}
-              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#0047FF] transition-colors"
+              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#D4B63A] transition-colors"
             />
           </div>
           <div>
@@ -112,7 +112,7 @@ export default function AdminSettingsPage() {
               value={storeDescription}
               onChange={(e) => setStoreDescription(e.target.value)}
               rows={2}
-              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#0047FF] transition-colors resize-none"
+              className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#D4B63A] transition-colors resize-none"
             />
           </div>
           <div>
@@ -122,7 +122,7 @@ export default function AdminSettingsPage() {
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] bg-white"
+              className="border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] bg-white"
             >
               <option value="USD">USD ($)</option>
               <option value="PHP">PHP (₱)</option>
@@ -140,7 +140,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={freeShippingThreshold}
                 onChange={(e) => setFreeShippingThreshold(e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -151,7 +151,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={flatRate}
                 onChange={(e) => setFlatRate(e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
           </div>
@@ -206,7 +206,7 @@ export default function AdminSettingsPage() {
 
         <button
           type="submit"
-          className="bg-[#0047FF] text-white px-6 py-3 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+          className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
         >
           Save Settings
         </button>

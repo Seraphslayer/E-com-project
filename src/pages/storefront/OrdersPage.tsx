@@ -12,7 +12,7 @@ const myOrders = [
 
 const statusConfig: Record<Status, { icon: any; label: string; color: string; bg: string }> = {
   pending: { icon: Clock, label: 'Pending', color: '#FF8C00', bg: '#FFF3E0' },
-  processing: { icon: Package, label: 'Processing', color: '#0047FF', bg: '#EEF2FF' },
+  processing: { icon: Package, label: 'Processing', color: '#856A00', bg: '#FBF5D6' },
   shipped: { icon: Truck, label: 'Shipped', color: '#7C3AED', bg: '#F5F0FF' },
   delivered: { icon: CheckCircle, label: 'Delivered', color: '#00875A', bg: '#E8F5F0' },
   cancelled: { icon: XCircle, label: 'Cancelled', color: '#DC2626', bg: '#FEF2F2' },
@@ -38,12 +38,12 @@ function TrackBar({ status }: { status: Status }) {
         const Icon = cfg.icon
         return (
           <div key={s} className="flex items-center flex-1">
-            <div className={`flex items-center gap-1.5 px-2 py-1 ${active ? 'text-[#0047FF]' : 'text-[#D0D0D0]'}`}>
+            <div className={`flex items-center gap-1.5 px-2 py-1 ${active ? 'text-[#856A00]' : 'text-[#D0D0D0]'}`}>
               <Icon size={12} />
               <span className="font-mono text-[10px] tracking-widest uppercase hidden sm:block">{cfg.label}</span>
             </div>
             {i < steps.length - 1 && (
-              <div className={`flex-1 h-px ${active && i < currentIdx ? 'bg-[#0047FF]' : 'bg-[#E2E2E2]'}`} />
+              <div className={`flex-1 h-px ${active && i < currentIdx ? 'bg-[#EACD51]' : 'bg-[#E2E2E2]'}`} />
             )}
           </div>
         )
@@ -103,8 +103,8 @@ export default function OrdersPage() {
                 {order.tracking && (
                   <div className="mt-2 flex items-center gap-2">
                     <span className="font-mono text-[11px] text-[#6B6B6B]">Tracking:</span>
-                    <span className="font-mono text-[11px] text-[#0047FF]">{order.tracking}</span>
-                    <ExternalLink size={10} className="text-[#0047FF]" />
+                    <span className="font-mono text-[11px] text-[#856A00]">{order.tracking}</span>
+                    <ExternalLink size={10} className="text-[#856A00]" />
                     {order.eta && (
                       <span className="font-mono text-[11px] text-[#6B6B6B] ml-2">ETA: {order.eta}</span>
                     )}

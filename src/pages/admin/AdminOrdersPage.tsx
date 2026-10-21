@@ -6,7 +6,7 @@ type Status = Order['status']
 
 const statusConfig: Record<Status, { icon: any; label: string; color: string }> = {
   pending: { icon: Clock, label: 'Pending', color: '#FF8C00' },
-  processing: { icon: Package, label: 'Processing', color: '#0047FF' },
+  processing: { icon: Package, label: 'Processing', color: '#856A00' },
   shipped: { icon: Truck, label: 'Shipped', color: '#7C3AED' },
   delivered: { icon: CheckCircle, label: 'Delivered', color: '#00875A' },
   cancelled: { icon: XCircle, label: 'Cancelled', color: '#DC2626' },
@@ -90,7 +90,7 @@ export default function AdminOrdersPage() {
                 className={`grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-[#E2E2E2] hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer ${isSelected ? 'bg-[#F0F6FF]' : ''}`}
                 onClick={() => setSelected(isSelected ? null : order.id)}
               >
-                <span className="col-span-2 font-mono text-xs text-[#0047FF] font-semibold">{order.id}</span>
+                <span className="col-span-2 font-mono text-xs text-[#856A00] font-semibold">{order.id}</span>
                 <div className="col-span-3">
                   <p className="font-sans text-sm text-[#0D0D0D]">{order.customer}</p>
                   <p className="font-mono text-[10px] text-[#6B6B6B]">{order.email}</p>
@@ -118,12 +118,12 @@ export default function AdminOrdersPage() {
                     {order.tracking && (
                       <div>
                         <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Tracking</p>
-                        <p className="font-mono text-xs text-[#0047FF]">{order.tracking}</p>
+                        <p className="font-mono text-xs text-[#856A00]">{order.tracking}</p>
                       </div>
                     )}
                     <div>
                       <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Update Status</p>
-                      <select className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#0047FF] bg-white">
+                      <select className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#D4B63A] bg-white">
                         {allStatuses.map(s => (
                           <option key={s} value={s} selected={s === order.status}>{statusConfig[s].label}</option>
                         ))}

@@ -64,7 +64,7 @@ export default function AdminCustomersPage() {
             label: "Total Customers",
             value: customers.length,
             icon: Users,
-            color: "#0047FF",
+            color: "#D4B63A",
           },
           {
             label: "Lifetime Revenue",
@@ -131,7 +131,7 @@ export default function AdminCustomersPage() {
                 className={`grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-[#E2E2E2] hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer ${isSelected ? "bg-[#F0F6FF]" : ""}`}
               >
                 <div className="col-span-4 flex items-center gap-3">
-                  <div className="w-8 h-8 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
+                  <div className="w-8 h-8 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
                     {c.name
                       .split(" ")
                       .map((n) => n[0])
@@ -166,7 +166,7 @@ export default function AdminCustomersPage() {
                         key={o.id}
                         className="flex items-center justify-between font-mono text-xs"
                       >
-                        <span className="text-[#0047FF]">{o.id}</span>
+                        <span className="text-[#856A00]">{o.id}</span>
                         <span className="text-[#6B6B6B]">{o.date}</span>
                         <span className="text-[#6B6B6B] capitalize">
                           {o.status}

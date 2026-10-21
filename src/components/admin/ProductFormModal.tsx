@@ -91,7 +91,7 @@ export default function ProductFormModal({
                 required
                 value={form.name}
                 onChange={(e) => set("name", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -102,7 +102,7 @@ export default function ProductFormModal({
                 required
                 value={form.brand}
                 onChange={(e) => set("brand", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -112,7 +112,7 @@ export default function ProductFormModal({
               <select
                 value={form.category}
                 onChange={(e) => set("category", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors bg-white"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors bg-white"
               >
                 {categories.map((c) => (
                   <option key={c}>{c}</option>
@@ -129,7 +129,7 @@ export default function ProductFormModal({
                 step="0.01"
                 value={form.price}
                 onChange={(e) => set("price", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -141,7 +141,7 @@ export default function ProductFormModal({
                 step="0.01"
                 value={form.originalPrice}
                 onChange={(e) => set("originalPrice", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -152,7 +152,7 @@ export default function ProductFormModal({
                 required
                 value={form.sku}
                 onChange={(e) => set("sku", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div>
@@ -164,7 +164,7 @@ export default function ProductFormModal({
                 type="number"
                 value={form.stock}
                 onChange={(e) => set("stock", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div className="col-span-2">
@@ -175,7 +175,7 @@ export default function ProductFormModal({
                 value={form.image}
                 onChange={(e) => set("image", e.target.value)}
                 placeholder="https://…"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
             <div className="col-span-2">
@@ -186,7 +186,7 @@ export default function ProductFormModal({
                 rows={3}
                 value={form.description}
                 onChange={(e) => set("description", e.target.value)}
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#0047FF] transition-colors resize-none"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm outline-none focus:border-[#D4B63A] transition-colors resize-none"
               />
             </div>
             <div className="col-span-2">
@@ -197,7 +197,7 @@ export default function ProductFormModal({
                 value={form.tags}
                 onChange={(e) => set("tags", e.target.value)}
                 placeholder="wireless, premium, waterproof"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function ProductFormModal({
             </button>
             <button
               type="submit"
-              className="flex-1 bg-[#0047FF] text-white py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+              className="flex-1 bg-[#EACD51] text-[#0D0D0D] py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
             >
               {isEdit ? "Save Changes" : "Add Product"}
             </button>

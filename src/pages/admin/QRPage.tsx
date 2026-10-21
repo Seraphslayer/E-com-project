@@ -83,7 +83,7 @@ export default function QRPage() {
             key={t}
             onClick={() => setTab(t)}
             className={`px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors border-b-2 -mb-px ${
-              tab === t ? 'border-[#0047FF] text-[#0047FF]' : 'border-transparent text-[#6B6B6B] hover:text-[#0D0D0D]'
+              tab === t ? 'border-[#D4B63A] text-[#856A00]' : 'border-transparent text-[#6B6B6B] hover:text-[#0D0D0D]'
             }`}
           >
             {t === 'generate' ? (
@@ -118,10 +118,10 @@ export default function QRPage() {
                   key={p.id}
                   onClick={() => setSelected(p)}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                    selected.id === p.id ? 'bg-[#EEF2FF]' : 'hover:bg-[#F8F8F8]'
+                    selected.id === p.id ? 'bg-[#FBF5D6]' : 'hover:bg-[#F8F8F8]'
                   }`}
                 >
-                  <div className="w-8 h-8 bg-[#F5F5F5] overflow-hidden flex-shrink-0">
+                  <div className="w-8 h-8 bg-[#EBF0F0] overflow-hidden flex-shrink-0">
                     <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -143,7 +143,7 @@ export default function QRPage() {
                     key={t}
                     onClick={() => setLabelType(t)}
                     className={`px-3 py-1.5 font-mono text-xs tracking-widest uppercase transition-colors ${
-                      labelType === t ? 'bg-[#0047FF] text-white' : 'border border-[#E2E2E2] text-[#6B6B6B] hover:border-[#0047FF]'
+                      labelType === t ? 'bg-[#EACD51] text-[#0D0D0D]' : 'border border-[#E2E2E2] text-[#6B6B6B] hover:border-[#D4B63A]'
                     }`}
                   >
                     {t === 'qr' ? <QrCode size={10} className="inline mr-1" /> : <Barcode size={10} className="inline mr-1" />}
@@ -164,7 +164,7 @@ export default function QRPage() {
                 <p className="font-display font-bold text-[#0D0D0D] text-sm leading-snug mb-1">{selected.name}</p>
                 <p className="font-mono text-[10px] text-[#6B6B6B] mb-1">SKU: {selected.sku}</p>
                 <p className="font-mono text-[10px] text-[#6B6B6B] mb-1">Brand: {selected.brand}</p>
-                <p className="font-display font-bold text-[#0047FF]">${selected.price}</p>
+                <p className="font-display font-bold text-[#856A00]">${selected.price}</p>
               </div>
             </div>
 
@@ -173,15 +173,15 @@ export default function QRPage() {
               <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-3">Print Options</p>
               <div className="flex items-center gap-3">
                 <label className="flex items-center gap-2 font-sans text-sm text-[#0D0D0D]">
-                  <input type="number" defaultValue={1} min={1} max={999} className="w-16 border border-[#E2E2E2] px-2 py-1.5 font-mono text-sm text-center outline-none focus:border-[#0047FF]" />
+                  <input type="number" defaultValue={1} min={1} max={999} className="w-16 border border-[#E2E2E2] px-2 py-1.5 font-mono text-sm text-center outline-none focus:border-[#D4B63A]" />
                   copies
                 </label>
-                <select className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#0047FF]">
+                <select className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#D4B63A]">
                   <option>Label 4×2 in</option>
                   <option>Label 3×1 in</option>
                   <option>A4 Sheet (30 per page)</option>
                 </select>
-                <button className="flex items-center gap-2 bg-[#0047FF] text-white px-5 py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors">
+                <button className="flex items-center gap-2 bg-[#EACD51] text-[#0D0D0D] px-5 py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors">
                   <Printer size={13} /> Print
                 </button>
                 <button className="flex items-center gap-2 border border-[#E2E2E2] px-4 py-2 font-mono text-xs tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">
@@ -191,7 +191,7 @@ export default function QRPage() {
             </div>
 
             {/* Batch generate */}
-            <div className="mt-5 bg-[#F5F5F5] p-4">
+            <div className="mt-5 bg-[#EBF0F0] p-4">
               <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-2">Batch Generate</p>
               <p className="font-sans text-sm text-[#6B6B6B] mb-3">Generate labels for all {products.length} products at once.</p>
               <button className="flex items-center gap-2 bg-[#0D0D0D] text-white px-5 py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#333] transition-colors">
@@ -215,10 +215,10 @@ export default function QRPage() {
               <input
                 type="text"
                 defaultValue="MRX-HP-001"
-                className="flex-1 border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="flex-1 border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
                 placeholder="Enter SKU or barcode..."
               />
-              <button className="bg-[#0047FF] text-white px-5 py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors">
+              <button className="bg-[#EACD51] text-[#0D0D0D] px-5 py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors">
                 Lookup
               </button>
             </div>
@@ -228,7 +228,7 @@ export default function QRPage() {
           <div className="bg-white border border-[#E2E2E2] p-6">
             <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-4">Lookup Result</p>
             <div className="flex gap-4">
-              <div className="w-20 h-20 bg-[#F5F5F5] overflow-hidden flex-shrink-0">
+              <div className="w-20 h-20 bg-[#EBF0F0] overflow-hidden flex-shrink-0">
                 <img src={products[0].image} alt={products[0].name} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1">

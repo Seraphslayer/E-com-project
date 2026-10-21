@@ -61,12 +61,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#F5F5F5] border-t border-[#E2E2E2]">
+    <footer className="bg-[#EBF0F0] border-t border-[#E2E2E2]">
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-6 h-6 bg-[#0047FF] flex items-center justify-center">
-              <span className="font-display font-bold text-white text-xs">
+            <div className="w-6 h-6 bg-[#EACD51] flex items-center justify-center">
+              <span className="font-display font-bold text-[#0D0D0D] text-xs">
                 F
               </span>
             </div>
@@ -161,7 +161,7 @@ export default function Footer() {
               <button
                 type="submit"
                 aria-label="Subscribe"
-                className="px-3 py-2 text-[#0D0D0D] hover:text-[#0047FF] transition-colors shrink-0"
+                className="px-3 py-2 text-[#0D0D0D] hover:text-[#856A00] transition-colors shrink-0"
               >
                 <ArrowRight size={16} />
               </button>

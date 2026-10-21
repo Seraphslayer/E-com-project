@@ -40,7 +40,7 @@ export default function ChatWidget() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-[#0047FF] text-white shadow-lg hover:bg-[#0035CC] transition-colors flex items-center justify-center"
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-[#EACD51] text-[#0D0D0D] shadow-lg hover:bg-[#D4B63A] transition-colors flex items-center justify-center"
         >
           <MessageCircle size={20} />
           {unread > 0 && (
@@ -55,7 +55,7 @@ export default function ChatWidget() {
       {open && (
         <div className="fixed bottom-6 right-6 z-50 w-80 shadow-2xl border border-[#E2E2E2] bg-white flex flex-col" style={{ height: 420 }}>
           {/* Header */}
-          <div className="bg-[#0047FF] px-4 py-3 flex items-center justify-between flex-shrink-0">
+          <div className="bg-[#EACD51] px-4 py-3 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[#00FF88] rounded-full" />
               <div>
@@ -77,7 +77,7 @@ export default function ChatWidget() {
           <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-[#F8F8F8]">
             {messages.map(msg => (
               <div key={msg.id} className={`flex ${msg.sender === 'customer' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] ${msg.sender === 'customer' ? 'bg-[#0047FF] text-white' : 'bg-white border border-[#E2E2E2] text-[#0D0D0D]'} px-3 py-2`}>
+                <div className={`max-w-[80%] ${msg.sender === 'customer' ? 'bg-[#EACD51] text-[#0D0D0D]' : 'bg-white border border-[#E2E2E2] text-[#0D0D0D]'} px-3 py-2`}>
                   <p className="font-sans text-xs leading-relaxed">{msg.message}</p>
                   <p className={`font-mono text-[9px] mt-1 ${msg.sender === 'customer' ? 'text-white/50' : 'text-[#6B6B6B]'}`}>{msg.time}</p>
                 </div>
@@ -97,7 +97,7 @@ export default function ChatWidget() {
             />
             <button
               onClick={send}
-              className="px-4 bg-[#0047FF] text-white hover:bg-[#0035CC] transition-colors flex items-center"
+              className="px-4 bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A] transition-colors flex items-center"
             >
               <Send size={14} />
             </button>
