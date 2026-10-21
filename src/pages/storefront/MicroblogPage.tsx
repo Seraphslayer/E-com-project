@@ -12,22 +12,22 @@ function PostCard({ post }: { post: BlogPost }) {
   }
 
   const categoryColors: Record<string, string> = {
-    'New Arrivals': '#0047FF',
+    'New Arrivals': '#D4B63A',
     'Style': '#7C3AED',
     'Guide': '#00875A',
     'Review': '#FF8C00',
   }
 
   return (
-    <article className="bg-white border border-[#E2E2E2] hover:border-[#0047FF] transition-colors duration-200">
+    <article className="bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200">
       {post.image && (
-        <div className="overflow-hidden h-44 bg-[#F5F5F5]">
+        <div className="overflow-hidden h-44 bg-[#EBF0F0]">
           <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
         </div>
       )}
       <div className="p-5">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] text-[#0D0D0D] font-semibold">
+          <div className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] text-[#0D0D0D] font-semibold">
             {post.avatar}
           </div>
           <div>
@@ -59,7 +59,7 @@ function PostCard({ post }: { post: BlogPost }) {
             <MessageCircle size={13} />
             {post.comments}
           </div>
-          <button className="ml-auto text-[#6B6B6B] hover:text-[#0047FF] transition-colors">
+          <button className="ml-auto text-[#6B6B6B] hover:text-[#856A00] transition-colors">
             <Share2 size={13} />
           </button>
         </div>
@@ -78,11 +78,11 @@ export default function MicroblogPage() {
         <div>
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Community — Service 08</p>
           <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Microblog</h1>
-          <p className="text-[#6B6B6B] text-sm mt-1">Stories, guides, and community posts from the Merx community.</p>
+          <p className="text-[#6B6B6B] text-sm mt-1">Project updates, product guides, and announcements from FGT Trading OPC.</p>
         </div>
         <button
           onClick={() => setComposing(!composing)}
-          className="flex items-center gap-2 bg-[#0047FF] text-white px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+          className="flex items-center gap-2 bg-[#EACD51] text-[#0D0D0D] px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
         >
           <PenLine size={13} />
           Write Post
@@ -90,8 +90,8 @@ export default function MicroblogPage() {
       </div>
 
       {composing && (
-        <div className="bg-white border border-[#0047FF] p-5 mb-6">
-          <p className="font-mono text-[11px] text-[#0047FF] tracking-widest uppercase mb-3">New Post</p>
+        <div className="bg-white border border-[#D4B63A] p-5 mb-6">
+          <p className="font-mono text-[11px] text-[#856A00] tracking-widest uppercase mb-3">New Post</p>
           <input
             type="text"
             placeholder="Post title..."
@@ -110,7 +110,7 @@ export default function MicroblogPage() {
               <button onClick={() => setComposing(false)} className="px-4 py-2 border border-[#E2E2E2] font-mono text-xs tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">
                 Cancel
               </button>
-              <button onClick={() => setComposing(false)} className="px-4 py-2 bg-[#0047FF] text-white font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors">
+              <button onClick={() => setComposing(false)} className="px-4 py-2 bg-[#EACD51] text-[#0D0D0D] font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors">
                 Publish
               </button>
             </div>
@@ -124,7 +124,7 @@ export default function MicroblogPage() {
 
       <div className="mt-8 bg-[#0D0D0D] p-6 flex items-center justify-between">
         <div>
-          <p className="font-display font-bold text-white text-lg">Join the Merx Community</p>
+          <p className="font-display font-bold text-white text-lg">Stay Updated with FGT Trading OPC</p>
           <p className="text-white/50 font-sans text-sm mt-1">Get early access to new arrivals, style tips, and exclusive discounts.</p>
         </div>
         <div className="flex gap-2">
@@ -133,7 +133,7 @@ export default function MicroblogPage() {
             placeholder="your@email.com"
             className="bg-white/10 border border-white/20 text-white placeholder:text-white/30 px-4 py-2.5 font-mono text-sm outline-none focus:border-white/50 transition-colors"
           />
-          <button className="bg-[#0047FF] text-white px-5 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors">
+          <button className="bg-[#EACD51] text-[#0D0D0D] px-5 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors">
             Subscribe
           </button>
         </div>

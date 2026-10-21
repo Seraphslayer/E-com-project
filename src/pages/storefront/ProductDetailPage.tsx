@@ -12,10 +12,12 @@ import {
   ChevronRight,
   CheckCircle,
   ThumbsUp,
+  FileText,
 } from "lucide-react";
 import { products, reviews } from "../../data/mockData";
 import { useCart } from "../../store/cartStore";
 import FeatureTag from "../../components/FeatureTag";
+import { formatPHP } from "../../data/companyInfo";
 
 type Tab = "description" | "specs" | "reviews";
 
@@ -62,7 +64,7 @@ export default function ProductDetailPage() {
         </p>
         <Link
           to="/store/products"
-          className="bg-[#0047FF] text-white px-6 py-3 font-mono text-sm tracking-wide hover:bg-[#0035CC] transition-colors"
+          className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-sm tracking-wide hover:bg-[#D4B63A] transition-colors"
         >
           Browse All Products
         </Link>
@@ -98,13 +100,13 @@ export default function ProductDetailPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Breadcrumb */}
       <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#6B6B6B] tracking-wide mb-6 flex-wrap">
-        <Link to="/store" className="hover:text-[#0047FF] transition-colors">
+        <Link to="/store" className="hover:text-[#856A00] transition-colors">
           Store
         </Link>
         <ChevronRight size={11} />
         <Link
-          to={`/store/products?category=${product.category}`}
-          className="hover:text-[#0047FF] transition-colors"
+          to={`/store/products?category=${encodeURIComponent(product.category)}`}
+          className="hover:text-[#856A00] transition-colors"
         >
           {product.category}
         </Link>
@@ -116,7 +118,7 @@ export default function ProductDetailPage() {
 
       <div className="grid lg:grid-cols-2 gap-12 mb-16">
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-[#F5F5F5]">
+        <div className="relative aspect-square overflow-hidden bg-[#EBF0F0]">
           <img
             src={product.image}
             alt={product.name}
@@ -155,19 +157,24 @@ export default function ProductDetailPage() {
 
           <div className="flex items-baseline gap-3 mb-5">
             <span className="font-display font-bold text-3xl text-[#0D0D0D]">
-              ${product.price}
+              {formatPHP(product.price)}
             </span>
             {product.originalPrice && (
               <span className="font-sans text-lg text-[#B0B0B0] line-through">
-                ${product.originalPrice}
+                {formatPHP(product.originalPrice)}
               </span>
             )}
             {discount && (
               <span className="font-mono text-xs text-[#00875A] tracking-wide">
-                You save ${(product.originalPrice! - product.price).toFixed(2)}
+                You save {formatPHP(product.originalPrice! - product.price)}
               </span>
             )}
           </div>
+          {product.quoteOnly && (
+            <p className="font-mono text-[11px] text-[#6B6B6B] tracking-wide mb-5 -mt-3">
+              Listed price is indicative — final pricing depends on quantity, installation, and site requirements.
+            </p>
+          )}
 
           <p className="text-[#6B6B6B] text-sm leading-relaxed mb-5 max-w-md">
             {product.description}
@@ -182,61 +189,81 @@ export default function ProductDetailPage() {
           )}
 
           {/* Quantity + actions */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center border border-[#E2E2E2]">
-              <button
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-                className="w-10 h-11 flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
-                aria-label="Decrease quantity"
-              >
-                <Minus size={13} />
-              </button>
-              <span className="w-10 text-center font-mono text-sm">{qty}</span>
-              <button
-                onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
-                className="w-10 h-11 flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
-                aria-label="Increase quantity"
-              >
-                <Plus size={13} />
-              </button>
-            </div>
-
-            <button
-              onClick={handleAdd}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 font-mono text-sm tracking-widest uppercase transition-colors ${
-                added || inCart
-                  ? "bg-[#00875A] text-white"
-                  : "bg-[#0047FF] text-white hover:bg-[#0035CC]"
-              }`}
+          {product.quoteOnly ? (
+            <Link
+              to={`/store/quote?product=${encodeURIComponent(product.name)}`}
+              className="w-full flex items-center justify-center gap-2 py-3.5 font-mono text-sm tracking-widest uppercase bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A] transition-colors mb-6"
             >
-              {added ? <Check size={15} /> : <ShoppingCart size={15} />}
-              {added ? "Added" : inCart ? "In Cart — Add More" : "Add to Cart"}
-            </button>
-          </div>
+              <FileText size={15} />
+              Request a Quote
+            </Link>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center border border-[#E2E2E2]">
+                  <button
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    className="w-10 h-11 flex items-center justify-center hover:bg-[#EBF0F0] transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus size={13} />
+                  </button>
+                  <span className="w-10 text-center font-mono text-sm">{qty}</span>
+                  <button
+                    onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
+                    className="w-10 h-11 flex items-center justify-center hover:bg-[#EBF0F0] transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus size={13} />
+                  </button>
+                </div>
 
-          <button
-            onClick={handleBuyNow}
-            className="w-full border border-[#0D0D0D] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#0D0D0D] hover:text-white transition-colors mb-6"
-          >
-            Buy Now
-          </button>
+                <button
+                  onClick={handleAdd}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 font-mono text-sm tracking-widest uppercase transition-colors ${
+                    added || inCart
+                      ? "bg-[#00875A] text-white"
+                      : "bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A]"
+                  }`}
+                >
+                  {added ? <Check size={15} /> : <ShoppingCart size={15} />}
+                  {added ? "Added" : inCart ? "In Cart — Add More" : "Add to Cart"}
+                </button>
+              </div>
+
+              <button
+                onClick={handleBuyNow}
+                className="w-full border border-[#0D0D0D] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#0D0D0D] hover:text-white transition-colors mb-3"
+              >
+                Buy Now
+              </button>
+
+              <Link
+                to={`/store/quote?product=${encodeURIComponent(product.name)}`}
+                className="w-full flex items-center justify-center gap-2 py-3 font-mono text-xs tracking-widest uppercase text-[#6B6B6B] hover:text-[#856A00] transition-colors mb-6 border border-dashed border-[#E2E2E2] hover:border-[#D4B63A]"
+              >
+                <FileText size={13} />
+                Need bulk pricing or installation? Request a Quote
+              </Link>
+            </>
+          )}
 
           {/* Trust row */}
           <div className="grid grid-cols-3 gap-3 border-t border-[#E2E2E2] pt-5">
             <div className="flex flex-col items-center text-center gap-1.5">
-              <Truck size={17} className="text-[#0047FF]" />
+              <Truck size={17} className="text-[#856A00]" />
               <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">
                 Free Shipping $75+
               </p>
             </div>
             <div className="flex flex-col items-center text-center gap-1.5">
-              <RotateCcw size={17} className="text-[#0047FF]" />
+              <RotateCcw size={17} className="text-[#856A00]" />
               <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">
                 30-Day Returns
               </p>
             </div>
             <div className="flex flex-col items-center text-center gap-1.5">
-              <ShieldCheck size={17} className="text-[#0047FF]" />
+              <ShieldCheck size={17} className="text-[#856A00]" />
               <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">
                 Secure Checkout
               </p>
@@ -264,7 +291,7 @@ export default function ProductDetailPage() {
               onClick={() => setTab(key)}
               className={`px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors border-b-2 -mb-px ${
                 tab === key
-                  ? "border-[#0047FF] text-[#0047FF]"
+                  ? "border-[#D4B63A] text-[#856A00]"
                   : "border-transparent text-[#6B6B6B] hover:text-[#0D0D0D]"
               }`}
             >
@@ -335,7 +362,7 @@ export default function ProductDetailPage() {
                 <div className="space-y-6">
                   {productReviews.map((review) => (
                     <div key={review.id} className="flex items-start gap-3">
-                      <div className="w-8 h-8 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
+                      <div className="w-8 h-8 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
                         {review.avatar}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -357,7 +384,7 @@ export default function ProductDetailPage() {
                           {review.body}
                         </p>
                         <div className="flex items-center gap-2 mt-2">
-                          <button className="flex items-center gap-1 font-mono text-[10px] text-[#6B6B6B] hover:text-[#0047FF] transition-colors">
+                          <button className="flex items-center gap-1 font-mono text-[10px] text-[#6B6B6B] hover:text-[#856A00] transition-colors">
                             <ThumbsUp size={10} /> {review.helpful} helpful
                           </button>
                           <span className="font-mono text-[10px] text-[#D0D0D0]">
@@ -385,9 +412,9 @@ export default function ProductDetailPage() {
               <Link
                 key={p.id}
                 to={`/store/product/${p.id}`}
-                className="group bg-white border border-[#E2E2E2] hover:border-[#0047FF] transition-colors duration-200 block"
+                className="group bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200 block"
               >
-                <div className="aspect-square overflow-hidden bg-[#F5F5F5]">
+                <div className="aspect-square overflow-hidden bg-[#EBF0F0]">
                   <img
                     src={p.image}
                     alt={p.name}
@@ -402,7 +429,7 @@ export default function ProductDetailPage() {
                     {p.name}
                   </h3>
                   <span className="font-display font-bold text-[#0D0D0D]">
-                    ${p.price}
+                    {formatPHP(p.price)}
                   </span>
                 </div>
               </Link>

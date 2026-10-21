@@ -75,7 +75,7 @@ export default function AdminReviewsPage() {
             label: "Total Reviews",
             value: reviews.length,
             icon: Star,
-            color: "#0047FF",
+            color: "#D4B63A",
           },
           {
             label: "Average Rating",
@@ -160,7 +160,7 @@ export default function AdminReviewsPage() {
       <div className="bg-white border border-[#E2E2E2] divide-y divide-[#E2E2E2]">
         {filtered.map((review) => (
           <div key={review.id} className="px-5 py-4 flex items-start gap-4">
-            <div className="w-8 h-8 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
+            <div className="w-8 h-8 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
               {review.avatar}
             </div>
             <div className="flex-1 min-w-0">
@@ -184,7 +184,7 @@ export default function AdminReviewsPage() {
                 </span>
               </div>
               <Stars rating={review.rating} />
-              <p className="font-mono text-[10px] text-[#0047FF] mt-1 mb-1">
+              <p className="font-mono text-[10px] text-[#856A00] mt-1 mb-1">
                 {review.productName}
               </p>
               <p className="font-sans font-medium text-sm text-[#0D0D0D] mb-1">

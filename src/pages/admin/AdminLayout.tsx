@@ -42,7 +42,7 @@ export default function AdminLayout() {
   const [notifOpen, setNotifOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex">
+    <div className="min-h-screen bg-[#F0F1F1] flex">
       {/* Sidebar */}
       <aside className="w-56 bg-[#0D0D0D] flex flex-col flex-shrink-0 sticky top-0 h-screen">
         <div className="px-5 py-5 border-b border-white/10">
@@ -56,8 +56,8 @@ export default function AdminLayout() {
             </span>
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-[#0047FF] flex items-center justify-center">
-              <span className="font-display font-bold text-white text-xs">
+            <div className="w-7 h-7 bg-[#EACD51] flex items-center justify-center">
+              <span className="font-display font-bold text-[#0D0D0D] text-xs">
                 M
               </span>
             </div>
@@ -81,7 +81,7 @@ export default function AdminLayout() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 font-mono text-xs tracking-wide transition-colors ${
                   isActive
-                    ? "bg-[#0047FF] text-white"
+                    ? "bg-[#EACD51] text-[#0D0D0D]"
                     : "text-white/40 hover:text-white hover:bg-white/5"
                 }`
               }
@@ -94,7 +94,7 @@ export default function AdminLayout() {
 
         <div className="px-5 py-4 border-t border-white/10">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] text-[#0D0D0D] font-semibold">
+            <div className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] text-[#0D0D0D] font-semibold">
               AD
             </div>
             <div>

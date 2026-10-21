@@ -35,7 +35,7 @@ export default function ReviewsPanel() {
           {dist.map(({ n, count }) => (
             <div key={n} className="flex items-center gap-2">
               <span className="font-mono text-[10px] text-[#6B6B6B] w-3">{n}</span>
-              <div className="flex-1 h-1.5 bg-[#F0F0F0]">
+              <div className="flex-1 h-1.5 bg-[#E4EBEB]">
                 <div
                   className="h-full bg-[#FF8C00]"
                   style={{ width: `${(count / reviews.length) * 100}%` }}
@@ -47,7 +47,7 @@ export default function ReviewsPanel() {
         </div>
         <button
           onClick={() => setWriting(!writing)}
-          className="mt-4 w-full border border-[#0047FF] text-[#0047FF] py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#0047FF] hover:text-white transition-colors"
+          className="mt-4 w-full border border-[#D4B63A] text-[#856A00] py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#EACD51] hover:text-[#0D0D0D] transition-colors"
         >
           Write a Review
         </button>
@@ -74,16 +74,16 @@ export default function ReviewsPanel() {
           <input
             type="text"
             placeholder="Review title"
-            className="w-full border border-[#E2E2E2] px-3 py-2 font-sans text-sm outline-none focus:border-[#0047FF] mb-2"
+            className="w-full border border-[#E2E2E2] px-3 py-2 font-sans text-sm outline-none focus:border-[#D4B63A] mb-2"
           />
           <textarea
             rows={3}
             placeholder="Share your experience..."
-            className="w-full border border-[#E2E2E2] px-3 py-2 font-sans text-sm outline-none focus:border-[#0047FF] resize-none"
+            className="w-full border border-[#E2E2E2] px-3 py-2 font-sans text-sm outline-none focus:border-[#D4B63A] resize-none"
           />
           <button
             onClick={() => setWriting(false)}
-            className="mt-2 w-full bg-[#0047FF] text-white py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+            className="mt-2 w-full bg-[#EACD51] text-[#0D0D0D] py-2 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
           >
             Submit Review
           </button>
@@ -94,7 +94,7 @@ export default function ReviewsPanel() {
         {reviews.map(review => (
           <div key={review.id} className="p-4">
             <div className="flex items-start gap-3">
-              <div className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
+              <div className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
                 {review.avatar}
               </div>
               <div className="flex-1 min-w-0">
@@ -111,7 +111,7 @@ export default function ReviewsPanel() {
                 <p className="font-sans font-medium text-sm text-[#0D0D0D] mb-1">{review.title}</p>
                 <p className="font-sans text-xs text-[#6B6B6B] leading-relaxed">{review.body}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <button className="flex items-center gap-1 font-mono text-[10px] text-[#6B6B6B] hover:text-[#0047FF] transition-colors">
+                  <button className="flex items-center gap-1 font-mono text-[10px] text-[#6B6B6B] hover:text-[#856A00] transition-colors">
                     <ThumbsUp size={10} /> {review.helpful} helpful
                   </button>
                   <span className="font-mono text-[10px] text-[#D0D0D0]">{review.date}</span>

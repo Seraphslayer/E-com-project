@@ -1,13 +1,14 @@
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../store/cartStore";
+import { formatPHP } from "../../data/companyInfo";
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, total, count } = useCart();
   const navigate = useNavigate();
 
-  const shipping = total > 100 ? 0 : 9.99;
-  const tax = total * 0.08;
+  const shipping = total > 20000 ? 0 : 850;
+  const tax = total * 0.12;
   const orderTotal = total + shipping + tax;
 
   if (cart.length === 0) {
@@ -22,7 +23,7 @@ export default function CartPage() {
         </p>
         <button
           onClick={() => navigate("/store")}
-          className="bg-[#0047FF] text-white px-6 py-3 font-mono text-sm tracking-wide hover:bg-[#0035CC] transition-colors"
+          className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-sm tracking-wide hover:bg-[#D4B63A] transition-colors"
         >
           Browse Shop
         </button>
@@ -62,7 +63,7 @@ export default function CartPage() {
               <div className="col-span-6 flex items-center gap-3">
                 <Link
                   to={`/store/product/${product.id}`}
-                  className="w-16 h-16 bg-[#F5F5F5] flex-shrink-0 overflow-hidden"
+                  className="w-16 h-16 bg-[#EBF0F0] flex-shrink-0 overflow-hidden"
                 >
                   <img
                     src={product.image}
@@ -75,7 +76,7 @@ export default function CartPage() {
                     {product.brand}
                   </p>
                   <Link to={`/store/product/${product.id}`}>
-                    <p className="font-display font-semibold text-sm text-[#0D0D0D] leading-snug hover:text-[#0047FF] transition-colors">
+                    <p className="font-display font-semibold text-sm text-[#0D0D0D] leading-snug hover:text-[#856A00] transition-colors">
                       {product.name}
                     </p>
                   </Link>
@@ -87,7 +88,7 @@ export default function CartPage() {
 
               <div className="col-span-2 text-center">
                 <span className="font-display font-semibold text-[#0D0D0D]">
-                  ${product.price}
+                  {formatPHP(product.price)}
                 </span>
               </div>
 
@@ -111,7 +112,7 @@ export default function CartPage() {
 
               <div className="col-span-2 flex items-center justify-end gap-3">
                 <span className="font-display font-bold text-[#0D0D0D]">
-                  ${(product.price * quantity).toFixed(2)}
+                  {formatPHP(product.price * quantity)}
                 </span>
                 <button
                   onClick={() => removeFromCart(product.id)}
@@ -137,7 +138,7 @@ export default function CartPage() {
                   Subtotal ({count} items)
                 </span>
                 <span className="font-display font-semibold">
-                  ${total.toFixed(2)}
+                  {formatPHP(total)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -145,13 +146,13 @@ export default function CartPage() {
                 <span
                   className={`font-display font-semibold ${shipping === 0 ? "text-[#00875A]" : ""}`}
                 >
-                  {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+                  {shipping === 0 ? "Free" : formatPHP(shipping)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-[#6B6B6B] font-sans">Tax (8%)</span>
+                <span className="text-[#6B6B6B] font-sans">VAT (12%)</span>
                 <span className="font-display font-semibold">
-                  ${tax.toFixed(2)}
+                  {formatPHP(tax)}
                 </span>
               </div>
             </div>
@@ -159,7 +160,7 @@ export default function CartPage() {
             {shipping === 0 && (
               <div className="bg-[#00875A]/10 border border-[#00875A]/20 px-3 py-2 mb-5">
                 <p className="font-mono text-[11px] text-[#00875A] tracking-wide">
-                  Free shipping applied (orders over $100)
+                  Free delivery applied (orders over ₱20,000)
                 </p>
               </div>
             )}
@@ -169,32 +170,30 @@ export default function CartPage() {
                 <span className="font-display font-bold text-[#0D0D0D]">
                   Order Total
                 </span>
-                <span className="font-display font-bold text-xl text-[#0047FF]">
-                  ${orderTotal.toFixed(2)}
+                <span className="font-display font-bold text-xl text-[#856A00]">
+                  {formatPHP(orderTotal)}
                 </span>
               </div>
             </div>
 
             <button
               onClick={() => navigate("/store/checkout")}
-              className="w-full bg-[#0047FF] text-white py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#0035CC] transition-colors"
+              className="w-full bg-[#EACD51] text-[#0D0D0D] py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#D4B63A] transition-colors"
             >
               Checkout
               <ArrowRight size={14} />
             </button>
 
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <div className="border border-[#E2E2E2] px-2 py-1.5 text-center">
-                <p className="font-mono text-[10px] text-[#6B6B6B] tracking-wide">
-                  Visa
-                </p>
-              </div>
-              <div className="border border-[#E2E2E2] px-2 py-1.5 text-center">
-                <p className="font-mono text-[10px] text-[#6B6B6B] tracking-wide">
-                  Mastercard
-                </p>
-              </div>
+            <div className="mt-3 grid grid-cols-4 gap-2">
+              {["Card", "GCash", "Maya", "GrabPay"].map((method) => (
+                <div key={method} className="border border-[#E2E2E2] px-2 py-1.5 text-center">
+                  <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">
+                    {method}
+                  </p>
+                </div>
+              ))}
             </div>
+            <p className="font-mono text-[9px] text-[#B0B0B0] mt-2 text-center">Secured by PayMongo</p>
           </div>
 
           {/* Promo code */}
@@ -206,7 +205,7 @@ export default function CartPage() {
               <input
                 type="text"
                 placeholder="Enter code"
-                className="flex-1 border border-[#E2E2E2] px-3 py-2 font-mono text-sm outline-none focus:border-[#0047FF] transition-colors"
+                className="flex-1 border border-[#E2E2E2] px-3 py-2 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
               />
               <button className="px-4 py-2 border border-[#0D0D0D] font-mono text-xs tracking-wide hover:bg-[#0D0D0D] hover:text-white transition-colors">
                 Apply

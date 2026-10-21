@@ -35,7 +35,7 @@ export default function PaymentsPage() {
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
           { label: 'Captured (Aug)', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: '#00875A' },
-          { label: 'Transactions', value: transactions.length, icon: CreditCard, color: '#0047FF' },
+          { label: 'Transactions', value: transactions.length, icon: CreditCard, color: '#D4B63A' },
           { label: 'Refunds', value: `$${totalRefunds}`, icon: AlertCircle, color: '#DC2626' },
           { label: 'Avg. Order Value', value: `$${Math.round(totalRevenue / transactions.filter(t => t.status === 'captured').length)}`, icon: TrendingUp, color: '#7C3AED' },
         ].map(({ label, value, icon: Icon, color }) => (
@@ -62,7 +62,7 @@ export default function PaymentsPage() {
               contentStyle={{ border: '1px solid #E2E2E2', borderRadius: 0, fontFamily: 'JetBrains Mono', fontSize: 11 }}
               formatter={(v: number) => [`$${v.toLocaleString()}`, 'Revenue']}
             />
-            <Bar dataKey="revenue" fill="#0047FF" radius={0} />
+            <Bar dataKey="revenue" fill="#D4B63A" radius={0} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -86,11 +86,11 @@ export default function PaymentsPage() {
           const Icon = cfg.icon
           return (
             <div key={tx.id} className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center">
-              <span className="col-span-2 font-mono text-xs text-[#0047FF]">{tx.id}</span>
+              <span className="col-span-2 font-mono text-xs text-[#856A00]">{tx.id}</span>
               <span className="col-span-2 font-mono text-xs text-[#6B6B6B]">{tx.date}</span>
               <span className="col-span-2 font-sans text-sm text-[#0D0D0D]">{tx.customer}</span>
               <span className="col-span-3 font-mono text-xs text-[#6B6B6B]">{tx.method}</span>
-              <span className="col-span-1 font-mono text-xs text-[#0047FF]">{tx.orderId}</span>
+              <span className="col-span-1 font-mono text-xs text-[#856A00]">{tx.orderId}</span>
               <span
                 className="col-span-1 flex items-center gap-1 font-mono text-[10px] tracking-wide"
                 style={{ color: cfg.color }}

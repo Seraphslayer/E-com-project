@@ -44,7 +44,7 @@ export default function AdminChatPage() {
             <button
               key={conv.id}
               onClick={() => setActiveConv(conv.id)}
-              className={`w-full px-4 py-3 text-left hover:bg-[#F8F8F8] transition-colors ${activeConv === conv.id ? 'bg-[#EEF2FF]' : ''}`}
+              className={`w-full px-4 py-3 text-left hover:bg-[#F8F8F8] transition-colors ${activeConv === conv.id ? 'bg-[#FBF5D6]' : ''}`}
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
@@ -59,7 +59,7 @@ export default function AdminChatPage() {
               <p className="font-sans text-xs text-[#6B6B6B] truncate pl-4">{conv.preview}</p>
               {conv.unread > 0 && (
                 <div className="mt-1 pl-4">
-                  <span className="bg-[#0047FF] text-white font-mono text-[9px] px-1.5 py-0.5">{conv.unread} new</span>
+                  <span className="bg-[#EACD51] text-[#0D0D0D] font-mono text-[9px] px-1.5 py-0.5">{conv.unread} new</span>
                 </div>
               )}
             </button>
@@ -89,11 +89,11 @@ export default function AdminChatPage() {
         <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F8F8F8]">
           {messages.map(msg => (
             <div key={msg.id} className={`flex gap-3 ${msg.sender === 'support' ? 'flex-row-reverse' : ''}`}>
-              <div className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
+              <div className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
                 {msg.sender === 'customer' ? 'OK' : 'SA'}
               </div>
               <div className="max-w-md">
-                <div className={`px-4 py-3 ${msg.sender === 'support' ? 'bg-[#0047FF] text-white' : 'bg-white border border-[#E2E2E2] text-[#0D0D0D]'}`}>
+                <div className={`px-4 py-3 ${msg.sender === 'support' ? 'bg-[#EACD51] text-[#0D0D0D]' : 'bg-white border border-[#E2E2E2] text-[#0D0D0D]'}`}>
                   <p className="font-sans text-sm leading-relaxed">{msg.message}</p>
                 </div>
                 <p className={`font-mono text-[10px] text-[#6B6B6B] mt-1 ${msg.sender === 'support' ? 'text-right' : ''}`}>
@@ -110,7 +110,7 @@ export default function AdminChatPage() {
             <button
               key={r}
               onClick={() => setInput(r)}
-              className="flex-shrink-0 border border-[#E2E2E2] px-3 py-1 font-mono text-[10px] text-[#6B6B6B] hover:border-[#0047FF] hover:text-[#0047FF] transition-colors whitespace-nowrap"
+              className="flex-shrink-0 border border-[#E2E2E2] px-3 py-1 font-mono text-[10px] text-[#6B6B6B] hover:border-[#D4B63A] hover:text-[#856A00] transition-colors whitespace-nowrap"
             >
               {r}
             </button>
@@ -129,7 +129,7 @@ export default function AdminChatPage() {
           />
           <button
             onClick={send}
-            className="px-6 bg-[#0047FF] text-white hover:bg-[#0035CC] transition-colors flex items-center"
+            className="px-6 bg-[#EACD51] text-[#0D0D0D] hover:bg-[#D4B63A] transition-colors flex items-center"
           >
             <Send size={16} />
           </button>

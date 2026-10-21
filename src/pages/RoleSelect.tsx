@@ -21,10 +21,10 @@ export default function RoleSelect() {
       {/* Header */}
       <header className="border-b border-white/10 px-8 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 bg-[#0047FF] flex items-center justify-center">
-            <span className="font-display font-bold text-white text-sm">M</span>
+          <div className="w-7 h-7 bg-[#EACD51] flex items-center justify-center">
+            <span className="font-display font-bold text-[#0D0D0D] text-sm">F</span>
           </div>
-          <span className="font-display font-semibold text-white tracking-tight text-lg">MERX</span>
+          <span className="font-display font-semibold text-white tracking-tight text-lg">FGT Trading OPC</span>
         </div>
         <span className="font-mono text-[11px] text-white/30 tracking-widest uppercase">v2.4.1</span>
       </header>
@@ -33,19 +33,19 @@ export default function RoleSelect() {
         {/* Left — Customer */}
         <button
           onClick={() => navigate('/store')}
-          className="group relative flex flex-col justify-between p-12 border-r border-white/10 hover:bg-[#0047FF] transition-colors duration-300 text-left"
+          className="group relative flex flex-col justify-between p-12 border-r border-white/10 hover:bg-[#EACD51] transition-colors duration-300 text-left"
         >
           <div>
             <div className="w-12 h-12 border border-white/20 group-hover:border-white/0 flex items-center justify-center mb-10 transition-colors">
-              <ShoppingBag size={22} className="text-white/60 group-hover:text-white transition-colors" />
+              <ShoppingBag size={22} className="text-white/60 group-hover:text-[#0D0D0D] transition-colors" />
             </div>
-            <p className="font-mono text-[11px] text-white/30 group-hover:text-white/50 tracking-widest uppercase mb-3 transition-colors">Portal 01</p>
+            <p className="font-mono text-[11px] text-white/30 group-hover:text-[#0D0D0D]/50 tracking-widest uppercase mb-3 transition-colors">Portal 01</p>
             <h2 className="font-display font-bold text-5xl text-white leading-none tracking-tight mb-4">Customer<br />Storefront</h2>
-            <p className="text-white/40 group-hover:text-white/70 text-sm leading-relaxed max-w-xs transition-colors">
+            <p className="text-white/40 group-hover:text-[#0D0D0D]/70 text-sm leading-relaxed max-w-xs transition-colors">
               Browse products, manage your cart, track orders, join the community, and chat with support.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-white/30 group-hover:text-white transition-colors">
+          <div className="flex items-center gap-2 text-white/30 group-hover:text-[#0D0D0D] transition-colors">
             <span className="font-mono text-xs tracking-widest uppercase">Enter Store</span>
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </div>
@@ -58,15 +58,15 @@ export default function RoleSelect() {
         >
           <div>
             <div className="w-12 h-12 border border-white/20 flex items-center justify-center mb-10">
-              <LayoutDashboard size={22} className="text-white/60 group-hover:text-white transition-colors" />
+              <LayoutDashboard size={22} className="text-white/60 group-hover:text-[#0D0D0D] transition-colors" />
             </div>
-            <p className="font-mono text-[11px] text-white/30 group-hover:text-white/50 tracking-widest uppercase mb-3 transition-colors">Portal 02</p>
+            <p className="font-mono text-[11px] text-white/30 group-hover:text-[#0D0D0D]/50 tracking-widest uppercase mb-3 transition-colors">Portal 02</p>
             <h2 className="font-display font-bold text-5xl text-white leading-none tracking-tight mb-4">Admin<br />Portal</h2>
-            <p className="text-white/40 group-hover:text-white/70 text-sm leading-relaxed max-w-xs transition-colors">
+            <p className="text-white/40 group-hover:text-[#0D0D0D]/70 text-sm leading-relaxed max-w-xs transition-colors">
               Manage inventory, process orders, monitor payments, print QR labels, and review analytics.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-white/30 group-hover:text-white transition-colors">
+          <div className="flex items-center gap-2 text-white/30 group-hover:text-[#0D0D0D] transition-colors">
             <span className="font-mono text-xs tracking-widest uppercase">Enter Admin</span>
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </div>

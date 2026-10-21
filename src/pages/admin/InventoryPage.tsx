@@ -77,7 +77,7 @@ export default function InventoryPage() {
         </div>
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 bg-[#0047FF] text-white px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+          className="flex items-center gap-2 bg-[#EACD51] text-[#0D0D0D] px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
         >
           <Plus size={13} /> Add Product
         </button>
@@ -90,7 +90,7 @@ export default function InventoryPage() {
             label: "Total SKUs",
             value: totalSKUs,
             icon: Package,
-            color: "#0047FF",
+            color: "#D4B63A",
           },
           {
             label: "Total Units",
@@ -177,7 +177,7 @@ export default function InventoryPage() {
               className="grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer"
             >
               <div className="col-span-4 flex items-center gap-3">
-                <div className="w-9 h-9 bg-[#F5F5F5] overflow-hidden flex-shrink-0">
+                <div className="w-9 h-9 bg-[#EBF0F0] overflow-hidden flex-shrink-0">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -220,7 +220,7 @@ export default function InventoryPage() {
                     {product.stock}
                   </span>
                 </div>
-                <div className="mt-1 h-1 bg-[#F0F0F0] w-24 ml-auto">
+                <div className="mt-1 h-1 bg-[#E4EBEB] w-24 ml-auto">
                   <div
                     className="h-full transition-all"
                     style={{
@@ -244,7 +244,7 @@ export default function InventoryPage() {
                     e.stopPropagation();
                     openEdit(product);
                   }}
-                  className="text-[#6B6B6B] hover:text-[#0047FF] transition-colors"
+                  className="text-[#6B6B6B] hover:text-[#856A00] transition-colors"
                   aria-label="Edit product"
                 >
                   <Pencil size={13} />

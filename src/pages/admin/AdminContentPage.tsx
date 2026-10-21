@@ -5,7 +5,7 @@ import { blogPosts as initialPosts, BlogPost } from "../../data/mockData";
 const categories = ["New Arrivals", "Style", "Guide", "Review"];
 
 const categoryColors: Record<string, string> = {
-  "New Arrivals": "#0047FF",
+  "New Arrivals": "#D4B63A",
   Style: "#7C3AED",
   Guide: "#00875A",
   Review: "#FF8C00",
@@ -57,7 +57,7 @@ export default function AdminContentPage() {
         </div>
         <button
           onClick={() => setComposing(!composing)}
-          className="flex items-center gap-2 bg-[#0047FF] text-white px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+          className="flex items-center gap-2 bg-[#EACD51] text-[#0D0D0D] px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
         >
           {composing ? <X size={13} /> : <Plus size={13} />}
           {composing ? "Cancel" : "New Post"}
@@ -67,10 +67,10 @@ export default function AdminContentPage() {
       {composing && (
         <form
           onSubmit={publish}
-          className="bg-white border border-[#0047FF] p-5 mb-6"
+          className="bg-white border border-[#D4B63A] p-5 mb-6"
         >
           <div className="flex items-center justify-between mb-3">
-            <p className="font-mono text-[11px] text-[#0047FF] tracking-widest uppercase">
+            <p className="font-mono text-[11px] text-[#856A00] tracking-widest uppercase">
               New Post
             </p>
             <div className="flex gap-1">
@@ -119,7 +119,7 @@ export default function AdminContentPage() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-[#0047FF] text-white font-mono text-xs tracking-widest uppercase hover:bg-[#0035CC] transition-colors"
+              className="px-4 py-2 bg-[#EACD51] text-[#0D0D0D] font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
             >
               Publish
             </button>
@@ -141,7 +141,7 @@ export default function AdminContentPage() {
             className="grid grid-cols-12 gap-4 px-5 py-3.5 items-center hover:bg-[#F8F8F8] transition-colors"
           >
             <div className="col-span-5 flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 bg-[#F0F0F0] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
+              <div className="w-9 h-9 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">
                 {post.avatar}
               </div>
               <div className="min-w-0">

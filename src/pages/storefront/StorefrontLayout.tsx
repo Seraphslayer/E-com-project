@@ -1,28 +1,38 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
   ShoppingBag,
-  Package,
-  Users,
+  X,
+  ArrowRight,
   ArrowLeft,
   ShoppingCart,
   Search,
-  Cpu,
+  Camera,
+  Radio,
+  Fingerprint,
+  Speaker,
+  Laptop,
   User,
   LogOut,
+  FileText,
 } from "lucide-react";
 import { useCart } from "../../store/cartStore";
 import ChatWidget from "../../components/ChatWidget";
 import PromoBar from "../../components/PromoBar";
 import Footer from "../../components/Footer";
 import { AllProductsMenu, CategoryMenu } from "../../components/MegaMenu";
+import { categories, company } from "../../data/companyInfo";
 
-const navItems = [
-  { to: "/store/orders", label: "Orders", icon: Package },
-  { to: "/store/community", label: "Community", icon: Users },
+const navCategories = [
+  { name: "Land Mobile Communication", label: "Land Mobile", icon: Radio },
+  { name: "CCTV Surveillance", label: "CCTV", icon: Camera },
+  { name: "Access Control", label: "Access Control", icon: Fingerprint },
+  { name: "Audio & Visual", label: "Audio & Visual", icon: Speaker },
+  { name: "IT Equipment", label: "IT Equipment", icon: Laptop },
 ];
 
-type ActiveMenu = "all" | "electronics" | null;
+// "all" opens the Shop mega menu; any other string is a category name.
+type ActiveMenu = string | null;
 
 export default function StorefrontLayout() {
   const navigate = useNavigate();
@@ -30,6 +40,12 @@ export default function StorefrontLayout() {
   const [activeMenu, setActiveMenu] = useState<ActiveMenu>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
 
   const handleMenuNavigate = (path: string) => {
     navigate(path);
@@ -42,10 +58,11 @@ export default function StorefrontLayout() {
     navigate(
       q ? `/store/products?search=${encodeURIComponent(q)}` : "/store/products",
     );
+    setSearchOpen(false);
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col">
+    <div className="min-h-screen bg-[#F0F1F1] flex flex-col">
       <PromoBar />
 
       {/* Top nav */}
@@ -66,13 +83,16 @@ export default function StorefrontLayout() {
             </button>
             <div className="hidden lg:block w-px h-4 bg-[#E2E2E2]" />
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 bg-[#0047FF] flex items-center justify-center">
-                <span className="font-display font-bold text-white text-sm">
-                  M
+              <div className="w-7 h-7 bg-[#EACD51] flex items-center justify-center">
+                <span className="font-display font-bold text-[#0D0D0D] text-sm">
+                  F
                 </span>
               </div>
-              <span className="font-display font-semibold text-lg text-[#0D0D0D] tracking-tight">
-                MERX
+              <span className="font-display font-semibold text-lg text-[#0D0D0D] tracking-tight leading-none">
+                {company.shortName}
+                <span className="block font-mono text-[8px] text-[#6B6B6B] tracking-widest uppercase font-normal">
+                  Trading OPC
+                </span>
               </span>
             </div>
           </div>
@@ -85,7 +105,7 @@ export default function StorefrontLayout() {
               className={({ isActive }) =>
                 `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
                   isActive || activeMenu === "all"
-                    ? "text-[#0047FF] font-medium"
+                    ? "text-[#856A00] font-medium"
                     : "text-[#6B6B6B] hover:text-[#0D0D0D]"
                 }`
               }
@@ -95,87 +115,77 @@ export default function StorefrontLayout() {
                   <ShoppingBag size={14} />
                   <span className="font-sans">Shop</span>
                   {(isActive || activeMenu === "all") && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#EACD51]" />
                   )}
                 </>
               )}
             </NavLink>
 
-            <button
-              onMouseEnter={() => setActiveMenu("electronics")}
-              onClick={() =>
-                handleMenuNavigate("/store/products?category=Electronics")
-              }
-              className={`relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                activeMenu === "electronics"
-                  ? "text-[#0047FF] font-medium"
-                  : "text-[#6B6B6B] hover:text-[#0D0D0D]"
-              }`}
-            >
-              <Cpu size={14} />
-              <span className="font-sans">Electronics</span>
-              {activeMenu === "electronics" && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
-              )}
-            </button>
-
-            {navItems.map(({ to, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                onMouseEnter={() => setActiveMenu(null)}
-                className={({ isActive }) =>
-                  `relative flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                    isActive
-                      ? "text-[#0047FF] font-medium"
-                      : "text-[#6B6B6B] hover:text-[#0D0D0D]"
-                  }`
+            {navCategories.map(({ name, label, icon: Icon }) => (
+              <button
+                key={name}
+                onMouseEnter={() => setActiveMenu(name)}
+                onClick={() =>
+                  handleMenuNavigate(
+                    `/store/products?category=${encodeURIComponent(name)}`,
+                  )
                 }
+                className={`relative hidden lg:flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap transition-colors ${
+                  activeMenu === name
+                    ? "text-[#856A00] font-medium"
+                    : "text-[#6B6B6B] hover:text-[#0D0D0D]"
+                }`}
               >
-                {({ isActive }) => (
-                  <>
-                    <Icon size={14} />
-                    <span className="font-sans">{label}</span>
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0047FF]" />
-                    )}
-                  </>
+                <Icon size={14} />
+                <span className="font-sans">{label}</span>
+                {activeMenu === name && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#EACD51]" />
                 )}
-              </NavLink>
+              </button>
             ))}
           </nav>
 
-          <div className="flex-1 max-w-md ml-auto">
-            <form
-              onSubmit={handleSearchSubmit}
-              className="flex items-center gap-2 border border-[#E2E2E2] bg-[#F5F5F5] px-3 h-9 focus-within:border-[#0047FF] transition-colors"
+          <div className="flex-1" />
+
+          <div className="flex items-center justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveMenu(null);
+                setSearchOpen((o) => !o);
+              }}
+              aria-label={searchOpen ? "Close search" : "Open search"}
+              className={`w-9 h-9 flex items-center justify-center transition-colors ${
+                searchOpen ? "text-[#856A00]" : "text-[#6B6B6B] hover:text-[#0D0D0D]"
+              }`}
             >
-              <Search size={14} className="text-[#6B6B6B] shrink-0" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products…"
-                className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#9B9B9B] min-w-0"
-              />
-            </form>
+              {searchOpen ? <X size={17} /> : <Search size={17} />}
+            </button>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
+            <NavLink
+              to="/store/quote"
+              onMouseEnter={() => setActiveMenu(null)}
+              className="hidden sm:flex items-center gap-1.5 border border-[#D4B63A] text-[#856A00] px-3 py-1.5 font-mono text-[11px] tracking-wide uppercase hover:bg-[#EACD51] hover:text-[#0D0D0D] transition-colors"
+            >
+              <FileText size={12} />
+              Request a Quote
+            </NavLink>
             <NavLink
               to="/store/cart"
               onMouseEnter={() => setActiveMenu(null)}
               className={({ isActive }) =>
                 `relative w-9 h-9 flex items-center justify-center transition-colors ${
                   isActive
-                    ? "text-[#0047FF]"
+                    ? "text-[#856A00]"
                     : "text-[#6B6B6B] hover:text-[#0D0D0D]"
                 }`
               }
             >
               <ShoppingCart size={17} />
               {count > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 bg-[#0047FF] text-white font-mono text-[10px] flex items-center justify-center">
+                <span className="absolute top-0 right-0 w-4 h-4 bg-[#EACD51] text-[#0D0D0D] font-mono text-[10px] flex items-center justify-center">
                   {count > 9 ? "9+" : count}
                 </span>
               )}
@@ -185,7 +195,7 @@ export default function StorefrontLayout() {
               <button
                 onClick={() => setAccountOpen((o) => !o)}
                 onBlur={() => setTimeout(() => setAccountOpen(false), 150)}
-                className="w-7 h-7 bg-[#F0F0F0] flex items-center justify-center text-xs font-mono text-[#0D0D0D] shrink-0 hover:bg-[#E2E2E2] transition-colors"
+                className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center text-xs font-mono text-[#0D0D0D] shrink-0 hover:bg-[#E2E2E2] transition-colors"
               >
                 EV
               </button>
@@ -204,7 +214,7 @@ export default function StorefrontLayout() {
                       navigate("/store/orders");
                       setAccountOpen(false);
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#F5F5F5] transition-colors"
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#EBF0F0] transition-colors"
                   >
                     <User size={14} className="text-[#6B6B6B]" /> My Orders
                   </button>
@@ -213,7 +223,7 @@ export default function StorefrontLayout() {
                       navigate("/");
                       setAccountOpen(false);
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#F5F5F5] transition-colors border-t border-[#E2E2E2]"
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#EBF0F0] transition-colors border-t border-[#E2E2E2]"
                   >
                     <LogOut size={14} className="text-[#6B6B6B]" /> Sign Out
                   </button>
@@ -223,14 +233,73 @@ export default function StorefrontLayout() {
           </div>
         </div>
 
-        {activeMenu === "all" && (
+        {!searchOpen && activeMenu === "all" && (
           <AllProductsMenu onNavigate={handleMenuNavigate} />
         )}
-        {activeMenu === "electronics" && (
+        {!searchOpen && activeMenu && activeMenu !== "all" && (
           <CategoryMenu
-            category="Electronics"
+            category={activeMenu}
             onNavigate={handleMenuNavigate}
           />
+        )}
+        {searchOpen && (
+          <>
+            <div
+              className="absolute top-full left-0 right-0 h-screen bg-black/30"
+              onClick={() => setSearchOpen(false)}
+            />
+            <div className="absolute top-full left-0 right-0 bg-white border-b border-[#E2E2E2] shadow-sm">
+              <div className="max-w-7xl mx-auto px-6 py-8">
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="flex items-center gap-3 border-b border-[#E2E2E2] focus-within:border-[#D4B63A] pb-3 transition-colors"
+                >
+                  <Search size={20} className="text-[#6B6B6B] shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") setSearchOpen(false);
+                    }}
+                    placeholder="Search FGT products"
+                    className="flex-1 bg-transparent outline-none font-display text-2xl sm:text-3xl text-[#0D0D0D] placeholder:text-[#B0B0B0] min-w-0"
+                  />
+                </form>
+
+                <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mt-8 mb-3">
+                  Quick Links
+                </p>
+                <ul className="space-y-2.5">
+                  {[
+                    { label: "Shop All Products", to: "/store/products" },
+                    ...categories.map((c) => ({
+                      label: c.name,
+                      to: `/store/products?category=${encodeURIComponent(c.name)}`,
+                    })),
+                    { label: "Request a Quote", to: "/store/quote" },
+                  ].map(({ label, to }) => (
+                    <li key={label}>
+                      <button
+                        onClick={() => {
+                          navigate(to);
+                          setSearchOpen(false);
+                        }}
+                        className="group flex items-center gap-3 font-display font-semibold text-[#0D0D0D] hover:text-[#856A00] transition-colors"
+                      >
+                        <ArrowRight
+                          size={13}
+                          className="text-[#B0B0B0] group-hover:text-[#856A00] transition-colors"
+                        />
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </>
         )}
       </header>
 

@@ -8,6 +8,7 @@ import CartPage from "./pages/storefront/CartPage";
 import CheckoutPage from "./pages/storefront/CheckoutPage";
 import OrdersPage from "./pages/storefront/OrdersPage";
 import MicroblogPage from "./pages/storefront/MicroblogPage";
+import QuoteRequestPage from "./pages/storefront/QuoteRequestPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import InventoryPage from "./pages/admin/InventoryPage";
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="community" element={<MicroblogPage />} />
+          <Route path="quote" element={<QuoteRequestPage />} />
         </Route>
 
         <Route path="/admin" element={<AdminLayout />}>
