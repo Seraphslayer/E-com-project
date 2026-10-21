@@ -289,6 +289,7 @@ export default function AllProductsPage() {
       : [],
   );
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [showAllBrands, setShowAllBrands] = useState(false);
 
   // Brands shown follow the selected categories (per the company profile);
   // with no category selected, every carried brand is listed.
@@ -352,6 +353,22 @@ export default function AllProductsPage() {
       ),
     [allBrands, selectedCategories],
   );
+  // Keep the brand list compact: brands with products first, selected brands always visible.
+  const BRAND_PREVIEW = 7;
+  const sortedBrands = useMemo(
+    () =>
+      [...allBrands].sort(
+        (a, b) => (brandCounts[b] ?? 0) - (brandCounts[a] ?? 0) || a.localeCompare(b),
+      ),
+    [allBrands, brandCounts],
+  );
+  const visibleBrands = showAllBrands
+    ? sortedBrands
+    : sortedBrands.filter(
+        (b, i) => i < BRAND_PREVIEW || selectedBrands.includes(b),
+      );
+  const hiddenBrandCount = sortedBrands.length - visibleBrands.length;
+
   const priceCounts = useMemo(
     () =>
       priceBuckets.map((b) => ({
@@ -455,7 +472,7 @@ export default function AllProductsPage() {
       </FilterSection>
 
       <FilterSection title="Brand">
-        {allBrands.map((b) => (
+        {visibleBrands.map((b) => (
           <CheckboxRow
             key={b}
             label={b}
@@ -464,6 +481,15 @@ export default function AllProductsPage() {
             onChange={() => toggle(selectedBrands, b, setSelectedBrands)}
           />
         ))}
+        {(hiddenBrandCount > 0 || showAllBrands) &&
+          sortedBrands.length > BRAND_PREVIEW && (
+            <button
+              onClick={() => setShowAllBrands((v) => !v)}
+              className="font-mono text-[11px] tracking-wide text-[#856A00] hover:text-[#0D0D0D] transition-colors pt-1"
+            >
+              {showAllBrands ? "Show less" : `+${hiddenBrandCount} more`}
+            </button>
+          )}
       </FilterSection>
 
       <FilterSection title="Price">
