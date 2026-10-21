@@ -28,7 +28,7 @@ const navCategories = [
   { name: "CCTV Surveillance", label: "CCTV", icon: Camera },
   { name: "Access Control", label: "Access Control", icon: Fingerprint },
   { name: "Audio & Visual", label: "Audio & Visual", icon: Speaker },
-  { name: "IT Equipment & Peripherals", label: "IT Equipment", icon: Laptop },
+  { name: "IT Equipment", label: "IT Equipment", icon: Laptop },
 ];
 
 // "all" opens the Shop mega menu; any other string is a category name.

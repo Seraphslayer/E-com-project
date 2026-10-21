@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import {
   Star,
@@ -16,7 +16,7 @@ import { products, Product } from "../../data/mockData";
 import { useCart } from "../../store/cartStore";
 import { megaCategoryTiles } from "../../components/MegaMenu";
 import FeatureTag from "../../components/FeatureTag";
-import { formatPHP } from "../../data/companyInfo";
+import { formatPHP, categories, categoryBrands } from "../../data/companyInfo";
 
 const sortOptions = [
   "Featured",
@@ -281,14 +281,7 @@ export default function AllProductsPage() {
   const [searchParams] = useSearchParams();
   const paramCategory = searchParams.get("category");
 
-  const allCategories = useMemo(
-    () => Array.from(new Set(products.map((p) => p.category))).sort(),
-    [],
-  );
-  const allBrands = useMemo(
-    () => Array.from(new Set(products.map((p) => p.brand))).sort(),
-    [],
-  );
+  const allCategories = useMemo(() => categories.map((c) => c.name), []);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     paramCategory && allCategories.includes(paramCategory)
@@ -296,6 +289,21 @@ export default function AllProductsPage() {
       : [],
   );
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+
+  // Brands shown follow the selected categories (per the company profile);
+  // with no category selected, every carried brand is listed.
+  const allBrands = useMemo(() => {
+    const cats = selectedCategories.length ? selectedCategories : allCategories;
+    return Array.from(new Set(cats.flatMap((c) => categoryBrands[c] ?? []))).sort();
+  }, [selectedCategories, allCategories]);
+
+  // Drop any selected brand that is no longer offered by the chosen categories.
+  useEffect(() => {
+    setSelectedBrands((prev) => {
+      const next = prev.filter((b) => allBrands.includes(b));
+      return next.length === prev.length ? prev : next;
+    });
+  }, [allBrands]);
   const [selectedPriceBuckets, setSelectedPriceBuckets] = useState<string[]>(
     [],
   );
@@ -332,9 +340,17 @@ export default function AllProductsPage() {
   const brandCounts = useMemo(
     () =>
       Object.fromEntries(
-        allBrands.map((b) => [b, products.filter((p) => p.brand === b).length]),
+        allBrands.map((b) => [
+          b,
+          products.filter(
+            (p) =>
+              p.brand === b &&
+              (selectedCategories.length === 0 ||
+                selectedCategories.includes(p.category)),
+          ).length,
+        ]),
       ),
-    [allBrands],
+    [allBrands, selectedCategories],
   );
   const priceCounts = useMemo(
     () =>

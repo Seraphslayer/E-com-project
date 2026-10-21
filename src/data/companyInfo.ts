@@ -86,8 +86,8 @@ export const categories: CatalogCategory[] = [
     ],
   },
   {
-    slug: "it-equipment-peripherals",
-    name: "IT Equipment & Peripherals",
+    slug: "it-equipment",
+    name: "IT Equipment",
     blurb:
       "Computers, networking, printing, and power protection equipment for offices and government facilities.",
     offerings: [
@@ -122,6 +122,21 @@ export const brandsByGroup: { group: string; brands: string[] }[] = [
     brands: ["HP", "MSI", "Lenovo", "Acer", "Dell", "Asus", "Brother", "Canon", "Epson", "Apple", "CyberPower", "APC"],
   },
 ];
+
+// Brands carried per catalog category, taken from the "Brands We Supply" page of the
+// company profile. Networking brands are listed under IT Equipment. The profile has no
+// separate Access Control brand list, so Hikvision and Dahua (their access control
+// lines) are used there — confirm with the client.
+export const categoryBrands: Record<string, string[]> = {
+  "Land Mobile Communication": ["Kenwood", "Baofeng", "Hytera", "Motorola", "Cognus"],
+  "CCTV Surveillance": ["Hikvision", "Dahua"],
+  "Access Control": ["Hikvision", "Dahua"],
+  "Audio & Visual": ["Sony", "DJI", "Insta360", "GoPro", "JBL", "Shure", "QSC", "Kevler"],
+  "IT Equipment": [
+    "Cisco", "TP-Link", "Ubiquiti", "Fortinet",
+    "HP", "MSI", "Lenovo", "Acer", "Dell", "Asus", "Brother", "Canon", "Epson", "Apple", "CyberPower", "APC",
+  ],
+};
 
 export const majorClients: string[] = [
   "Lungsod ng Bacoor",

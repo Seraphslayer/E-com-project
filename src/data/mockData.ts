@@ -108,8 +108,8 @@ export const products: Product[] = [
     tags: ['biometric', 'card access', 'standalone'],
   },
   {
-    id: 'p6', name: 'IC-Card Turnstile Gate', brand: 'Cognus',
-    price: 48500, category: 'Access Control', sku: 'CGN-TS100',
+    id: 'p6', name: 'IC-Card Turnstile Gate', brand: 'Hikvision',
+    price: 48500, category: 'Access Control', sku: 'HIK-TS100',
     stock: 6, rating: 4.5, reviews: 7,
     image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&h=600&fit=crop&auto=format',
     description: 'Tripod turnstile with IC-card and biometric integration, built for lobbies, factories, and secured facility entrances.',
