@@ -11,8 +11,10 @@ import {
   ChevronRight,
   X,
   Search,
+  Play,
 } from "lucide-react";
-import { products, Product } from "../../data/mockData";
+import { Product } from "../../data/mockData";
+import { useProducts } from "../../store/productStore";
 import { useCart } from "../../store/cartStore";
 import { megaCategoryTiles } from "../../components/MegaMenu";
 import FeatureTag from "../../components/FeatureTag";
@@ -124,6 +126,11 @@ function ProductGridCard({
             alt={product.name}
             className="w-full h-full object-cover"
           />
+          {product.video && (
+            <span className="absolute bottom-2 left-2 flex items-center gap-1 bg-[#0D0D0D]/80 text-white font-mono text-[9px] tracking-widest uppercase px-1.5 py-0.5">
+              <Play size={8} fill="white" /> Video
+            </span>
+          )}
           {discount && (
             <div className="absolute top-2 left-2 bg-[#FF3B00] text-white font-mono text-[10px] px-1.5 py-0.5">
               −{discount}%
@@ -192,6 +199,11 @@ function ProductGridCard({
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-400"
         />
+        {product.video && (
+          <span className="absolute bottom-2 left-2 flex items-center gap-1 bg-[#0D0D0D]/80 text-white font-mono text-[9px] tracking-widest uppercase px-1.5 py-0.5">
+            <Play size={8} fill="white" /> Video
+          </span>
+        )}
         {discount && (
           <div className="absolute top-3 left-3 bg-[#FF3B00] text-white font-mono text-[11px] px-2 py-0.5 tracking-wide">
             −{discount}%
@@ -278,6 +290,7 @@ function ProductGridCard({
 const PAGE_SIZE = 8;
 
 export default function AllProductsPage() {
+  const { products } = useProducts();
   const [searchParams] = useSearchParams();
   const paramCategory = searchParams.get("category");
 
@@ -338,7 +351,7 @@ export default function AllProductsPage() {
           products.filter((p) => p.category === c).length,
         ]),
       ),
-    [allCategories],
+    [allCategories, products],
   );
   const brandCounts = useMemo(
     () =>
@@ -353,7 +366,7 @@ export default function AllProductsPage() {
           ).length,
         ]),
       ),
-    [allBrands, selectedCategories],
+    [allBrands, selectedCategories, products],
   );
   // Keep the brand list compact: brands with products first, selected brands always visible.
   const BRAND_PREVIEW = 7;
@@ -378,7 +391,7 @@ export default function AllProductsPage() {
         ...b,
         count: products.filter((p) => b.test(p.price)).length,
       })),
-    [],
+    [products],
   );
   const ratingCounts = useMemo(
     () =>
@@ -386,7 +399,7 @@ export default function AllProductsPage() {
         rating: r,
         count: products.filter((p) => p.rating >= r).length,
       })),
-    [],
+    [products],
   );
 
   const filtered = useMemo(() => {
@@ -424,6 +437,7 @@ export default function AllProductsPage() {
         return 0;
       });
   }, [
+    products,
     selectedCategories,
     selectedBrands,
     selectedPriceBuckets,

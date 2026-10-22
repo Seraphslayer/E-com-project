@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { QrCode, Barcode, Download, Printer, Search, Package } from 'lucide-react'
-import { products } from '../../data/mockData'
+import { useProducts } from '../../store/productStore'
 
 function QRCodeDisplay({ value, size = 100 }: { value: string; size?: number }) {
   // SVG-based QR mock (3x3 finder pattern + data modules)
@@ -60,8 +60,11 @@ function BarcodeDisplay({ value, width = 160, height = 50 }: { value: string; wi
 }
 
 export default function QRPage() {
+  const { products } = useProducts()
   const [tab, setTab] = useState<'generate' | 'scan'>('generate')
-  const [selected, setSelected] = useState(products[0])
+  const [selectedId, setSelectedId] = useState(products[0]?.id)
+  const selected = products.find(p => p.id === selectedId) ?? products[0]
+  const setSelected = (p: typeof products[number]) => setSelectedId(p.id)
   const [search, setSearch] = useState('')
   const [labelType, setLabelType] = useState<'qr' | 'barcode'>('qr')
 

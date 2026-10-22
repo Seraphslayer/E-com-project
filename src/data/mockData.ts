@@ -10,6 +10,10 @@ export interface Product {
   rating: number
   reviews: number
   image: string
+  /** Extra photos shown in the product gallery (the first one is also `image`). */
+  images?: string[]
+  /** Optional product video (uploaded file or link). */
+  video?: string
   description: string
   tags: string[]
   quoteOnly?: boolean
