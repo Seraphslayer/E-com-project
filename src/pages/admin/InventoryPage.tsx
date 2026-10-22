@@ -7,11 +7,13 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import { products as initialProducts, Product } from "../../data/mockData";
+import { Product } from "../../data/mockData";
+import { useProducts } from "../../store/productStore";
+import { formatPHP } from "../../data/companyInfo";
 import ProductFormModal from "../../components/admin/ProductFormModal";
 
 export default function InventoryPage() {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const { products, saveProduct, deleteProduct, resetProducts } = useProducts();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [modalMode, setModalMode] = useState<"add" | "edit" | null>(null);
@@ -48,19 +50,14 @@ export default function InventoryPage() {
   };
 
   const handleSave = (product: Product) => {
-    setProducts((prev) => {
-      const exists = prev.some((p) => p.id === product.id);
-      return exists
-        ? prev.map((p) => (p.id === product.id ? product : p))
-        : [product, ...prev];
-    });
+    saveProduct(product);
     closeModal();
   };
 
   const handleDelete = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (confirm("Remove this product from inventory?")) {
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+      deleteProduct(id);
     }
   };
 
@@ -75,12 +72,22 @@ export default function InventoryPage() {
             Inventory
           </h1>
         </div>
+        <div className="flex items-center gap-4">
+        <button
+          onClick={() => {
+            if (confirm("Reset the catalog to the original demo products? Uploaded photos and edits will be removed.")) resetProducts();
+          }}
+          className="font-mono text-[11px] tracking-wide text-[#6B6B6B] hover:text-[#0D0D0D] underline underline-offset-2 transition-colors"
+        >
+          Reset demo data
+        </button>
         <button
           onClick={openAdd}
           className="flex items-center gap-2 bg-[#EACD51] text-[#0D0D0D] px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
         >
           <Plus size={13} /> Add Product
         </button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -201,11 +208,11 @@ export default function InventoryPage() {
               </span>
               <div className="col-span-1 text-right">
                 <span className="font-display font-semibold text-sm text-[#0D0D0D]">
-                  ${product.price}
+                  {formatPHP(product.price)}
                 </span>
                 {product.originalPrice && (
                   <p className="font-mono text-[10px] text-[#B0B0B0] line-through">
-                    ${product.originalPrice}
+                    {formatPHP(product.originalPrice)}
                   </p>
                 )}
               </div>

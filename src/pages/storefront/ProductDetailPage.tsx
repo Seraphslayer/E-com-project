@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Star,
@@ -13,8 +13,10 @@ import {
   CheckCircle,
   ThumbsUp,
   FileText,
+  Play,
 } from "lucide-react";
-import { products, reviews } from "../../data/mockData";
+import { reviews } from "../../data/mockData";
+import { useProducts } from "../../store/productStore";
 import { useCart } from "../../store/cartStore";
 import FeatureTag from "../../components/FeatureTag";
 import { formatPHP } from "../../data/companyInfo";
@@ -43,9 +45,12 @@ export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart, cart } = useCart();
+  const { products } = useProducts();
 
   const product = products.find((p) => p.id === id);
 
+  const [activeMedia, setActiveMedia] = useState(0);
+  useEffect(() => setActiveMedia(0), [id]);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [tab, setTab] = useState<Tab>("description");
@@ -117,23 +122,70 @@ export default function ProductDetailPage() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-12 mb-16">
-        {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-[#EBF0F0]">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
-          {discount && (
-            <div className="absolute top-4 left-4 bg-[#FF3B00] text-white font-mono text-xs px-2.5 py-1 tracking-wide">
-              −{discount}%
-            </div>
-          )}
-          {product.stock < 30 && (
-            <div className="absolute top-4 right-4 bg-[#0D0D0D] text-white font-mono text-[11px] px-2.5 py-1 tracking-wide">
-              Only {product.stock} left
-            </div>
-          )}
+        {/* Gallery */}
+        <div>
+          {(() => {
+            const photos = product.images?.length ? product.images : [product.image];
+            const items = [
+              ...photos.map((src) => ({ type: "image" as const, src })),
+              ...(product.video ? [{ type: "video" as const, src: product.video }] : []),
+            ];
+            const current = items[Math.min(activeMedia, items.length - 1)];
+            return (
+              <>
+                <div className="relative aspect-square overflow-hidden bg-[#EBF0F0]">
+                  {current.type === "video" ? (
+                    <video
+                      key={current.src}
+                      src={current.src}
+                      controls
+                      className="w-full h-full object-contain bg-[#0D0D0D]"
+                    />
+                  ) : (
+                    <img
+                      src={current.src}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  {discount && (
+                    <div className="absolute top-4 left-4 bg-[#FF3B00] text-white font-mono text-xs px-2.5 py-1 tracking-wide">
+                      −{discount}%
+                    </div>
+                  )}
+                  {product.stock < 30 && (
+                    <div className="absolute top-4 right-4 bg-[#0D0D0D] text-white font-mono text-[11px] px-2.5 py-1 tracking-wide">
+                      Only {product.stock} left
+                    </div>
+                  )}
+                </div>
+                {items.length > 1 && (
+                  <div className="grid grid-cols-5 gap-2 mt-2">
+                    {items.map((item, i) => (
+                      <button
+                        key={item.src + i}
+                        onClick={() => setActiveMedia(i)}
+                        className={`relative aspect-square overflow-hidden bg-[#EBF0F0] border transition-colors ${
+                          i === activeMedia ? "border-[#D4B63A]" : "border-transparent hover:border-[#E2E2E2]"
+                        }`}
+                      >
+                        {item.type === "video" ? (
+                          <>
+                            <video src={item.src} className="w-full h-full object-cover" muted />
+                            <span className="absolute inset-0 flex items-center justify-center bg-black/35">
+                              <Play size={16} className="text-white" fill="white" />
+                            </span>
+                          </>
+                        ) : (
+                          <img src={item.src} alt="" className="w-full h-full object-cover" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
 
         {/* Info */}

@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { Product } from "../../data/mockData";
+import { categories as catalogCategories } from "../../data/companyInfo";
+import MediaUploader from "./MediaUploader";
 
-const categories = [
-  "Electronics",
-  "Accessories",
-  "Apparel",
-  "Kitchen",
-  "Sports",
-];
+const categories = catalogCategories.map((c) => c.name);
 
 interface ProductFormModalProps {
   product?: Product | null;
@@ -30,12 +26,17 @@ export default function ProductFormModal({
     originalPrice: product?.originalPrice?.toString() ?? "",
     sku: product?.sku ?? "",
     stock: product?.stock?.toString() ?? "",
-    image: product?.image ?? "",
+    quoteOnly: product?.quoteOnly ?? false,
     description: product?.description ?? "",
     tags: product?.tags?.join(", ") ?? "",
   });
 
-  const set = (key: keyof typeof form, value: string) =>
+  const [images, setImages] = useState<string[]>(
+    product?.images?.length ? product.images : product?.image ? [product.image] : [],
+  );
+  const [video, setVideo] = useState(product?.video ?? "");
+
+  const set = (key: Exclude<keyof typeof form, "quoteOnly">, value: string) =>
     setForm((f) => ({ ...f, [key]: value }));
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -54,8 +55,11 @@ export default function ProductFormModal({
       rating: product?.rating ?? 0,
       reviews: product?.reviews ?? 0,
       image:
-        form.image ||
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop&auto=format",
+        images[0] ||
+        "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&h=600&fit=crop&auto=format",
+      images,
+      video: video || undefined,
+      quoteOnly: form.quoteOnly || undefined,
       description: form.description,
       tags: form.tags
         .split(",")
@@ -121,12 +125,12 @@ export default function ProductFormModal({
             </div>
             <div>
               <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
-                Price ($)
+                Price (₱)
               </label>
               <input
                 required
                 type="number"
-                step="0.01"
+                step="1"
                 value={form.price}
                 onChange={(e) => set("price", e.target.value)}
                 className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
@@ -138,7 +142,7 @@ export default function ProductFormModal({
               </label>
               <input
                 type="number"
-                step="0.01"
+                step="1"
                 value={form.originalPrice}
                 onChange={(e) => set("originalPrice", e.target.value)}
                 className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
@@ -168,16 +172,27 @@ export default function ProductFormModal({
               />
             </div>
             <div className="col-span-2">
-              <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
-                Image URL
-              </label>
-              <input
-                value={form.image}
-                onChange={(e) => set("image", e.target.value)}
-                placeholder="https://…"
-                className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] transition-colors"
+              <MediaUploader
+                images={images}
+                video={video}
+                onImagesChange={setImages}
+                onVideoChange={setVideo}
               />
             </div>
+            <label className="col-span-2 flex items-start gap-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={!!form.quoteOnly}
+                onChange={(e) => setForm((f) => ({ ...f, quoteOnly: e.target.checked }))}
+                className="mt-0.5 accent-[#D4B63A]"
+              />
+              <span className="font-sans text-sm text-[#0D0D0D]">
+                Quote only
+                <span className="block font-mono text-[10px] text-[#6B6B6B]">
+                  Shows "Request a Quote" instead of Add to Cart (for bulk or project equipment).
+                </span>
+              </span>
+            </label>
             <div className="col-span-2">
               <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
                 Description

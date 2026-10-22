@@ -11,8 +11,10 @@ import {
   FileText,
   Plus,
   Minus,
+  Play,
 } from "lucide-react";
-import { products, blogPosts, Product } from "../../data/mockData";
+import { blogPosts, Product } from "../../data/mockData";
+import { useProducts } from "../../store/productStore";
 import { useCart } from "../../store/cartStore";
 import ReviewsPanel from "../../components/ReviewsPanel";
 import { megaCategoryTiles } from "../../components/MegaMenu";
@@ -87,6 +89,11 @@ function ProductCard({ product }: { product: Product }) {
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-400"
         />
+        {product.video && (
+          <span className="absolute bottom-3 left-3 flex items-center gap-1 bg-[#0D0D0D]/80 text-white font-mono text-[9px] tracking-widest uppercase px-1.5 py-0.5">
+            <Play size={8} fill="white" /> Video
+          </span>
+        )}
         {discount && (
           <div className="absolute top-3 left-3 bg-[#FF3B00] text-white font-mono text-[11px] px-2 py-0.5 tracking-wide">
             −{discount}%
@@ -159,6 +166,7 @@ function ExpandableCapability({ title, body, defaultOpen = false }: { title: str
 }
 
 export default function Shop() {
+  const { products } = useProducts();
   const [searchParams] = useSearchParams();
   const paramCategory = searchParams.get("category");
   const [category, setCategory] = useState(
