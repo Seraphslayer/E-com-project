@@ -34,6 +34,11 @@ export default defineConfig(({ mode }) => {
       port: parseInt(process.env.PORT || '8443'),
       strictPort: true,
       watch: { ignored: ['**/.figma/**'] },
+      // Forward API and uploaded-file requests to the backend (server/) during development.
+      proxy: {
+        '/api': process.env.API_URL || 'http://localhost:4000',
+        '/uploads': process.env.API_URL || 'http://localhost:4000',
+      },
     },
     preview: {
       host: '0.0.0.0',
