@@ -11,3 +11,9 @@ logs/
 *.log
 .claude-replay.*
 .tmp-*
+
+# backend
+!.env.example
+server/dist/
+server/uploads/
+server/node_modules/

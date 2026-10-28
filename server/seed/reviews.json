@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "r1",
+    "author": "Engr. R. Santos",
+    "rating": 5,
+    "title": "Reliable radios for our dispatch team",
+    "body": "FGT supplied and configured our NX-5700 units for the municipal dispatch center. Coverage has been solid even in low-signal barangays, and the IP67 rating has held up through the rainy season.",
+    "verified": true,
+    "productId": "p1",
+    "productName": "NX-5700 VHF/UHF Portable Radio",
+    "helpful": 18,
+    "status": "published"
+  },
+  {
+    "_id": "r2",
+    "author": "Maricel Dizon",
+    "rating": 5,
+    "title": "Clean installation, responsive support",
+    "body": "The CCTV turret cameras were installed across our road monitoring points with minimal downtime. Night footage is noticeably sharper than our previous system.",
+    "verified": true,
+    "productId": "p3",
+    "productName": "DS-2CD2387 4K Turret Network Camera",
+    "helpful": 14,
+    "status": "published"
+  },
+  {
+    "_id": "r3",
+    "author": "Engr. J. Villanueva",
+    "rating": 4,
+    "title": "Good access control for our facility",
+    "body": "Biometric + card access controllers work well for our factory entry points. Setup took a bit longer than expected but FGT's technicians saw it through.",
+    "verified": true,
+    "productId": "p5",
+    "productName": "AC-200 Biometric Access Controller",
+    "helpful": 9,
+    "status": "published"
+  },
+  {
+    "_id": "r4",
+    "author": "Clark Freeport Facilities",
+    "rating": 5,
+    "title": "Solid PA system for our events",
+    "body": "The QSC speakers handled our outdoor event without a hitch — clear coverage across the grounds. FGT recommended the right pairing for our venue size.",
+    "verified": true,
+    "productId": "p7",
+    "productName": "QSC K10.2 Powered PA Speaker",
+    "helpful": 11,
+    "status": "published"
+  }
+]
