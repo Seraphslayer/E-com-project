@@ -278,5 +278,407 @@
     "images": [
       "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&h=600&fit=crop&auto=format"
     ]
+  },
+  {
+    "_id": "p14",
+    "name": "UV-5R Dual-Band Handheld Radio",
+    "brand": "Baofeng",
+    "price": 1850,
+    "category": "Land Mobile Communication",
+    "sku": "BAO-UV5R",
+    "stock": 120,
+    "rating": 4.4,
+    "reviews": 63,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Compact VHF/UHF dual-band handheld with dual display and FM radio. A budget-friendly option for security teams, events, and barangay patrols.",
+    "tags": [
+      "handheld",
+      "VHF/UHF",
+      "dual-band"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p15",
+    "name": "R7 Digital Portable Radio",
+    "brand": "Motorola",
+    "price": 26500,
+    "category": "Land Mobile Communication",
+    "sku": "MOT-R7",
+    "stock": 15,
+    "rating": 4.8,
+    "reviews": 9,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Full-keypad digital portable radio with Bluetooth and Wi-Fi, designed for demanding public-safety and enterprise fleets.",
+    "tags": [
+      "digital",
+      "DMR",
+      "Bluetooth"
+    ],
+    "quoteOnly": true,
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p16",
+    "name": "Catalyst C1200-8FP-2G Switch",
+    "brand": "Cisco",
+    "price": 34900,
+    "category": "IT Equipment",
+    "sku": "CSC-C1200-8FP",
+    "stock": 22,
+    "rating": 4.7,
+    "reviews": 12,
+    "image": "https://media.ldlc.com/r705/ld/products/00/06/11/92/LD0006119287.jpg",
+    "description": "8-port Gigabit PoE+ managed switch with 2 SFP uplinks, ideal for small branch offices and CCTV or access-point deployments.",
+    "tags": [
+      "switch",
+      "PoE+",
+      "managed"
+    ],
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/06/11/92/LD0006119287.jpg"
+    ]
+  },
+  {
+    "_id": "p17",
+    "name": "Omada EAP670 Wi-Fi 6 Access Point",
+    "brand": "TP-Link",
+    "price": 11900,
+    "category": "IT Equipment",
+    "sku": "TPL-EAP670",
+    "stock": 35,
+    "rating": 4.7,
+    "reviews": 21,
+    "image": "https://media.ldlc.com/r705/ld/products/00/06/18/62/LD0006186202.jpg",
+    "description": "AX5400 dual-band ceiling-mount access point with 2.5 GbE PoE port, MU-MIMO, and centralized Omada SDN management.",
+    "tags": [
+      "Wi-Fi 6",
+      "AX5400",
+      "PoE",
+      "Omada"
+    ],
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/06/18/62/LD0006186202.jpg"
+    ]
+  },
+  {
+    "_id": "p18",
+    "name": "UniFi U6 Pro Access Point",
+    "brand": "Ubiquiti",
+    "price": 8900,
+    "category": "IT Equipment",
+    "sku": "UBQ-U6PRO",
+    "stock": 28,
+    "rating": 4.7,
+    "reviews": 17,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Wi-Fi 6 ceiling access point with 4x4 5 GHz streams and PoE, managed through the UniFi Network application.",
+    "tags": [
+      "Wi-Fi 6",
+      "PoE",
+      "UniFi"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p19",
+    "name": "FortiGate 60F Next-Generation Firewall",
+    "brand": "Fortinet",
+    "price": 58000,
+    "category": "IT Equipment",
+    "sku": "FTN-FG60F",
+    "stock": 8,
+    "rating": 4.8,
+    "reviews": 6,
+    "image": "https://media.ldlc.com/r705/ld/products/00/05/77/85/LD0005778526_1.jpg",
+    "description": "Compact next-generation firewall with 10 Gigabit ports, SD-WAN, and VPN for branch and municipal office security. Licensing quoted separately.",
+    "tags": [
+      "firewall",
+      "SD-WAN",
+      "VPN"
+    ],
+    "quoteOnly": true,
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/05/77/85/LD0005778526_1.jpg"
+    ]
+  },
+  {
+    "_id": "p20",
+    "name": "Alpha ZV-E10 II Mirrorless Camera",
+    "brand": "Sony",
+    "price": 64000,
+    "category": "Audio & Visual",
+    "sku": "SNY-ZVE10M2",
+    "stock": 10,
+    "rating": 4.8,
+    "reviews": 14,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "APS-C mirrorless camera with 4K video, flip-out screen, and strong autofocus for content creation and event coverage.",
+    "tags": [
+      "mirrorless",
+      "4K",
+      "vlogging"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p21",
+    "name": "Mini 4 Pro Drone",
+    "brand": "DJI",
+    "price": 52000,
+    "category": "Audio & Visual",
+    "sku": "DJI-MINI4PRO",
+    "stock": 12,
+    "rating": 4.9,
+    "reviews": 26,
+    "image": "https://www-cdn.djiits.com/cms/uploads/892e39b4b76dc5a83b267ed12ce69b97@374*374.png",
+    "description": "Sub-250 g camera drone with 4K/60 HDR video, omnidirectional obstacle sensing, and long flight time for site surveys and aerial coverage.",
+    "tags": [
+      "drone",
+      "4K",
+      "survey"
+    ],
+    "images": [
+      "https://www-cdn.djiits.com/cms/uploads/892e39b4b76dc5a83b267ed12ce69b97@374*374.png"
+    ]
+  },
+  {
+    "_id": "p22",
+    "name": "X4 360° Action Camera",
+    "brand": "Insta360",
+    "price": 24500,
+    "category": "Audio & Visual",
+    "sku": "INS-X4",
+    "stock": 20,
+    "rating": 4.7,
+    "reviews": 18,
+    "image": "https://res.insta360.com/static/090a8e529ad559cd3e6fccb0b83e52e3/X4.jpg",
+    "description": "8K 360° camera with 135-minute battery life and 10 m waterproofing. Great for virtual tours and event documentation.",
+    "tags": [
+      "360",
+      "8K",
+      "waterproof"
+    ],
+    "images": [
+      "https://res.insta360.com/static/090a8e529ad559cd3e6fccb0b83e52e3/X4.jpg"
+    ]
+  },
+  {
+    "_id": "p23",
+    "name": "HERO13 Black Action Camera",
+    "brand": "GoPro",
+    "price": 23500,
+    "category": "Audio & Visual",
+    "sku": "GPR-HERO13",
+    "stock": 25,
+    "rating": 4.7,
+    "reviews": 22,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Rugged waterproof action camera with 5.3K video and swappable lens mounts for field documentation and training footage.",
+    "tags": [
+      "action camera",
+      "5.3K",
+      "waterproof"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p24",
+    "name": "PartyBox Portable Party Speaker",
+    "brand": "JBL",
+    "price": 19500,
+    "category": "Audio & Visual",
+    "sku": "JBL-PARTYBOX",
+    "stock": 18,
+    "rating": 4.6,
+    "reviews": 29,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "High-output portable Bluetooth party speaker with light show, for events, programs, and small venues.",
+    "tags": [
+      "speaker",
+      "Bluetooth",
+      "portable"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p25",
+    "name": "Veriton Business Desktop",
+    "brand": "Acer",
+    "price": 32000,
+    "category": "IT Equipment",
+    "sku": "ACR-VERITON",
+    "stock": 30,
+    "rating": 4.5,
+    "reviews": 11,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Compact business desktop for government and office workstations, configurable to your processor and memory requirements.",
+    "tags": [
+      "desktop",
+      "business",
+      "office"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p26",
+    "name": "Modern 15 Business Laptop",
+    "brand": "MSI",
+    "price": 42000,
+    "category": "IT Equipment",
+    "sku": "MSI-MODERN15",
+    "stock": 16,
+    "rating": 4.6,
+    "reviews": 13,
+    "image": "https://media.ldlc.com/r705/ld/products/00/05/55/03/LD0005550379_2_0005550937_0005654796.jpg",
+    "description": "Slim 15.6 in Full HD IPS laptop with NVMe SSD, backlit keyboard, and USB-C, built for office and fieldwork.",
+    "tags": [
+      "laptop",
+      "15.6 inch",
+      "SSD"
+    ],
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/05/55/03/LD0005550379_2_0005550937_0005654796.jpg"
+    ]
+  },
+  {
+    "_id": "p27",
+    "name": "ExpertBook B1 Business Laptop",
+    "brand": "Asus",
+    "price": 54000,
+    "category": "IT Equipment",
+    "sku": "ASU-EXPERTB1",
+    "stock": 14,
+    "rating": 4.6,
+    "reviews": 10,
+    "image": "https://media.ldlc.com/r705/ld/products/00/06/08/32/LD0006083258_0006083919.jpg",
+    "description": "15.6 in Full HD business laptop with Intel Core i7, 16 GB RAM, 512 GB SSD, fingerprint reader, and TPM 2.0.",
+    "tags": [
+      "laptop",
+      "Core i7",
+      "TPM 2.0"
+    ],
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/06/08/32/LD0006083258_0006083919.jpg"
+    ]
+  },
+  {
+    "_id": "p28",
+    "name": "HL-L2350DW Monochrome Laser Printer",
+    "brand": "Brother",
+    "price": 8900,
+    "category": "IT Equipment",
+    "sku": "BRO-HLL2350DW",
+    "stock": 40,
+    "rating": 4.6,
+    "reviews": 34,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Compact wireless monochrome laser printer with automatic duplex printing, suited to office document volumes.",
+    "tags": [
+      "laser printer",
+      "duplex",
+      "Wi-Fi"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p29",
+    "name": "PIXMA G3430 Ink Tank Printer",
+    "brand": "Canon",
+    "price": 9800,
+    "category": "IT Equipment",
+    "sku": "CAN-G3430",
+    "stock": 33,
+    "rating": 4.5,
+    "reviews": 19,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Refillable ink tank all-in-one (print, scan, copy) with Wi-Fi and very low cost per page.",
+    "tags": [
+      "ink tank",
+      "all-in-one",
+      "Wi-Fi"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
+  },
+  {
+    "_id": "p30",
+    "name": "EcoTank ET-2860 All-in-One Printer",
+    "brand": "Epson",
+    "price": 11500,
+    "category": "IT Equipment",
+    "sku": "EPS-ET2860",
+    "stock": 38,
+    "rating": 4.7,
+    "reviews": 24,
+    "image": "https://media.ldlc.com/r705/ld/products/00/06/09/93/LD0006099328.jpg",
+    "description": "3-in-1 Wi-Fi ink tank printer, 33 ppm black / 15 ppm color, with up to 4,500 black pages per refill set.",
+    "tags": [
+      "ink tank",
+      "3-in-1",
+      "Wi-Fi"
+    ],
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/06/09/93/LD0006099328.jpg"
+    ]
+  },
+  {
+    "_id": "p31",
+    "name": "MacBook Air 13 in (M3)",
+    "brand": "Apple",
+    "price": 72000,
+    "category": "IT Equipment",
+    "sku": "APL-MBA13M3",
+    "stock": 9,
+    "rating": 4.9,
+    "reviews": 15,
+    "image": "https://media.ldlc.com/r705/ld/products/00/06/11/44/LD0006114472.jpg",
+    "description": "Apple M3 chip, 8 GB memory, 256 GB SSD, 13 in Liquid Retina display, and up to 18 hours of battery life.",
+    "tags": [
+      "laptop",
+      "M3",
+      "macOS"
+    ],
+    "images": [
+      "https://media.ldlc.com/r705/ld/products/00/06/11/44/LD0006114472.jpg"
+    ]
+  },
+  {
+    "_id": "p32",
+    "name": "Intelligent LCD 1500VA UPS",
+    "brand": "CyberPower",
+    "price": 8200,
+    "category": "IT Equipment",
+    "sku": "CPW-1500LCD",
+    "stock": 44,
+    "rating": 4.6,
+    "reviews": 20,
+    "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "description": "Line-interactive 1500VA UPS with LCD status panel and AVR, protecting workstations, NVRs, and network gear.",
+    "tags": [
+      "UPS",
+      "1500VA",
+      "AVR"
+    ],
+    "images": [
+      "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'600'%20height%3D'600'%3E%3Crect%20width%3D'600'%20height%3D'600'%20fill%3D'%23EBF0F0'%2F%3E%3Ctext%20x%3D'300'%20y%3D'310'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%236B6B6B'%20text-anchor%3D'middle'%3EPHOTO%20COMING%20SOON%3C%2Ftext%3E%3C%2Fsvg%3E"
+    ]
   }
 ]
