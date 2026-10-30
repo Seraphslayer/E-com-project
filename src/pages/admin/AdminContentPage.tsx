@@ -45,7 +45,7 @@ export default function AdminContentPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">
@@ -127,8 +127,8 @@ export default function AdminContentPage() {
         </form>
       )}
 
-      <div className="bg-white border border-[#E2E2E2] divide-y divide-[#E2E2E2]">
-        <div className="grid grid-cols-12 gap-4 px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase">
+      <div className="bg-white border border-[#E2E2E2] divide-y divide-[#E2E2E2] overflow-x-auto">
+        <div className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase">
           <span className="col-span-5">Post</span>
           <span className="col-span-2">Category</span>
           <span className="col-span-2">Date</span>
@@ -138,7 +138,7 @@ export default function AdminContentPage() {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="grid grid-cols-12 gap-4 px-5 py-3.5 items-center hover:bg-[#F8F8F8] transition-colors"
+            className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-3.5 items-center hover:bg-[#F8F8F8] transition-colors"
           >
             <div className="col-span-5 flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">

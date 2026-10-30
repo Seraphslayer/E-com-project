@@ -75,7 +75,7 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">
@@ -131,7 +131,7 @@ export default function AdminSettingsPage() {
         </SettingsCard>
 
         <SettingsCard icon={Truck} title="Shipping">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
                 Free Shipping Threshold ($)

@@ -220,8 +220,8 @@ export default function Shop() {
           showMiniNav ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 h-12 flex items-center justify-between">
-          <span className="font-mono text-[11px] text-white tracking-widest uppercase">{company.name}</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
+          <span className="font-mono text-[11px] text-white tracking-widest uppercase truncate mr-3">{company.name}</span>
           <div className="hidden md:flex items-center gap-6">
             {[
               { id: "capabilities", label: "Capabilities" },
@@ -255,7 +255,7 @@ export default function Shop() {
           className="absolute inset-0 w-full h-full object-cover opacity-25"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-[#0D0D0D]/20" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center" style={{ minHeight: 480 }}>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center" style={{ minHeight: 480 }}>
           <div className="py-20 max-w-2xl">
             <p className="font-mono text-[11px] text-white/50 tracking-widest uppercase mb-3">
               {company.foundedNote} · Cavite, Philippines
@@ -286,7 +286,7 @@ export default function Shop() {
 
       {/* ---- Stat band (Apple "major upgrade" pattern) ---- */}
       <section className="bg-[#0D0D0D] border-t border-white/10 py-16">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase mb-2">A trusted partner</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight mb-6">
             Built for public safety and<br className="hidden sm:block" /> business infrastructure.
@@ -313,10 +313,10 @@ export default function Shop() {
 
       {/* ---- Capability highlight reel (Apple scroll-reveal pattern) ---- */}
       <section id="capabilities" className="bg-[#0D0D0D] border-t border-white/10 py-16 scroll-mt-16">
-        <div className="max-w-7xl mx-auto px-6 mb-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 flex items-center justify-between">
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-white tracking-tight">What we supply & install</h2>
         </div>
-        <div className="flex gap-5 overflow-x-auto pb-4 px-6 max-w-7xl mx-auto scrollbar-thin">
+        <div className="flex gap-5 overflow-x-auto pb-4 px-4 sm:px-6 max-w-7xl mx-auto scrollbar-thin">
           {categories.map((c) => {
             const tile = megaCategoryTiles.find((t) => t.name === c.name);
             return (
@@ -345,7 +345,7 @@ export default function Shop() {
 
       {/* ---- Capabilities expandable list (Apple "Design" pattern) ---- */}
       <section className="bg-[#0D0D0D] border-t border-white/10 py-16">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-start">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-start">
           <div>
             <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase mb-3">End-to-end service</p>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight leading-tight mb-8">
@@ -367,7 +367,7 @@ export default function Shop() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* ---- Category grid ---- */}
         <section id="categories" className="py-14 scroll-mt-20">
           <h2 className="font-display font-bold text-2xl text-[#0D0D0D] tracking-tight mb-6">Shop by Category</h2>

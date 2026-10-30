@@ -28,7 +28,7 @@ export default function AdminOrdersPage() {
   const counts = Object.fromEntries(allStatuses.map(s => [s, orders.filter(o => o.status === s).length]))
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Service 05</p>
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Order Management</h1>
@@ -70,8 +70,8 @@ export default function AdminOrdersPage() {
         </div>
       </div>
 
-      <div className="bg-white border border-[#E2E2E2]">
-        <div className="grid grid-cols-12 gap-4 px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
+      <div className="bg-white border border-[#E2E2E2] overflow-x-auto">
+        <div className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
           <span className="col-span-2">Order ID</span>
           <span className="col-span-3">Customer</span>
           <span className="col-span-2">Date</span>
@@ -87,7 +87,7 @@ export default function AdminOrdersPage() {
           return (
             <div key={order.id}>
               <div
-                className={`grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-[#E2E2E2] hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer ${isSelected ? 'bg-[#F0F6FF]' : ''}`}
+                className={`grid grid-cols-12 gap-4 min-w-[760px] px-5 py-3.5 border-b border-[#E2E2E2] hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer ${isSelected ? 'bg-[#F0F6FF]' : ''}`}
                 onClick={() => setSelected(isSelected ? null : order.id)}
               >
                 <span className="col-span-2 font-mono text-xs text-[#856A00] font-semibold">{order.id}</span>
@@ -109,7 +109,7 @@ export default function AdminOrdersPage() {
 
               {isSelected && (
                 <div className="border-b border-[#E2E2E2] bg-[#F8FBFF] px-5 py-4">
-                  <div className="grid grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                       <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Customer Info</p>
                       <p className="font-sans text-sm text-[#0D0D0D]">{order.customer}</p>

@@ -116,10 +116,10 @@ function ProductGridCard({
 
   if (view === "list") {
     return (
-      <div className="group flex gap-5 bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200 p-4">
+      <div className="group flex gap-3 sm:gap-5 bg-white border border-[#E2E2E2] hover:border-[#D4B63A] transition-colors duration-200 p-3 sm:p-4">
         <Link
           to={`/store/product/${product.id}`}
-          className="relative w-32 h-32 flex-shrink-0 overflow-hidden bg-[#EBF0F0] block"
+          className="relative w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 overflow-hidden bg-[#EBF0F0] block"
         >
           <img
             src={product.image}
@@ -146,12 +146,12 @@ function ProductGridCard({
               {product.name}
             </h3>
           </Link>
-          <div className="flex flex-wrap gap-3 mb-2">
+          <div className="hidden sm:flex flex-wrap gap-3 mb-2">
             {product.tags.slice(0, 4).map((t) => (
               <FeatureTag key={t} tag={t} />
             ))}
           </div>
-          <div className="mt-auto flex items-center justify-between">
+          <div className="mt-auto flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-baseline gap-2">
               <span className="font-display font-bold text-[#0D0D0D] text-lg">
                 {formatPHP(product.price)}
@@ -216,8 +216,8 @@ function ProductGridCard({
         )}
       </Link>
 
-      <div className="p-4">
-        <div className="flex flex-wrap gap-3 mb-2.5 min-h-[13px]">
+      <div className="p-3 sm:p-4">
+        <div className="flex flex-wrap gap-x-3 gap-y-1 mb-2.5 min-h-[13px]">
           {product.tags.slice(0, 3).map((t) => (
             <FeatureTag key={t} tag={t} />
           ))}
@@ -250,9 +250,9 @@ function ProductGridCard({
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-x-2 gap-y-2 flex-wrap">
           <div className="flex items-baseline gap-2">
-            <span className="font-display font-bold text-[#0D0D0D] text-lg">
+            <span className="font-display font-bold text-[#0D0D0D] text-base sm:text-lg">
               {formatPHP(product.price)}
             </span>
             {product.originalPrice && (
@@ -559,7 +559,7 @@ export default function AllProductsPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
       {/* Breadcrumb + title */}
       <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#6B6B6B] tracking-wide mb-2">
         <Link to="/store" className="hover:text-[#856A00] transition-colors">
@@ -569,7 +569,7 @@ export default function AllProductsPage() {
         <span className="text-[#0D0D0D]">All Products</span>
       </div>
       <div className="mb-6">
-        <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">
+        <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D0D0D] tracking-tight">
           All Products
         </h1>
         <p className="text-[#6B6B6B] text-sm mt-1">
@@ -778,7 +778,7 @@ export default function AllProductsPage() {
             <div
               className={
                 view === "grid"
-                  ? "grid grid-cols-2 md:grid-cols-3 gap-6"
+                  ? "grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6"
                   : "flex flex-col gap-4"
               }
             >

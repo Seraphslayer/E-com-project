@@ -40,7 +40,7 @@ export default function ChatWidget() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-[#EACD51] text-[#0D0D0D] shadow-lg hover:bg-[#D4B63A] transition-colors flex items-center justify-center"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-12 h-12 bg-[#EACD51] text-[#0D0D0D] shadow-lg hover:bg-[#D4B63A] transition-colors flex items-center justify-center"
         >
           <MessageCircle size={20} />
           {unread > 0 && (
@@ -53,7 +53,7 @@ export default function ChatWidget() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-80 shadow-2xl border border-[#E2E2E2] bg-white flex flex-col" style={{ height: 420 }}>
+        <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-50 w-full sm:w-80 shadow-2xl border border-[#E2E2E2] bg-white flex flex-col" style={{ height: "min(420px, 80vh)" }}>
           {/* Header */}
           <div className="bg-[#EACD51] px-4 py-3 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-2">

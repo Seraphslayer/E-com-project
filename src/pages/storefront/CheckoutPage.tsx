@@ -31,7 +31,7 @@ export default function CheckoutPage() {
 
   if (placed) {
     return (
-      <div className="max-w-lg mx-auto px-6 py-24 text-center">
+      <div className="max-w-lg mx-auto px-4 sm:px-6 py-24 text-center">
         <div className="w-16 h-16 bg-[#00875A]/10 flex items-center justify-center mx-auto mb-6">
           <CheckCircle size={32} className="text-[#00875A]" />
         </div>
@@ -63,17 +63,17 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-8">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Checkout — Service 02</p>
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Checkout</h1>
       </div>
 
       {/* Step progress */}
-      <div className="flex items-center gap-0 mb-10">
+      <div className="flex items-center gap-0 mb-8 sm:mb-10 overflow-x-auto">
         {steps.map(({ key, label }, i) => (
-          <div key={key} className="flex items-center">
-            <div className={`flex items-center gap-2 px-4 py-2 font-mono text-xs tracking-widest uppercase transition-colors ${
+          <div key={key} className="flex items-center shrink-0">
+            <div className={`flex items-center gap-2 px-2.5 sm:px-4 py-2 font-mono text-[11px] sm:text-xs tracking-widest uppercase transition-colors ${
               i === stepIndex
                 ? 'bg-[#EACD51] text-[#0D0D0D]'
                 : i < stepIndex
@@ -81,7 +81,7 @@ export default function CheckoutPage() {
                 : 'bg-[#E4EBEB] text-[#6B6B6B]'
             }`}>
               <span className="w-4 h-4 flex items-center justify-center text-[10px]">{i + 1}</span>
-              {label}
+              <span className={i === stepIndex ? '' : 'hidden sm:inline'}>{label}</span>
             </div>
             {i < steps.length - 1 && (
               <ChevronRight size={14} className="text-[#D0D0D0]" />
@@ -99,7 +99,7 @@ export default function CheckoutPage() {
                 <Truck size={16} className="text-[#856A00]" />
                 <h2 className="font-display font-semibold text-[#0D0D0D]">Shipping Address</h2>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   { label: 'Contact Person', placeholder: 'Juan Dela Cruz', span: 1 },
                   { label: 'Office / Department', placeholder: 'General Services Office', span: 1 },
@@ -109,7 +109,7 @@ export default function CheckoutPage() {
                   { label: 'Province', placeholder: 'Cavite', span: 1 },
                   { label: 'Country', placeholder: 'Philippines', span: 2 },
                 ].map(({ label, placeholder, span }) => (
-                  <div key={label} className={span === 2 ? 'col-span-2' : ''}>
+                  <div key={label} className={span === 2 ? 'sm:col-span-2' : ''}>
                     <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">{label}</label>
                     <input
                       type="text"
@@ -151,8 +151,8 @@ export default function CheckoutPage() {
                   <span className="font-mono text-[10px] tracking-wide">SSL Secured</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
                   <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Card Number</label>
                   <input
                     type="text"
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
                   <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">CVV</label>
                   <input defaultValue="•••" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors" />
                 </div>
-                <div className="col-span-2">
+                <div className="sm:col-span-2">
                   <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Name on Card</label>
                   <input defaultValue="Juan Dela Cruz" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors" />
                 </div>

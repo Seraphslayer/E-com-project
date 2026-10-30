@@ -54,7 +54,7 @@ function TrackBar({ status }: { status: Status }) {
 
 export default function OrdersPage() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Orders — Service 05</p>
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Your Orders</h1>

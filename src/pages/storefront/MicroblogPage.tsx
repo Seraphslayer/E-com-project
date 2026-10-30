@@ -73,7 +73,7 @@ export default function MicroblogPage() {
   const [draft, setDraft] = useState('')
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Community — Service 08</p>
@@ -127,11 +127,11 @@ export default function MicroblogPage() {
           <p className="font-display font-bold text-white text-lg">Stay Updated with FGT Trading OPC</p>
           <p className="text-white/50 font-sans text-sm mt-1">Get early access to new arrivals, style tips, and exclusive discounts.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="email"
             placeholder="your@email.com"
-            className="bg-white/10 border border-white/20 text-white placeholder:text-white/30 px-4 py-2.5 font-mono text-sm outline-none focus:border-white/50 transition-colors"
+            className="flex-1 min-w-0 bg-white/10 border border-white/20 text-white placeholder:text-white/30 px-4 py-2.5 font-mono text-sm outline-none focus:border-white/50 transition-colors"
           />
           <button className="bg-[#EACD51] text-[#0D0D0D] px-5 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors">
             Subscribe

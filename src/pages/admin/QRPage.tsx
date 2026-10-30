@@ -73,7 +73,7 @@ export default function QRPage() {
   )
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Service 06</p>
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">QR & Barcode Labels</h1>
@@ -99,7 +99,7 @@ export default function QRPage() {
       </div>
 
       {tab === 'generate' && (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Product picker */}
           <div className="bg-white border border-[#E2E2E2]">
             <div className="p-4 border-b border-[#E2E2E2]">
@@ -137,7 +137,7 @@ export default function QRPage() {
           </div>
 
           {/* Label preview */}
-          <div className="col-span-2 bg-white border border-[#E2E2E2] p-6">
+          <div className="lg:col-span-2 bg-white border border-[#E2E2E2] p-6">
             <div className="flex items-center justify-between mb-5">
               <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase">Label Preview</p>
               <div className="flex gap-2">
@@ -206,7 +206,7 @@ export default function QRPage() {
       )}
 
       {tab === 'scan' && (
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white border border-[#E2E2E2] p-6">
             <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-4">Scan or Enter Code</p>
             <div className="border-2 border-dashed border-[#E2E2E2] h-48 flex flex-col items-center justify-center gap-3 mb-4">

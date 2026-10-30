@@ -25,14 +25,14 @@ const totalRefunds = transactions.filter(t => t.status === 'refunded').reduce((s
 
 export default function PaymentsPage() {
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Service 03</p>
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Payments</h1>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         {[
           { label: 'Captured (Aug)', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: '#00875A' },
           { label: 'Transactions', value: transactions.length, icon: CreditCard, color: '#D4B63A' },
@@ -68,11 +68,11 @@ export default function PaymentsPage() {
       </div>
 
       {/* Transactions table */}
-      <div className="bg-white border border-[#E2E2E2]">
+      <div className="bg-white border border-[#E2E2E2] overflow-x-auto">
         <div className="px-5 py-3 border-b border-[#E2E2E2]">
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase">Transaction Log</p>
         </div>
-        <div className="grid grid-cols-12 gap-4 px-5 py-2 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
+        <div className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-2 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
           <span className="col-span-2">Pay ID</span>
           <span className="col-span-2">Date</span>
           <span className="col-span-2">Customer</span>
@@ -85,7 +85,7 @@ export default function PaymentsPage() {
           const cfg = statusConfig[tx.status]
           const Icon = cfg.icon
           return (
-            <div key={tx.id} className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center">
+            <div key={tx.id} className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-3 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center">
               <span className="col-span-2 font-mono text-xs text-[#856A00]">{tx.id}</span>
               <span className="col-span-2 font-mono text-xs text-[#6B6B6B]">{tx.date}</span>
               <span className="col-span-2 font-sans text-sm text-[#0D0D0D]">{tx.customer}</span>
