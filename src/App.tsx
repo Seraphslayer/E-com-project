@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import RoleSelect from "./pages/RoleSelect";
 import StorefrontLayout from "./pages/storefront/StorefrontLayout";
 import Shop from "./pages/storefront/Shop";
@@ -21,9 +22,18 @@ import QRPage from "./pages/admin/QRPage";
 import AdminChatPage from "./pages/admin/AdminChatPage";
 import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<RoleSelect />} />
 

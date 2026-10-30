@@ -15,6 +15,7 @@ import {
   User,
   LogOut,
   FileText,
+  Menu,
 } from "lucide-react";
 import { useCart } from "../../store/cartStore";
 import ChatWidget from "../../components/ChatWidget";
@@ -41,6 +42,7 @@ export default function StorefrontLayout() {
   const [searchQuery, setSearchQuery] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -70,18 +72,29 @@ export default function StorefrontLayout() {
         className="sticky top-0 z-40 bg-white border-b border-[#E2E2E2]"
         onMouseLeave={() => setActiveMenu(null)}
       >
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-2 sm:gap-6">
+          <button
+            type="button"
+            onClick={() => {
+              setSearchOpen(false);
+              setMobileOpen((o) => !o);
+            }}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="xl:hidden -ml-2 w-10 h-10 flex items-center justify-center text-[#0D0D0D] shrink-0"
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
           <div className="flex items-center gap-4 shrink-0">
             <button
               onClick={() => navigate("/")}
-              className="hidden lg:flex items-center gap-1.5 text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
+              className="hidden 2xl:flex items-center gap-1.5 text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
             >
               <ArrowLeft size={14} />
               <span className="font-mono text-[11px] tracking-widest uppercase">
                 Exit
               </span>
             </button>
-            <div className="hidden lg:block w-px h-4 bg-[#E2E2E2]" />
+            <div className="hidden 2xl:block w-px h-4 bg-[#E2E2E2]" />
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 bg-[#EACD51] flex items-center justify-center">
                 <span className="font-display font-bold text-[#0D0D0D] text-sm">
@@ -97,7 +110,7 @@ export default function StorefrontLayout() {
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-1 shrink-0">
+          <nav className="hidden xl:flex items-center gap-1 shrink-0">
             <NavLink
               to="/store"
               end
@@ -130,7 +143,7 @@ export default function StorefrontLayout() {
                     `/store/products?category=${encodeURIComponent(name)}`,
                   )
                 }
-                className={`relative hidden lg:flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap transition-colors ${
+                className={`relative flex items-center gap-1.5 px-2 2xl:px-3 py-2 text-sm whitespace-nowrap transition-colors ${
                   activeMenu === name
                     ? "text-[#856A00] font-medium"
                     : "text-[#6B6B6B] hover:text-[#0D0D0D]"
@@ -152,6 +165,7 @@ export default function StorefrontLayout() {
               type="button"
               onClick={() => {
                 setActiveMenu(null);
+                setMobileOpen(false);
                 setSearchOpen((o) => !o);
               }}
               aria-label={searchOpen ? "Close search" : "Open search"}
@@ -163,7 +177,7 @@ export default function StorefrontLayout() {
             </button>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
             <NavLink
               to="/store/quote"
               onMouseEnter={() => setActiveMenu(null)}
@@ -233,6 +247,46 @@ export default function StorefrontLayout() {
           </div>
         </div>
 
+        {mobileOpen && (
+          <div className="xl:hidden absolute top-full left-0 right-0 bg-white border-b border-[#E2E2E2] shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <ul className="py-2">
+              {[
+                { label: "Shop All Products", to: "/store/products", icon: ShoppingBag },
+                ...navCategories.map((c) => ({
+                  label: c.name,
+                  to: `/store/products?category=${encodeURIComponent(c.name)}`,
+                  icon: c.icon,
+                })),
+                { label: "Request a Quote", to: "/store/quote", icon: FileText },
+                { label: "My Orders", to: "/store/orders", icon: User },
+              ].map(({ label, to, icon: Icon }) => (
+                <li key={label}>
+                  <button
+                    onClick={() => {
+                      navigate(to);
+                      setMobileOpen(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-5 py-3.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#EBF0F0] active:bg-[#EBF0F0]"
+                  >
+                    <Icon size={16} className="text-[#856A00]" />
+                    {label}
+                  </button>
+                </li>
+              ))}
+              <li className="border-t border-[#E2E2E2] mt-2">
+                <button
+                  onClick={() => {
+                    navigate("/");
+                    setMobileOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-5 py-3.5 text-left font-mono text-[11px] tracking-widest uppercase text-[#6B6B6B]"
+                >
+                  <ArrowLeft size={14} /> Exit
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
         {!searchOpen && activeMenu === "all" && (
           <AllProductsMenu onNavigate={handleMenuNavigate} />
         )}
@@ -249,7 +303,7 @@ export default function StorefrontLayout() {
               onClick={() => setSearchOpen(false)}
             />
             <div className="absolute top-full left-0 right-0 bg-white border-b border-[#E2E2E2] shadow-sm">
-              <div className="max-w-7xl mx-auto px-6 py-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
                 <form
                   onSubmit={handleSearchSubmit}
                   className="flex items-center gap-3 border-b border-[#E2E2E2] focus-within:border-[#D4B63A] pb-3 transition-colors"

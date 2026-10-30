@@ -62,7 +62,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#EBF0F0] border-t border-[#E2E2E2]">
-      <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-6 h-6 bg-[#EACD51] flex items-center justify-center">
@@ -171,7 +171,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-[#E2E2E2]">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-mono text-[11px] text-[#6B6B6B]">
             © 2026 {company.name}. All rights reserved.
           </p>

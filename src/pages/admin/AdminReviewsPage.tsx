@@ -58,7 +58,7 @@ export default function AdminReviewsPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">
           Service 09
@@ -69,7 +69,7 @@ export default function AdminReviewsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
         {[
           {
             label: "Total Reviews",

@@ -86,7 +86,7 @@ export default function ProductFormModal({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
                 Product Name

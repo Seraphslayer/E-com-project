@@ -57,7 +57,7 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-24 text-center">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-24 text-center">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-2">
           404
         </p>
@@ -102,7 +102,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       {/* Breadcrumb */}
       <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#6B6B6B] tracking-wide mb-6 flex-wrap">
         <Link to="/store" className="hover:text-[#856A00] transition-colors">
@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
         </span>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-12 mb-16">
+      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-12 sm:mb-16">
         {/* Gallery */}
         <div>
           {(() => {
@@ -330,7 +330,7 @@ export default function ProductDetailPage() {
 
       {/* Tabs */}
       <section className="mb-16">
-        <div className="flex gap-0 border-b border-[#E2E2E2]">
+        <div className="flex gap-0 border-b border-[#E2E2E2] overflow-x-auto">
           {(
             [
               { key: "description", label: "Description" },
@@ -341,7 +341,7 @@ export default function ProductDetailPage() {
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors border-b-2 -mb-px ${
+              className={`px-3 sm:px-5 py-3 font-mono text-[11px] sm:text-xs tracking-widest uppercase whitespace-nowrap shrink-0 transition-colors border-b-2 -mb-px ${
                 tab === key
                   ? "border-[#D4B63A] text-[#856A00]"
                   : "border-transparent text-[#6B6B6B] hover:text-[#0D0D0D]"

@@ -13,7 +13,7 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-6 py-20 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 text-center">
         <ShoppingBag size={48} className="mx-auto text-[#D0D0D0] mb-4" />
         <h2 className="font-display font-semibold text-2xl text-[#0D0D0D] mb-2">
           Your cart is empty
@@ -32,7 +32,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">
           Cart — Service 01
@@ -48,7 +48,7 @@ export default function CartPage() {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Items */}
         <div className="lg:col-span-2 space-y-0">
-          <div className="grid grid-cols-12 gap-4 pb-2 border-b border-[#E2E2E2] font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase">
+          <div className="hidden md:grid grid-cols-12 gap-4 pb-2 border-b border-[#E2E2E2] font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase">
             <div className="col-span-6">Product</div>
             <div className="col-span-2 text-center">Price</div>
             <div className="col-span-2 text-center">Qty</div>
@@ -58,9 +58,9 @@ export default function CartPage() {
           {cart.map(({ product, quantity }) => (
             <div
               key={product.id}
-              className="grid grid-cols-12 gap-4 py-4 border-b border-[#E2E2E2] items-center"
+              className="flex flex-col gap-3 md:grid md:grid-cols-12 md:gap-4 py-4 border-b border-[#E2E2E2] md:items-center"
             >
-              <div className="col-span-6 flex items-center gap-3">
+              <div className="md:col-span-6 flex items-center gap-3">
                 <Link
                   to={`/store/product/${product.id}`}
                   className="w-16 h-16 bg-[#EBF0F0] flex-shrink-0 overflow-hidden"
@@ -71,7 +71,7 @@ export default function CartPage() {
                     className="w-full h-full object-cover"
                   />
                 </Link>
-                <div>
+                <div className="min-w-0">
                   <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase">
                     {product.brand}
                   </p>
@@ -83,19 +83,23 @@ export default function CartPage() {
                   <p className="font-mono text-[10px] text-[#6B6B6B]">
                     SKU: {product.sku}
                   </p>
+                  <p className="md:hidden font-display font-semibold text-sm text-[#0D0D0D] mt-0.5">
+                    {formatPHP(product.price)}
+                  </p>
                 </div>
               </div>
 
-              <div className="col-span-2 text-center">
+              <div className="hidden md:block col-span-2 text-center">
                 <span className="font-display font-semibold text-[#0D0D0D]">
                   {formatPHP(product.price)}
                 </span>
               </div>
 
-              <div className="col-span-2 flex items-center justify-center gap-2">
+              <div className="flex items-center justify-between md:contents">
+              <div className="md:col-span-2 flex items-center justify-center gap-2">
                 <button
                   onClick={() => updateQuantity(product.id, quantity - 1)}
-                  className="w-6 h-6 border border-[#E2E2E2] flex items-center justify-center hover:border-[#0D0D0D] transition-colors"
+                  className="w-8 h-8 md:w-6 md:h-6 border border-[#E2E2E2] flex items-center justify-center hover:border-[#0D0D0D] transition-colors"
                 >
                   <Minus size={10} />
                 </button>
@@ -104,13 +108,13 @@ export default function CartPage() {
                 </span>
                 <button
                   onClick={() => updateQuantity(product.id, quantity + 1)}
-                  className="w-6 h-6 border border-[#E2E2E2] flex items-center justify-center hover:border-[#0D0D0D] transition-colors"
+                  className="w-8 h-8 md:w-6 md:h-6 border border-[#E2E2E2] flex items-center justify-center hover:border-[#0D0D0D] transition-colors"
                 >
                   <Plus size={10} />
                 </button>
               </div>
 
-              <div className="col-span-2 flex items-center justify-end gap-3">
+              <div className="md:col-span-2 flex items-center justify-end gap-3">
                 <span className="font-display font-bold text-[#0D0D0D]">
                   {formatPHP(product.price * quantity)}
                 </span>
@@ -120,6 +124,7 @@ export default function CartPage() {
                 >
                   <Trash2 size={14} />
                 </button>
+              </div>
               </div>
             </div>
           ))}

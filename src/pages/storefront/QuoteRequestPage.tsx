@@ -30,7 +30,7 @@ export default function QuoteRequestPage() {
 
   if (submitted) {
     return (
-      <div className="max-w-lg mx-auto px-6 py-24 text-center">
+      <div className="max-w-lg mx-auto px-4 sm:px-6 py-24 text-center">
         <div className="w-16 h-16 bg-[#00875A]/10 flex items-center justify-center mx-auto mb-6">
           <CheckCircle size={32} className="text-[#00875A]" />
         </div>
@@ -54,7 +54,7 @@ export default function QuoteRequestPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
       <Link to="/store" className="inline-flex items-center gap-1.5 font-mono text-xs text-[#6B6B6B] hover:text-[#856A00] transition-colors mb-6">
         <ArrowLeft size={12} /> Back to store
       </Link>

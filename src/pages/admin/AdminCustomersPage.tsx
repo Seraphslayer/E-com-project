@@ -47,7 +47,7 @@ export default function AdminCustomersPage() {
     : 0;
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">
           Customers
@@ -58,7 +58,7 @@ export default function AdminCustomersPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
         {[
           {
             label: "Total Customers",
@@ -112,8 +112,8 @@ export default function AdminCustomersPage() {
         />
       </div>
 
-      <div className="bg-white border border-[#E2E2E2]">
-        <div className="grid grid-cols-12 gap-4 px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
+      <div className="bg-white border border-[#E2E2E2] overflow-x-auto">
+        <div className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
           <span className="col-span-4">Customer</span>
           <span className="col-span-3">Email</span>
           <span className="col-span-2 text-center">Orders</span>
@@ -128,7 +128,7 @@ export default function AdminCustomersPage() {
             <div key={c.email}>
               <div
                 onClick={() => setSelected(isSelected ? null : c.email)}
-                className={`grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-[#E2E2E2] hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer ${isSelected ? "bg-[#F0F6FF]" : ""}`}
+                className={`grid grid-cols-12 gap-4 min-w-[760px] px-5 py-3.5 border-b border-[#E2E2E2] hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer ${isSelected ? "bg-[#F0F6FF]" : ""}`}
               >
                 <div className="col-span-4 flex items-center gap-3">
                   <div className="w-8 h-8 bg-[#E4EBEB] flex items-center justify-center font-mono text-[10px] font-semibold text-[#0D0D0D] flex-shrink-0">

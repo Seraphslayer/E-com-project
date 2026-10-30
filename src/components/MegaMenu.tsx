@@ -74,7 +74,7 @@ interface MenuNavProps {
 export function AllProductsMenu({ onNavigate }: MenuNavProps) {
   return (
     <div className="absolute left-0 right-0 top-full bg-white border-b border-[#E2E2E2] shadow-xl z-50">
-      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-12 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-12 gap-10">
         {/* Left — category list */}
         <div className="col-span-3 border-r border-[#E2E2E2] pr-8">
           <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-3">
@@ -276,7 +276,7 @@ export function CategoryMenu({ category, onNavigate }: CategoryMenuProps) {
 
   return (
     <div className="absolute left-0 right-0 top-full bg-white border-b border-[#E2E2E2] shadow-xl z-50">
-      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-12 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-12 gap-10">
         {/* Left — find-for-me CTA + subcategories */}
         <div className="col-span-3 border-r border-[#E2E2E2] pr-8">
           {blurb && (

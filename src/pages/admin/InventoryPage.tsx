@@ -62,7 +62,7 @@ export default function InventoryPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">
@@ -91,7 +91,7 @@ export default function InventoryPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
         {[
           {
             label: "Total SKUs",
@@ -164,8 +164,8 @@ export default function InventoryPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-[#E2E2E2]">
-        <div className="grid grid-cols-12 gap-4 px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
+      <div className="bg-white border border-[#E2E2E2] overflow-x-auto">
+        <div className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
           <span className="col-span-4">Product</span>
           <span className="col-span-2">SKU</span>
           <span className="col-span-1">Category</span>
@@ -181,7 +181,7 @@ export default function InventoryPage() {
             <div
               key={product.id}
               onClick={() => openEdit(product)}
-              className="grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer"
+              className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-3.5 border-b border-[#E2E2E2] last:border-0 hover:bg-[#F8F8F8] transition-colors items-center cursor-pointer"
             >
               <div className="col-span-4 flex items-center gap-3">
                 <div className="w-9 h-9 bg-[#EBF0F0] overflow-hidden flex-shrink-0">

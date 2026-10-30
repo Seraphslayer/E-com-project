@@ -33,7 +33,7 @@ export default function RoleSelect() {
         {/* Left — Customer */}
         <button
           onClick={() => navigate('/store')}
-          className="group relative flex flex-col justify-between p-12 border-r border-white/10 hover:bg-[#EACD51] transition-colors duration-300 text-left"
+          className="group relative flex flex-col justify-between p-8 sm:p-12 border-r border-white/10 hover:bg-[#EACD51] transition-colors duration-300 text-left"
         >
           <div>
             <div className="w-12 h-12 border border-white/20 group-hover:border-white/0 flex items-center justify-center mb-10 transition-colors">
@@ -54,7 +54,7 @@ export default function RoleSelect() {
         {/* Right — Admin */}
         <button
           onClick={() => navigate('/admin')}
-          className="group relative flex flex-col justify-between p-12 hover:bg-[#111] transition-colors duration-300 text-left"
+          className="group relative flex flex-col justify-between p-8 sm:p-12 hover:bg-[#111] transition-colors duration-300 text-left"
         >
           <div>
             <div className="w-12 h-12 border border-white/20 flex items-center justify-center mb-10">

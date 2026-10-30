@@ -13,6 +13,8 @@ import {
   Star,
   BookOpen,
   Users,
+  Menu,
+  X,
 } from "lucide-react";
 
 const navItems = [
@@ -40,11 +42,22 @@ const notifications = [
 export default function AdminLayout() {
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#F0F1F1] flex">
-      {/* Sidebar */}
-      <aside className="w-56 bg-[#0D0D0D] flex flex-col flex-shrink-0 sticky top-0 h-screen">
+      {navOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          onClick={() => setNavOpen(false)}
+        />
+      )}
+      {/* Sidebar: off-canvas drawer below lg, fixed column at lg+ */}
+      <aside
+        className={`w-64 lg:w-56 bg-[#0D0D0D] flex flex-col flex-shrink-0 fixed lg:sticky top-0 left-0 z-50 lg:z-auto h-screen transition-transform duration-200 ${
+          navOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
+      >
         <div className="px-5 py-5 border-b border-white/10">
           <button
             onClick={() => navigate("/")}
@@ -58,12 +71,12 @@ export default function AdminLayout() {
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-[#EACD51] flex items-center justify-center">
               <span className="font-display font-bold text-[#0D0D0D] text-xs">
-                M
+                F
               </span>
             </div>
             <div>
               <p className="font-display font-semibold text-white tracking-tight text-sm">
-                MERX
+                FGT
               </p>
               <p className="font-mono text-[9px] text-white/30 tracking-widest uppercase">
                 Admin Portal
@@ -78,6 +91,7 @@ export default function AdminLayout() {
               key={to}
               to={to}
               end={end}
+              onClick={() => setNavOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 font-mono text-xs tracking-wide transition-colors ${
                   isActive
@@ -102,7 +116,7 @@ export default function AdminLayout() {
                 Admin User
               </p>
               <p className="font-mono text-[9px] text-white/30">
-                admin@merx.com
+                admin@fgttrading.ph
               </p>
             </div>
           </div>
@@ -112,8 +126,16 @@ export default function AdminLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="bg-white border-b border-[#E2E2E2] px-8 h-14 flex items-center justify-between sticky top-0 z-30">
-          <div />
+        <header className="bg-white border-b border-[#E2E2E2] px-4 sm:px-8 h-14 flex items-center justify-between sticky top-0 z-30">
+          <button
+            type="button"
+            onClick={() => setNavOpen((o) => !o)}
+            aria-label={navOpen ? "Close menu" : "Open menu"}
+            className="lg:hidden -ml-2 w-10 h-10 flex items-center justify-center text-[#0D0D0D]"
+          >
+            {navOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+          <div className="hidden lg:block" />
           <div className="flex items-center gap-3">
             <div className="relative">
               <button
@@ -127,7 +149,7 @@ export default function AdminLayout() {
                 )}
               </button>
               {notifOpen && (
-                <div className="absolute right-0 top-full mt-2 w-72 bg-white border border-[#E2E2E2] shadow-lg z-50">
+                <div className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] max-w-72 bg-white border border-[#E2E2E2] shadow-lg z-50">
                   <div className="px-4 py-3 border-b border-[#E2E2E2]">
                     <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase">
                       Notifications
@@ -155,7 +177,7 @@ export default function AdminLayout() {
               <Settings size={16} />
             </button>
             <div className="w-px h-5 bg-[#E2E2E2]" />
-            <span className="font-mono text-[11px] text-[#6B6B6B]">
+            <span className="hidden sm:inline font-mono text-[11px] text-[#6B6B6B]">
               Aug 8, 2026
             </span>
           </div>
