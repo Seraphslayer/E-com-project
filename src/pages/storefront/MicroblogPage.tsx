@@ -13,9 +13,9 @@ function PostCard({ post }: { post: BlogPost }) {
 
   const categoryColors: Record<string, string> = {
     'New Arrivals': '#D4B63A',
-    'Style': '#7C3AED',
     'Guide': '#00875A',
-    'Review': '#FF8C00',
+    'Case Study': '#7C3AED',
+    'Announcement': '#FF8C00',
   }
 
   return (

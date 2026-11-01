@@ -12,10 +12,24 @@ const KEY = "fgt.products.v1";
 const PLACEHOLDER =
   "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&h=600&fit=crop&auto=format";
 
+// Bump when new demo products are added to mockData: browsers that already saved a catalog
+// get the new products appended once (their own edits and uploads are kept).
+const SEED_VERSION = "2";
+const SEED_KEY = "fgt.products.seed";
+
 function loadStored(): Product[] {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw) as Product[];
+    if (raw) {
+      let list = JSON.parse(raw) as Product[];
+      if (localStorage.getItem(SEED_KEY) !== SEED_VERSION) {
+        const have = new Set(list.map((p) => p.id));
+        list = [...list, ...seedProducts.filter((p) => !have.has(p.id))];
+        localStorage.setItem(KEY, JSON.stringify(list));
+        localStorage.setItem(SEED_KEY, SEED_VERSION);
+      }
+      return list;
+    }
   } catch {
     /* storage unavailable or corrupt: fall back to the demo catalog */
   }

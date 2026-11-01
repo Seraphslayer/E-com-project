@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Plus, Heart, MessageCircle, Trash2, X, BookOpen } from "lucide-react";
 import { blogPosts as initialPosts, BlogPost } from "../../data/mockData";
 
-const categories = ["New Arrivals", "Style", "Guide", "Review"];
+const categories = ["New Arrivals", "Guide", "Case Study", "Announcement"];
 
 const categoryColors: Record<string, string> = {
   "New Arrivals": "#D4B63A",
-  Style: "#7C3AED",
   Guide: "#00875A",
-  Review: "#FF8C00",
+  "Case Study": "#7C3AED",
+  Announcement: "#FF8C00",
 };
 
 export default function AdminContentPage() {
@@ -23,8 +23,8 @@ export default function AdminContentPage() {
     if (!title.trim() || !body.trim()) return;
     const newPost: BlogPost = {
       id: `b${Date.now()}`,
-      author: "Merx Team",
-      avatar: "MT",
+      author: "FGT Trading OPC",
+      avatar: "FG",
       date: new Date().toISOString().slice(0, 10),
       title: title.trim(),
       body: body.trim(),

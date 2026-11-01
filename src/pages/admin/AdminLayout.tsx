@@ -15,12 +15,14 @@ import {
   Users,
   Menu,
   X,
+  FileText,
 } from "lucide-react";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/inventory", label: "Inventory", icon: Package },
   { to: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/admin/quotes", label: "Quote Requests", icon: FileText },
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/payments", label: "Payments", icon: CreditCard },
   { to: "/admin/reviews", label: "Reviews", icon: Star },
@@ -32,11 +34,11 @@ const navItems = [
 const notifications = [
   {
     id: "n1",
-    text: "Low stock alert: Mechanical Keyboard TKL (22 left)",
+    text: "Low stock alert: IC-Card Turnstile Gate (6 left)",
     time: "10m ago",
   },
   { id: "n2", text: "New order ORD-20095 received", time: "1h ago" },
-  { id: "n3", text: "New review flagged for moderation", time: "3h ago" },
+  { id: "n3", text: "New quote request received", time: "3h ago" },
 ];
 
 export default function AdminLayout() {

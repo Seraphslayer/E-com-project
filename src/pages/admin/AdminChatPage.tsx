@@ -3,11 +3,11 @@ import { Send, Circle, Search } from 'lucide-react'
 import { chatMessages, ChatMessage } from '../../data/mockData'
 
 const conversations = [
-  { id: 'c1', customer: 'Omar Khalid', preview: 'I actually wanted the Portable Speaker...', time: '10:06 AM', unread: 1, status: 'open' },
-  { id: 'c2', customer: 'Elena Vasquez', preview: 'Thank you! The order arrived in perfect...', time: '9:42 AM', unread: 0, status: 'resolved' },
-  { id: 'c3', customer: 'Priya Sharma', preview: 'When will the Merino sweater restock in...', time: 'Yesterday', unread: 2, status: 'open' },
-  { id: 'c4', customer: 'James Thornton', preview: 'The RGB software doesn\'t work on macOS', time: 'Yesterday', unread: 0, status: 'open' },
-  { id: 'c5', customer: 'Marcus Webb', preview: 'Received the wrong item — shipped a...', time: 'Aug 7', unread: 0, status: 'resolved' },
+  { id: 'c1', customer: 'Engr. R. Santos', preview: 'Yes please, for 12 units plus installation support.', time: '10:06 AM', unread: 1, status: 'open' },
+  { id: 'c2', customer: 'Lungsod ng Bacoor, GSO', preview: 'Thank you! The cameras arrived in good condition.', time: '9:42 AM', unread: 0, status: 'resolved' },
+  { id: 'c3', customer: 'Bayan ng Carmona', preview: 'Do you have the Kenwood radios in UHF as well?', time: 'Yesterday', unread: 2, status: 'open' },
+  { id: 'c4', customer: 'La Trinidad Academy', preview: 'Can the QSC speakers be wall-mounted?', time: 'Yesterday', unread: 0, status: 'open' },
+  { id: 'c5', customer: 'Bayan ng Indang', preview: 'Following up on the refund for ORD-20089.', time: 'Aug 7', unread: 0, status: 'resolved' },
 ]
 
 export default function AdminChatPage() {

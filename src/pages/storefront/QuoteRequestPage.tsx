@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { FileText, CheckCircle, Phone, Mail, MapPin, ArrowLeft } from "lucide-react";
 import { company, categories } from "../../data/companyInfo";
+import { submitQuote } from "../../store/quoteStore";
 
 export default function QuoteRequestPage() {
   const [searchParams] = useSearchParams();
@@ -25,6 +26,7 @@ export default function QuoteRequestPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    submitQuote(form);
     setSubmitted(true);
   };
 

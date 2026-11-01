@@ -16,38 +16,40 @@ import {
   TrendingUp,
   Package,
   ShoppingCart,
-  DollarSign,
+  Wallet,
   Users,
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
 import { orders, revenueData, categoryData } from "../../data/mockData";
+import { useProducts } from "../../store/productStore";
+import { formatPHP } from "../../data/companyInfo";
 
 const stats = [
   {
     label: "Revenue (Aug)",
-    value: "$38,900",
+    value: formatPHP(389900),
     change: +12.4,
-    icon: DollarSign,
+    icon: Wallet,
     color: "#D4B63A",
   },
   {
     label: "Orders (Aug)",
-    value: "322",
+    value: "32",
     change: +8.1,
     icon: ShoppingCart,
     color: "#7C3AED",
   },
   {
     label: "Active Customers",
-    value: "1,847",
+    value: "64",
     change: +4.3,
     icon: Users,
     color: "#00875A",
   },
   {
-    label: "Inventory Items",
-    value: "875",
+    label: "Products Listed",
+    value: "",
     change: -2.1,
     icon: Package,
     color: "#FF8C00",
@@ -66,6 +68,7 @@ const statusColors: Record<string, string> = {
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const { products } = useProducts();
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -80,7 +83,8 @@ export default function AdminDashboard() {
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
-        {stats.map(({ label, value, change, icon: Icon, color }) => {
+        {stats.map(({ label, value: baseValue, change, icon: Icon, color }) => {
+          const value = label === "Products Listed" ? String(products.length) : baseValue;
           const positive = change > 0;
           return (
             <div key={label} className="bg-white border border-[#E2E2E2] p-5">
@@ -157,7 +161,7 @@ export default function AdminDashboard() {
                 }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                tickFormatter={(v) => `₱${(v / 1000).toFixed(0)}k`}
               />
               <Tooltip
                 contentStyle={{
@@ -166,7 +170,7 @@ export default function AdminDashboard() {
                   fontFamily: "JetBrains Mono",
                   fontSize: 11,
                 }}
-                formatter={(v) => [`$${Number(v).toLocaleString()}`, "Revenue"]}
+                formatter={(v) => [`₱${Number(v).toLocaleString()}`, "Revenue"]}
               />
               <Area
                 type="monotone"
@@ -273,7 +277,7 @@ export default function AdminDashboard() {
                 {order.status}
               </span>
               <span className="font-display font-semibold text-sm text-[#0D0D0D] text-right">
-                ${order.total}
+                {formatPHP(order.total)}
               </span>
             </button>
           ))}

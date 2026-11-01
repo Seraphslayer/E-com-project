@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { QrCode, Barcode, Download, Printer, Search, Package } from 'lucide-react'
 import { useProducts } from '../../store/productStore'
+import { formatPHP } from '../../data/companyInfo'
 
 function QRCodeDisplay({ value, size = 100 }: { value: string; size?: number }) {
   // SVG-based QR mock (3x3 finder pattern + data modules)
@@ -167,7 +168,7 @@ export default function QRPage() {
                 <p className="font-display font-bold text-[#0D0D0D] text-sm leading-snug mb-1">{selected.name}</p>
                 <p className="font-mono text-[10px] text-[#6B6B6B] mb-1">SKU: {selected.sku}</p>
                 <p className="font-mono text-[10px] text-[#6B6B6B] mb-1">Brand: {selected.brand}</p>
-                <p className="font-display font-bold text-[#856A00]">${selected.price}</p>
+                <p className="font-display font-bold text-[#856A00]">{formatPHP(selected.price)}</p>
               </div>
             </div>
 
@@ -241,7 +242,7 @@ export default function QRPage() {
                     ['SKU', products[0].sku],
                     ['Brand', products[0].brand],
                     ['Category', products[0].category],
-                    ['Price', `$${products[0].price}`],
+                    ['Price', formatPHP(products[0].price)],
                     ['Stock', `${products[0].stock} units`],
                   ].map(([k, v]) => (
                     <div key={k} className="flex gap-4">
