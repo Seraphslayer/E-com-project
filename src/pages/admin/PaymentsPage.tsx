@@ -61,7 +61,7 @@ export default function PaymentsPage() {
             <YAxis tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#6B6B6B' }} axisLine={false} tickLine={false} tickFormatter={v => `₱${(v/1000).toFixed(0)}k`} />
             <Tooltip
               contentStyle={{ border: '1px solid #E2E2E2', borderRadius: 0, fontFamily: 'JetBrains Mono', fontSize: 11 }}
-              formatter={(v: number) => [`₱${v.toLocaleString()}`, 'Revenue']}
+              formatter={(v) => [`₱${Number(v).toLocaleString()}`, 'Revenue']}
             />
             <Bar dataKey="revenue" fill="#D4B63A" radius={0} />
           </BarChart>

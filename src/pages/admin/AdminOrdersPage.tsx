@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Search, Filter, Package, Truck, CheckCircle, Clock, XCircle } from 'lucide-react'
 import { orders, Order } from '../../data/mockData'
+import { formatPHP } from '../../data/companyInfo'
 
 type Status = Order['status']
 
@@ -18,14 +19,15 @@ export default function AdminOrdersPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<Status | 'all'>('all')
   const [selected, setSelected] = useState<string | null>(null)
+  const [orderList, setOrderList] = useState<Order[]>(orders)
 
-  const filtered = orders.filter(o => {
+  const filtered = orderList.filter(o => {
     const matchSearch = o.id.toLowerCase().includes(search.toLowerCase()) || o.customer.toLowerCase().includes(search.toLowerCase())
     const matchStatus = statusFilter === 'all' || o.status === statusFilter
     return matchSearch && matchStatus
   })
 
-  const counts = Object.fromEntries(allStatuses.map(s => [s, orders.filter(o => o.status === s).length]))
+  const counts = Object.fromEntries(allStatuses.map(s => [s, orderList.filter(o => o.status === s).length]))
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -103,7 +105,7 @@ export default function AdminOrdersPage() {
                 >
                   <Icon size={10} /> {label}
                 </span>
-                <span className="col-span-1 font-display font-bold text-sm text-[#0D0D0D] text-right">${order.total}</span>
+                <span className="col-span-1 font-display font-bold text-sm text-[#0D0D0D] text-right">{formatPHP(order.total)}</span>
                 <span className="col-span-1 text-right font-mono text-[10px] text-[#6B6B6B]">{isSelected ? '▲' : '▼'}</span>
               </div>
 
@@ -123,9 +125,12 @@ export default function AdminOrdersPage() {
                     )}
                     <div>
                       <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Update Status</p>
-                      <select className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#D4B63A] bg-white">
+                      <select
+                        value={order.status}
+                        onChange={e => setOrderList(list => list.map(o => o.id === order.id ? { ...o, status: e.target.value as Status } : o))}
+                        className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#D4B63A] bg-white">
                         {allStatuses.map(s => (
-                          <option key={s} value={s} selected={s === order.status}>{statusConfig[s].label}</option>
+                          <option key={s} value={s}>{statusConfig[s].label}</option>
                         ))}
                       </select>
                     </div>
