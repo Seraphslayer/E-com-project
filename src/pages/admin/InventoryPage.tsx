@@ -27,7 +27,8 @@ export default function InventoryPage() {
   const filtered = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.sku.toLowerCase().includes(search.toLowerCase());
+      p.sku.toLowerCase().includes(search.toLowerCase()) ||
+      p.brand.toLowerCase().includes(search.toLowerCase());
     const matchCat = filter === "All" || p.category === filter;
     return matchSearch && matchCat;
   });
@@ -142,7 +143,7 @@ export default function InventoryPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name or SKU..."
+            placeholder="Search by name, brand or SKU..."
             className="flex-1 font-sans text-sm outline-none placeholder:text-[#D0D0D0]"
           />
         </div>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { Search, Users, DollarSign, ShoppingBag } from "lucide-react";
+import { Search, Users, Wallet, ShoppingBag } from "lucide-react";
 import { orders } from "../../data/mockData";
+import { formatPHP } from "../../data/companyInfo";
 
 interface Customer {
   name: string;
@@ -68,13 +69,13 @@ export default function AdminCustomersPage() {
           },
           {
             label: "Lifetime Revenue",
-            value: `$${totalRevenue.toLocaleString()}`,
-            icon: DollarSign,
+            value: formatPHP(totalRevenue),
+            icon: Wallet,
             color: "#00875A",
           },
           {
             label: "Avg. Order Value",
-            value: `$${avgOrderValue.toFixed(0)}`,
+            value: formatPHP(Math.round(avgOrderValue)),
             icon: ShoppingBag,
             color: "#7C3AED",
           },
@@ -148,7 +149,7 @@ export default function AdminCustomersPage() {
                   {c.orderCount}
                 </span>
                 <span className="col-span-2 font-display font-bold text-sm text-[#0D0D0D] text-right">
-                  ${c.totalSpent.toLocaleString()}
+                  {formatPHP(c.totalSpent)}
                 </span>
                 <span className="col-span-1 font-mono text-[10px] text-[#6B6B6B] text-right">
                   {c.lastOrderDate.slice(5)}
@@ -172,7 +173,7 @@ export default function AdminCustomersPage() {
                           {o.status}
                         </span>
                         <span className="text-[#0D0D0D] font-semibold">
-                          ${o.total}
+                          {formatPHP(o.total)}
                         </span>
                       </div>
                     ))}

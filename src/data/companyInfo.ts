@@ -23,6 +23,8 @@ export const company = {
     address:
       "Block 3 Lot 8 Almond St, Summerwind Village Phase 1, Salitran III, Dasmariñas City, Cavite",
   },
+  // Add FGT's real page URLs here (keys: Facebook, Instagram, YouTube, X). Icons only show when a URL is set.
+  socials: {} as Record<string, string>,
 };
 
 export interface CatalogCategory {

@@ -5,6 +5,11 @@ import { useCart } from '../../store/cartStore'
 import { formatPHP } from '../../data/companyInfo'
 
 type Step = 'shipping' | 'payment' | 'confirm'
+type ShipMethod = 'std' | 'exp' | 'ins'
+
+// Same pricing rules as the backend: standard is free over ₱20,000 (else ₱850);
+// priority adds ₱650 and delivery + installation adds ₱1,500 on top.
+const shipExtras: Record<ShipMethod, number> = { std: 0, exp: 650, ins: 1500 }
 
 const steps: { key: Step; label: string }[] = [
   { key: 'shipping', label: 'Shipping' },
@@ -14,19 +19,37 @@ const steps: { key: Step; label: string }[] = [
 
 export default function CheckoutPage() {
   const [step, setStep] = useState<Step>('shipping')
-  const [placed, setPlaced] = useState(false)
+  const [placed, setPlaced] = useState<string | null>(null)
+  const [shipMethod, setShipMethod] = useState<ShipMethod>('std')
   const { cart, total, clearCart } = useCart()
   const navigate = useNavigate()
 
-  const shipping = total > 20000 ? 0 : 850
+  const shipping = (total > 20000 ? 0 : 850) + shipExtras[shipMethod]
   const tax = total * 0.12
   const orderTotal = total + shipping + tax
 
   const stepIndex = steps.findIndex(s => s.key === step)
 
   const placeOrder = () => {
+    // Demo order number; the backend assigns the real one.
+    const id = `ORD-${Date.now().toString().slice(-6)}`
     clearCart()
-    setPlaced(true)
+    setPlaced(id)
+  }
+
+  if (cart.length === 0 && !placed) {
+    return (
+      <div className="max-w-lg mx-auto px-4 sm:px-6 py-24 text-center">
+        <h1 className="font-display font-bold text-2xl text-[#0D0D0D] mb-2">Your cart is empty</h1>
+        <p className="text-[#6B6B6B] text-sm mb-6">Add products before checking out.</p>
+        <button
+          onClick={() => navigate('/store/products')}
+          className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
+        >
+          Browse Products
+        </button>
+      </div>
+    )
   }
 
   if (placed) {
@@ -38,11 +61,10 @@ export default function CheckoutPage() {
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-2">Order Confirmed</p>
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] mb-3">Thank you!</h1>
         <p className="text-[#6B6B6B] font-sans text-sm mb-2">
-          Your order <span className="font-mono text-[#0D0D0D]">ORD-20095</span> has been placed.
+          Your order <span className="font-mono text-[#0D0D0D]">{placed}</span> has been placed.
         </p>
         <p className="text-[#6B6B6B] font-sans text-sm mb-8">
-          A confirmation has been sent to <span className="font-mono text-[#0D0D0D]">your email</span>.
-          Our team will follow up to confirm delivery or installation schedule.
+          Our team will follow up to confirm payment, delivery, and any installation schedule.
         </p>
         <div className="flex gap-3 justify-center">
           <button
@@ -123,12 +145,12 @@ export default function CheckoutPage() {
                 <label className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2 block">Shipping Method</label>
                 <div className="space-y-2">
                   {[
-                    { id: 'std', label: 'Standard Delivery — 5–7 business days', price: 'Free', selected: true },
-                    { id: 'exp', label: 'Priority Delivery — 2–3 business days', price: formatPHP(650), selected: false },
-                    { id: 'ins', label: 'Delivery + On-site Installation', price: formatPHP(1500), selected: false },
+                    { id: 'std' as ShipMethod, label: 'Standard Delivery — 5–7 business days', price: total > 20000 ? 'Free' : formatPHP(850) },
+                    { id: 'exp' as ShipMethod, label: 'Priority Delivery — 2–3 business days', price: `+${formatPHP(650)}` },
+                    { id: 'ins' as ShipMethod, label: 'Delivery + On-site Installation', price: `+${formatPHP(1500)}` },
                   ].map(opt => (
                     <label key={opt.id} className="flex items-center gap-3 border border-[#E2E2E2] px-4 py-3 cursor-pointer hover:border-[#D4B63A] transition-colors">
-                      <input type="radio" name="shipping" defaultChecked={opt.selected} className="accent-[#D4B63A]" />
+                      <input type="radio" name="shipping" checked={shipMethod === opt.id} onChange={() => setShipMethod(opt.id)} className="accent-[#D4B63A]" />
                       <span className="flex-1 font-sans text-sm text-[#0D0D0D]">{opt.label}</span>
                       <span className={`font-display font-semibold text-sm ${opt.price === 'Free' ? 'text-[#00875A]' : 'text-[#0D0D0D]'}`}>{opt.price}</span>
                     </label>

@@ -1,16 +1,17 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
-import { CreditCard, DollarSign, TrendingUp, AlertCircle, CheckCircle, Clock } from 'lucide-react'
+import { CreditCard, Wallet, TrendingUp, AlertCircle, CheckCircle, Clock } from 'lucide-react'
 import { revenueData } from '../../data/mockData'
+import { formatPHP } from '../../data/companyInfo'
 
 const transactions = [
-  { id: 'PAY-8821', date: 'Aug 8, 2026', customer: 'Elena Vasquez', method: 'Visa •••• 4242', amount: 249, status: 'captured', orderId: 'ORD-20095' },
-  { id: 'PAY-8820', date: 'Aug 6, 2026', customer: 'James Thornton', method: 'Mastercard •••• 1234', amount: 189, status: 'captured', orderId: 'ORD-20093' },
-  { id: 'PAY-8819', date: 'Aug 5, 2026', customer: 'Aiko Nakamura', method: 'Visa •••• 9876', amount: 227, status: 'captured', orderId: 'ORD-20092' },
-  { id: 'PAY-8818', date: 'Aug 5, 2026', customer: 'Marcus Webb', method: 'Visa •••• 5544', amount: 64, status: 'pending', orderId: 'ORD-20091' },
-  { id: 'PAY-8817', date: 'Aug 4, 2026', customer: 'Sofia Reyes', method: 'Amex •••• 3782', amount: 495, status: 'captured', orderId: 'ORD-20090' },
-  { id: 'PAY-8816', date: 'Aug 4, 2026', customer: 'Omar Khalid', method: 'Visa •••• 7777', amount: 249, status: 'refunded', orderId: 'ORD-20089' },
-  { id: 'PAY-8815', date: 'Aug 3, 2026', customer: 'Priya Sharma', method: 'Mastercard •••• 4321', amount: 164, status: 'captured', orderId: 'ORD-20088' },
-  { id: 'PAY-8814', date: 'Aug 3, 2026', customer: 'Tom Eriksen', method: 'Visa •••• 6543', amount: 89, status: 'captured', orderId: 'ORD-20087' },
+  { id: 'PAY-8821', date: 'Aug 6, 2026', customer: 'Lungsod ng Bacoor, General Services Office', method: 'Bank Transfer', amount: 58400, status: 'captured', orderId: 'ORD-20094' },
+  { id: 'PAY-8820', date: 'Aug 6, 2026', customer: 'Lungsod ng Imus, IT Department', method: 'Bank Transfer', amount: 24800, status: 'captured', orderId: 'ORD-20093' },
+  { id: 'PAY-8819', date: 'Aug 5, 2026', customer: 'Bayan ng Carmona', method: 'Bank Transfer', amount: 33900, status: 'captured', orderId: 'ORD-20092' },
+  { id: 'PAY-8818', date: 'Aug 5, 2026', customer: 'La Trinidad Academy', method: 'GCash', amount: 7200, status: 'pending', orderId: 'ORD-20091' },
+  { id: 'PAY-8817', date: 'Aug 4, 2026', customer: 'Lungsod ng Trece Martires', method: 'Bank Transfer', amount: 94500, status: 'captured', orderId: 'ORD-20090' },
+  { id: 'PAY-8816', date: 'Aug 4, 2026', customer: 'Bayan ng Indang', method: 'Card', amount: 11300, status: 'refunded', orderId: 'ORD-20089' },
+  { id: 'PAY-8815', date: 'Aug 3, 2026', customer: 'Bayan ng Amadeo', method: 'Maya', amount: 16900, status: 'captured', orderId: 'ORD-20088' },
+  { id: 'PAY-8814', date: 'Aug 3, 2026', customer: 'Bayan ng Magallanes', method: 'GCash', amount: 9800, status: 'captured', orderId: 'ORD-20087' },
 ]
 
 const statusConfig: Record<string, { label: string; color: string; icon: any }> = {
@@ -34,10 +35,10 @@ export default function PaymentsPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         {[
-          { label: 'Captured (Aug)', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: '#00875A' },
+          { label: 'Captured (Aug)', value: formatPHP(totalRevenue), icon: Wallet, color: '#00875A' },
           { label: 'Transactions', value: transactions.length, icon: CreditCard, color: '#D4B63A' },
-          { label: 'Refunds', value: `$${totalRefunds}`, icon: AlertCircle, color: '#DC2626' },
-          { label: 'Avg. Order Value', value: `$${Math.round(totalRevenue / transactions.filter(t => t.status === 'captured').length)}`, icon: TrendingUp, color: '#7C3AED' },
+          { label: 'Refunds', value: formatPHP(totalRefunds), icon: AlertCircle, color: '#DC2626' },
+          { label: 'Avg. Order Value', value: formatPHP(Math.round(totalRevenue / transactions.filter(t => t.status === 'captured').length)), icon: TrendingUp, color: '#7C3AED' },
         ].map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="bg-white border border-[#E2E2E2] p-4 flex items-center gap-3">
             <div className="w-9 h-9 flex items-center justify-center" style={{ background: `${color}15` }}>
@@ -57,10 +58,10 @@ export default function PaymentsPage() {
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={revenueData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <XAxis dataKey="month" tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#6B6B6B' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#6B6B6B' }} axisLine={false} tickLine={false} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
+            <YAxis tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#6B6B6B' }} axisLine={false} tickLine={false} tickFormatter={v => `₱${(v/1000).toFixed(0)}k`} />
             <Tooltip
               contentStyle={{ border: '1px solid #E2E2E2', borderRadius: 0, fontFamily: 'JetBrains Mono', fontSize: 11 }}
-              formatter={(v: number) => [`$${v.toLocaleString()}`, 'Revenue']}
+              formatter={(v) => [`₱${Number(v).toLocaleString()}`, 'Revenue']}
             />
             <Bar dataKey="revenue" fill="#D4B63A" radius={0} />
           </BarChart>
@@ -98,7 +99,7 @@ export default function PaymentsPage() {
                 <Icon size={10} /> {cfg.label}
               </span>
               <span className={`col-span-1 font-display font-bold text-sm text-right ${tx.status === 'refunded' ? 'text-[#DC2626]' : 'text-[#0D0D0D]'}`}>
-                {tx.status === 'refunded' ? '-' : ''}${tx.amount}
+                {tx.status === 'refunded' ? '-' : ''}{formatPHP(tx.amount)}
               </span>
             </div>
           )

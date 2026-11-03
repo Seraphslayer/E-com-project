@@ -12,7 +12,7 @@ export default function ChatWidget() {
     const newMsg: ChatMessage = {
       id: `cm${Date.now()}`,
       sender: 'customer',
-      name: 'Elena Vasquez',
+      name: 'You',
       message: input.trim(),
       time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
       read: false,

@@ -5,21 +5,23 @@ import { company, categories } from "../data/companyInfo";
 
 const shopLinks = categories.map((c) => c.name);
 const helpLinks = [
-  "Contact Us",
-  "Request a Quote",
-  "Installation & Support",
-  "Track Order",
+  { label: "Contact Us", to: "/store/info/contact" },
+  { label: "Request a Quote", to: "/store/quote" },
+  { label: "Installation & Support", to: "/store/info/support" },
+  { label: "Track Order", to: "/store/orders" },
 ];
 const policyLinks = [
-  "Privacy Policy",
-  "Terms of Service",
-  "Procurement & Bidding",
+  { label: "Privacy Policy", to: "/store/info/privacy" },
+  { label: "Terms of Service", to: "/store/info/terms" },
+  { label: "Procurement & Bidding", to: "/store/info/procurement" },
 ];
 
-function SocialIcon({ path, label }: { path: string; label: string }) {
+function SocialIcon({ path, label, url }: { path: string; label: string; url: string }) {
   return (
     <a
-      href="#"
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className="text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
     >
@@ -92,9 +94,11 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            {socials.map((s) => (
-              <SocialIcon key={s.label} {...s} />
-            ))}
+            {socials
+              .filter((s) => company.socials[s.label])
+              .map((s) => (
+                <SocialIcon key={s.label} {...s} url={company.socials[s.label]} />
+              ))}
           </div>
         </div>
 
@@ -122,12 +126,12 @@ export default function Footer() {
           </h4>
           <ul className="space-y-2.5">
             {helpLinks.map((link) => (
-              <li key={link}>
+              <li key={link.label}>
                 <Link
-                  to={link === "Request a Quote" ? "/store/quote" : "/store"}
+                  to={link.to}
                   className="text-sm text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
                 >
-                  {link}
+                  {link.label}
                 </Link>
               </li>
             ))}
@@ -177,13 +181,13 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-5 flex-wrap justify-center">
             {policyLinks.map((link) => (
-              <a
-                key={link}
-                href="#"
+              <Link
+                key={link.label}
+                to={link.to}
                 className="font-mono text-[11px] text-[#6B6B6B] hover:text-[#0D0D0D] transition-colors"
               >
-                {link}
-              </a>
+                {link.label}
+              </Link>
             ))}
           </div>
         </div>
