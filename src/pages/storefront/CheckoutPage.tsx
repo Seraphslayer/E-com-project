@@ -7,11 +7,16 @@ import { api } from '../../lib/api'
 
 type Step = 'shipping' | 'payment' | 'confirm'
 type ShipMethod = 'std' | 'exp' | 'ins'
-type PayMethod = 'bank_transfer' | 'cod'
+type PayMethod = 'card' | 'gcash' | 'maya' | 'grabpay' | 'bank_transfer' | 'cod'
+const onlineMethods: PayMethod[] = ['card', 'gcash', 'maya', 'grabpay']
 
 const apiShipMethod: Record<ShipMethod, string> = { std: 'standard', exp: 'priority', ins: 'installation' }
 
 const payOptions: { id: PayMethod; label: string; hint: string }[] = [
+  { id: 'gcash', label: 'GCash', hint: 'Pay securely online with your GCash wallet.' },
+  { id: 'maya', label: 'Maya', hint: 'Pay securely online with your Maya wallet.' },
+  { id: 'grabpay', label: 'GrabPay', hint: 'Pay securely online with GrabPay.' },
+  { id: 'card', label: 'Credit / debit card', hint: 'Visa or Mastercard, paid on PayMongo\'s secure page.' },
   { id: 'bank_transfer', label: 'Bank transfer', hint: 'We email you our bank details. Your order is processed once payment is received.' },
   { id: 'cod', label: 'Pay on delivery', hint: 'Pay our courier or installer when your order arrives.' },
 ]
@@ -32,10 +37,11 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<Step>('shipping')
   const [placed, setPlaced] = useState<string | null>(null)
   const [shipMethod, setShipMethod] = useState<ShipMethod>('std')
-  const [payMethod, setPayMethod] = useState<PayMethod>('bank_transfer')
+  const [payMethod, setPayMethod] = useState<PayMethod>('gcash')
   const [form, setForm] = useState(emptyForm)
   const [formError, setFormError] = useState('')
   const [placing, setPlacing] = useState(false)
+  const [payWarning, setPayWarning] = useState('')
   const { cart, total, clearCart } = useCart()
   const navigate = useNavigate()
 
@@ -84,6 +90,21 @@ export default function CheckoutPage() {
           paymentMethod: payMethod,
         },
       })
+      if (onlineMethods.includes(payMethod)) {
+        try {
+          const pay = await api<{ checkoutUrl: string }>('/payments/checkout', {
+            method: 'POST',
+            auth: false,
+            body: { orderId: order.id, email: form.email.trim() },
+          })
+          clearCart()
+          window.location.href = pay.checkoutUrl // PayMongo's secure payment page
+          return
+        } catch (err) {
+          // The order itself is saved; only the online payment could not be started.
+          setPayWarning(err instanceof Error ? err.message : 'Online payment could not be started.')
+        }
+      }
       clearCart()
       setPlaced(order.id)
     } catch (err) {
@@ -122,6 +143,11 @@ export default function CheckoutPage() {
         <p className="text-[#6B6B6B] font-sans text-sm mb-8">
           Our team will follow up to confirm payment, delivery, and any installation schedule.
         </p>
+        {payWarning && (
+          <p className="font-mono text-xs text-[#856A00] bg-[#FBF5D6] px-3 py-2 mb-6">
+            Online payment could not be started: {payWarning} Please contact us to pay for this order.
+          </p>
+        )}
         <div className="flex gap-3 justify-center">
           <button
             onClick={() => navigate('/store/orders')}
@@ -245,7 +271,7 @@ export default function CheckoutPage() {
                 ))}
               </div>
               <div className="mt-4 bg-[#EBF0F0] px-4 py-3">
-                <p className="font-mono text-[11px] text-[#6B6B6B]">Online payment by card, GCash, Maya and GrabPay (PayMongo) is coming soon.</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B]">Online payments are processed on PayMongo's secure page. We never see or store your card details.</p>
               </div>
               <div className="mt-6 flex gap-3">
                 <button onClick={() => setStep('shipping')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>
@@ -286,7 +312,7 @@ export default function CheckoutPage() {
               <div className="flex gap-3">
                 <button onClick={() => setStep('payment')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>
                 <button onClick={placeOrder} disabled={placing} className="flex-1 disabled:opacity-60 bg-[#EACD51] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors flex items-center justify-center gap-2">
-                  <Lock size={14} /> {placing ? 'Placing order...' : `Place Order — ${formatPHP(Math.round(orderTotal))}`}
+                  <Lock size={14} /> {placing ? 'Placing order...' : onlineMethods.includes(payMethod) ? `Pay Now — ${formatPHP(Math.round(orderTotal))}` : `Place Order — ${formatPHP(Math.round(orderTotal))}`}
                 </button>
               </div>
             </div>
