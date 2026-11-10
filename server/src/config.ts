@@ -9,7 +9,8 @@ const schema = z.object({
   JWT_EXPIRES_IN: z.string().default("8h"),
   // Comma-separated list of browser origins allowed to call the API.
   CORS_ORIGINS: z.string().default("http://localhost:8443,http://localhost:5173"),
-  UPLOAD_DIR: z.string().default("./uploads"),
+  // On Vercel the project folder is read-only, so only /tmp is writable.
+  UPLOAD_DIR: z.string().default(process.env.VERCEL ? "/tmp/uploads" : "./uploads"),
   MAX_UPLOAD_MB: z.coerce.number().default(50),
   // Optional: create the first admin account on startup if no users exist.
   ADMIN_EMAIL: z.string().email().optional(),

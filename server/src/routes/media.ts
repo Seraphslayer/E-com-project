@@ -35,6 +35,15 @@ const upload = multer({
 
 export const mediaRouter = Router();
 
+// Serverless hosting (Vercel) can't keep uploaded files, so refuse clearly instead of losing them.
+// Use image links, or move uploads to S3 / Vercel Blob before using photo upload in production.
+mediaRouter.use((req, _res, next) => {
+  if (process.env.VERCEL && req.method !== "GET") {
+    return next(new HttpError(501, "Photo upload isn't available on this server yet. Paste an image link instead."));
+  }
+  next();
+});
+
 mediaRouter.post("/", requireAdmin, upload.array("files", 10), (req, res) => {
   const files = (req.files as Express.Multer.File[] | undefined) ?? [];
   if (files.length === 0) throw new HttpError(400, 'No files received (use the form field "files")');
