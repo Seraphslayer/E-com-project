@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Package, Truck, CheckCircle, Clock, XCircle, Search } from 'lucide-react'
 import { formatPHP } from '../../data/companyInfo'
 import { api } from '../../lib/api'
@@ -8,6 +9,7 @@ interface MyOrder {
   createdAt: string
   status: Status
   total: number
+  paymentStatus?: string
   tracking?: string
   items: { name: string; quantity: number; price: number }[]
 }
@@ -57,7 +59,8 @@ function TrackBar({ status }: { status: Status }) {
 }
 
 export default function OrdersPage() {
-  const [orderId, setOrderId] = useState('')
+  const [params] = useSearchParams()
+  const [orderId, setOrderId] = useState(params.get('id') ?? '')
   const [email, setEmail] = useState('')
   const [order, setOrder] = useState<MyOrder | null>(null)
   const [error, setError] = useState('')
@@ -88,6 +91,17 @@ export default function OrdersPage() {
         <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Track Your Order</h1>
         <p className="text-sm text-[#6B6B6B] mt-1">Enter your order number and the email you used at checkout.</p>
       </div>
+
+      {params.get('paid') && (
+        <p className="font-mono text-xs text-[#00875A] bg-[#E8F5F0] px-3 py-2 mb-4">
+          Thank you! Your payment is being confirmed. Enter your email below to see your order status.
+        </p>
+      )}
+      {params.get('cancelled') && (
+        <p className="font-mono text-xs text-[#856A00] bg-[#FBF5D6] px-3 py-2 mb-4">
+          Payment was not completed. Your order is saved. Please contact us to pay for it, or place a new order.
+        </p>
+      )}
 
       <form onSubmit={lookup} className="bg-white border border-[#E2E2E2] p-5 mb-6 grid sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
         <div>
@@ -130,6 +144,9 @@ export default function OrdersPage() {
           </div>
           <div className="px-5 pb-4">
             <TrackBar status={order.status} />
+            {order.paymentStatus && (
+              <p className="mt-2 font-mono text-[11px] text-[#6B6B6B]">Payment: <span className="text-[#0D0D0D] uppercase">{order.paymentStatus}</span></p>
+            )}
             {order.tracking && (
               <p className="mt-2 font-mono text-[11px] text-[#6B6B6B]">Tracking: <span className="text-[#856A00]">{order.tracking}</span></p>
             )}

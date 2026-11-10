@@ -14,7 +14,11 @@ const statusConfig: Record<Status, { icon: any; label: string; color: string }> 
   cancelled: { icon: XCircle, label: 'Cancelled', color: '#DC2626' },
 }
 
+type Row = Order & { payment?: string; method?: string }
+
 interface ApiOrder {
+  paymentStatus?: string
+  paymentMethod?: string
   id: string
   createdAt: string
   customer: { name: string; email: string }
@@ -24,7 +28,9 @@ interface ApiOrder {
   tracking?: string
 }
 
-const toRow = (o: ApiOrder): Order => ({
+const toRow = (o: ApiOrder): Row => ({
+  payment: o.paymentStatus,
+  method: o.paymentMethod,
   id: o.id,
   date: new Date(o.createdAt).toLocaleDateString('en-PH', { dateStyle: 'medium' }),
   customer: o.customer.name,
@@ -41,7 +47,7 @@ export default function AdminOrdersPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<Status | 'all'>('all')
   const [selected, setSelected] = useState<string | null>(null)
-  const [orderList, setOrderList] = useState<Order[]>([])
+  const [orderList, setOrderList] = useState<Row[]>([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -161,6 +167,15 @@ export default function AdminOrdersPage() {
                       <p className="font-sans text-sm text-[#0D0D0D]">{order.customer}</p>
                       <p className="font-mono text-xs text-[#6B6B6B]">{order.email}</p>
                     </div>
+                    {order.payment && (
+                      <div>
+                        <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Payment</p>
+                        <p className="font-mono text-xs text-[#0D0D0D] uppercase">
+                          {order.payment}
+                          {order.method && <span className="text-[#6B6B6B]"> · {order.method.replace('_', ' ')}</span>}
+                        </p>
+                      </div>
+                    )}
                     {order.tracking && (
                       <div>
                         <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Tracking</p>

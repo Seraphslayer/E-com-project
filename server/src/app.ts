@@ -14,6 +14,7 @@ import { quotesRouter } from "./routes/quotes";
 import { reviewsRouter } from "./routes/reviews";
 import { postsRouter } from "./routes/posts";
 import { statsRouter } from "./routes/stats";
+import { paymentsRouter } from "./routes/payments";
 
 export function createApp() {
   const app = express();
@@ -31,7 +32,15 @@ export function createApp() {
     }),
   );
   app.use(morgan(config.isProd ? "combined" : "dev"));
-  app.use(express.json({ limit: "100kb" }));
+  // Keep the raw bytes: PayMongo webhook signatures are computed over the exact request body.
+  app.use(
+    express.json({
+      limit: "100kb",
+      verify: (req, _res, buf) => {
+        (req as unknown as { rawBody?: Buffer }).rawBody = buf;
+      },
+    }),
+  );
 
   app.get("/api/health", (_req, res) => {
     const dbUp = mongoose.connection.readyState === 1;
@@ -52,6 +61,7 @@ export function createApp() {
   app.use("/api/products", productsRouter);
   app.use("/api/media", mediaRouter);
   app.use("/api/orders", ordersRouter);
+  app.use("/api/payments", paymentsRouter);
   app.use("/api/quotes", quotesRouter);
   app.use("/api/reviews", reviewsRouter);
   app.use("/api/posts", postsRouter);
