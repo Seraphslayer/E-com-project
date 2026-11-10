@@ -209,18 +209,19 @@ export default function StorefrontLayout() {
               <button
                 onClick={() => setAccountOpen((o) => !o)}
                 onBlur={() => setTimeout(() => setAccountOpen(false), 150)}
-                className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center text-xs font-mono text-[#0D0D0D] shrink-0 hover:bg-[#E2E2E2] transition-colors"
+                aria-label="Account menu"
+                className="w-7 h-7 bg-[#E4EBEB] flex items-center justify-center text-[#0D0D0D] shrink-0 hover:bg-[#E2E2E2] transition-colors"
               >
-                EV
+                <User size={14} />
               </button>
               {accountOpen && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-[#E2E2E2] shadow-lg z-50">
                   <div className="px-4 py-3 border-b border-[#E2E2E2]">
                     <p className="font-sans text-sm font-medium text-[#0D0D0D]">
-                      Elena Vasquez
+                      Guest
                     </p>
                     <p className="font-mono text-[10px] text-[#6B6B6B]">
-                      elena.v@email.com
+                      Not signed in
                     </p>
                   </div>
                   <button
@@ -239,7 +240,7 @@ export default function StorefrontLayout() {
                     }}
                     className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-sm text-[#0D0D0D] hover:bg-[#EBF0F0] transition-colors border-t border-[#E2E2E2]"
                   >
-                    <LogOut size={14} className="text-[#6B6B6B]" /> Sign Out
+                    <LogOut size={14} className="text-[#6B6B6B]" /> Switch Portal
                   </button>
                 </div>
               )}

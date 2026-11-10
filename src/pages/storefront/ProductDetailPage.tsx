@@ -305,13 +305,13 @@ export default function ProductDetailPage() {
             <div className="flex flex-col items-center text-center gap-1.5">
               <Truck size={17} className="text-[#856A00]" />
               <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">
-                Free Shipping $75+
+                Free Shipping ₱20,000+
               </p>
             </div>
             <div className="flex flex-col items-center text-center gap-1.5">
               <RotateCcw size={17} className="text-[#856A00]" />
               <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">
-                30-Day Returns
+                Manufacturer Warranty
               </p>
             </div>
             <div className="flex flex-col items-center text-center gap-1.5">

@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Search, Filter, Package, Truck, CheckCircle, Clock, XCircle } from 'lucide-react'
-import { orders, Order } from '../../data/mockData'
+import type { Order } from '../../data/mockData'
+import { api } from '../../lib/api'
+import { formatPHP } from '../../data/companyInfo'
 
 type Status = Order['status']
 
@@ -12,20 +14,60 @@ const statusConfig: Record<Status, { icon: any; label: string; color: string }> 
   cancelled: { icon: XCircle, label: 'Cancelled', color: '#DC2626' },
 }
 
+interface ApiOrder {
+  id: string
+  createdAt: string
+  customer: { name: string; email: string }
+  items: { quantity: number }[]
+  status: Status
+  total: number
+  tracking?: string
+}
+
+const toRow = (o: ApiOrder): Order => ({
+  id: o.id,
+  date: new Date(o.createdAt).toLocaleDateString('en-PH', { dateStyle: 'medium' }),
+  customer: o.customer.name,
+  email: o.customer.email,
+  status: o.status,
+  items: o.items.reduce((n, i) => n + i.quantity, 0),
+  total: o.total,
+  tracking: o.tracking,
+})
+
 const allStatuses: Status[] = ['pending', 'processing', 'shipped', 'delivered', 'cancelled']
 
 export default function AdminOrdersPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<Status | 'all'>('all')
   const [selected, setSelected] = useState<string | null>(null)
+  const [orderList, setOrderList] = useState<Order[]>([])
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const filtered = orders.filter(o => {
+  useEffect(() => {
+    api<{ items: ApiOrder[] }>('/orders?limit=200')
+      .then(res => setOrderList(res.items.map(toRow)))
+      .catch(err => setError(err instanceof Error ? err.message : 'Could not load orders.'))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const changeStatus = async (id: string, status: Status) => {
+    try {
+      await api(`/orders/${id}`, { method: 'PATCH', body: { status } })
+      setOrderList(list => list.map(o => (o.id === id ? { ...o, status } : o)))
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Could not update the order.')
+    }
+  }
+
+  const filtered = orderList.filter(o => {
     const matchSearch = o.id.toLowerCase().includes(search.toLowerCase()) || o.customer.toLowerCase().includes(search.toLowerCase())
     const matchStatus = statusFilter === 'all' || o.status === statusFilter
     return matchSearch && matchStatus
   })
 
-  const counts = Object.fromEntries(allStatuses.map(s => [s, orders.filter(o => o.status === s).length]))
+  const counts = Object.fromEntries(allStatuses.map(s => [s, orderList.filter(o => o.status === s).length]))
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -40,7 +82,7 @@ export default function AdminOrdersPage() {
           onClick={() => setStatusFilter('all')}
           className={`px-3 py-1.5 font-mono text-xs tracking-wide transition-colors ${statusFilter === 'all' ? 'bg-[#0D0D0D] text-white' : 'bg-white border border-[#E2E2E2] text-[#6B6B6B] hover:border-[#0D0D0D]'}`}
         >
-          All ({orders.length})
+          All ({orderList.length})
         </button>
         {allStatuses.map(s => {
           const { label, color } = statusConfig[s]
@@ -70,6 +112,10 @@ export default function AdminOrdersPage() {
         </div>
       </div>
 
+      {error && <p className="font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2 mb-4">{error}</p>}
+      {!error && !loading && orderList.length === 0 && (
+        <p className="font-mono text-sm text-[#6B6B6B] bg-white border border-dashed border-[#E2E2E2] py-10 text-center mb-4">No orders yet.</p>
+      )}
       <div className="bg-white border border-[#E2E2E2] overflow-x-auto">
         <div className="grid grid-cols-12 gap-4 min-w-[760px] px-5 py-2.5 font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase border-b border-[#E2E2E2]">
           <span className="col-span-2">Order ID</span>
@@ -103,7 +149,7 @@ export default function AdminOrdersPage() {
                 >
                   <Icon size={10} /> {label}
                 </span>
-                <span className="col-span-1 font-display font-bold text-sm text-[#0D0D0D] text-right">${order.total}</span>
+                <span className="col-span-1 font-display font-bold text-sm text-[#0D0D0D] text-right">{formatPHP(order.total)}</span>
                 <span className="col-span-1 text-right font-mono text-[10px] text-[#6B6B6B]">{isSelected ? '▲' : '▼'}</span>
               </div>
 
@@ -123,9 +169,12 @@ export default function AdminOrdersPage() {
                     )}
                     <div>
                       <p className="font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-2">Update Status</p>
-                      <select className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#D4B63A] bg-white">
+                      <select
+                        value={order.status}
+                        onChange={e => changeStatus(order.id, e.target.value as Status)}
+                        className="border border-[#E2E2E2] px-3 py-1.5 font-mono text-xs text-[#0D0D0D] outline-none focus:border-[#D4B63A] bg-white">
                         {allStatuses.map(s => (
-                          <option key={s} value={s} selected={s === order.status}>{statusConfig[s].label}</option>
+                          <option key={s} value={s}>{statusConfig[s].label}</option>
                         ))}
                       </select>
                     </div>

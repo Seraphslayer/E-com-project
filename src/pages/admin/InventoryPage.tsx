@@ -13,7 +13,7 @@ import { formatPHP } from "../../data/companyInfo";
 import ProductFormModal from "../../components/admin/ProductFormModal";
 
 export default function InventoryPage() {
-  const { products, saveProduct, deleteProduct, resetProducts } = useProducts();
+  const { products, saveProduct, deleteProduct } = useProducts();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [modalMode, setModalMode] = useState<"add" | "edit" | null>(null);
@@ -27,7 +27,8 @@ export default function InventoryPage() {
   const filtered = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.sku.toLowerCase().includes(search.toLowerCase());
+      p.sku.toLowerCase().includes(search.toLowerCase()) ||
+      p.brand.toLowerCase().includes(search.toLowerCase());
     const matchCat = filter === "All" || p.category === filter;
     return matchSearch && matchCat;
   });
@@ -49,15 +50,22 @@ export default function InventoryPage() {
     setEditingProduct(null);
   };
 
-  const handleSave = (product: Product) => {
-    saveProduct(product);
-    closeModal();
+  const handleSave = async (product: Product) => {
+    try {
+      await saveProduct(product);
+      closeModal();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Could not save the product.");
+    }
   };
 
-  const handleDelete = (id: string, e: React.MouseEvent) => {
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (confirm("Remove this product from inventory?")) {
-      deleteProduct(id);
+    if (!confirm("Remove this product from inventory?")) return;
+    try {
+      await deleteProduct(id);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Could not delete the product.");
     }
   };
 
@@ -73,14 +81,6 @@ export default function InventoryPage() {
           </h1>
         </div>
         <div className="flex items-center gap-4">
-        <button
-          onClick={() => {
-            if (confirm("Reset the catalog to the original demo products? Uploaded photos and edits will be removed.")) resetProducts();
-          }}
-          className="font-mono text-[11px] tracking-wide text-[#6B6B6B] hover:text-[#0D0D0D] underline underline-offset-2 transition-colors"
-        >
-          Reset demo data
-        </button>
         <button
           onClick={openAdd}
           className="flex items-center gap-2 bg-[#EACD51] text-[#0D0D0D] px-4 py-2.5 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors"
@@ -142,7 +142,7 @@ export default function InventoryPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name or SKU..."
+            placeholder="Search by name, brand or SKU..."
             className="flex-1 font-sans text-sm outline-none placeholder:text-[#D0D0D0]"
           />
         </div>

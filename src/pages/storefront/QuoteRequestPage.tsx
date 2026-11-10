@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { FileText, CheckCircle, Phone, Mail, MapPin, ArrowLeft } from "lucide-react";
 import { company, categories } from "../../data/companyInfo";
+import { submitQuote } from "../../store/quoteStore";
 
 export default function QuoteRequestPage() {
   const [searchParams] = useSearchParams();
@@ -23,9 +24,21 @@ export default function QuoteRequestPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setSendError("");
+    try {
+      await submitQuote(form);
+      setSubmitted(true);
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : "Could not send your request. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -169,11 +182,15 @@ export default function QuoteRequestPage() {
             />
           </div>
 
+          {sendError && (
+            <p className="font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2">{sendError}</p>
+          )}
           <button
             type="submit"
-            className="w-full bg-[#EACD51] text-[#0D0D0D] py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#D4B63A] transition-colors"
+            disabled={sending}
+            className="w-full disabled:opacity-60 bg-[#EACD51] text-[#0D0D0D] py-3.5 font-mono text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#D4B63A] transition-colors"
           >
-            <FileText size={15} /> Submit Request
+            <FileText size={15} /> {sending ? 'Sending...' : 'Submit Request'}
           </button>
         </form>
 

@@ -1,80 +1,68 @@
 import { useSyncExternalStore } from "react";
 import { products as seedProducts, Product } from "../data/mockData";
-import { resolveMedia, toStoredValue, isMediaRef } from "./mediaStore";
+import { api, mediaUrl, toApiMedia } from "../lib/api";
 
-// Single source of truth for the product catalog. The admin portal edits it and the
-// storefront reads it, so changes show up on the site immediately.
-//
-// FRONTEND DEMO: persisted in localStorage (this browser only). When the backend
-// exists, replace load/persist with API calls; the hook's shape can stay the same.
+// Single source of truth for the product catalog. The storefront reads it and the admin
+// portal edits it; both talk to the backend (GET/POST/PUT/DELETE /api/products).
+// The demo catalog in mockData is only shown while the backend is unreachable.
 
-const KEY = "fgt.products.v1";
-const PLACEHOLDER =
-  "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&h=600&fit=crop&auto=format";
+type ApiProduct = Omit<Product, "images" | "video" | "originalPrice"> & {
+  images?: string[];
+  video?: string | null;
+  originalPrice?: number | null;
+};
 
-function loadStored(): Product[] {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw) as Product[];
-  } catch {
-    /* storage unavailable or corrupt: fall back to the demo catalog */
-  }
-  return seedProducts;
+function fromApi(p: ApiProduct): Product {
+  return {
+    ...p,
+    originalPrice: p.originalPrice ?? undefined,
+    image: mediaUrl(p.image),
+    images: p.images?.map(mediaUrl),
+    video: p.video ? mediaUrl(p.video) : undefined,
+  };
 }
 
-function persist(list: Product[]) {
-  try {
-    const stored = list.map((p) => ({
-      ...p,
-      image: toStoredValue(p.image),
-      images: p.images?.map(toStoredValue),
-      video: p.video ? toStoredValue(p.video) : undefined,
-    }));
-    localStorage.setItem(KEY, JSON.stringify(stored));
-  } catch {
-    /* ignore quota / private-mode errors */
-  }
+// The backend only accepts uploaded files (/uploads/...) or http(s) links, so the
+// built-in "photo coming soon" placeholder (a data: URI) is left out of saves.
+const sendable = (v?: string | null) => (v && !v.startsWith("data:") ? toApiMedia(v) : undefined);
+
+function toApi(p: Product) {
+  return {
+    name: p.name,
+    brand: p.brand,
+    category: p.category,
+    sku: p.sku,
+    price: p.price,
+    originalPrice: p.originalPrice ?? null,
+    stock: p.stock,
+    image: sendable(p.image),
+    images: (p.images ?? []).map(sendable).filter(Boolean),
+    video: sendable(p.video) ?? null,
+    description: p.description,
+    tags: p.tags,
+    quoteOnly: !!p.quoteOnly,
+  };
 }
 
-let state: Product[] = loadStored().map((p) => ({
-  ...p,
-  // uploaded files are swapped in by hydrate() once they are read back from IndexedDB
-  image: isMediaRef(p.image) ? "" : p.image,
-  images: p.images?.filter((u) => !isMediaRef(u)),
-  video: p.video && isMediaRef(p.video) ? undefined : p.video,
-}));
+let state: Product[] = seedProducts;
+let loaded = false;
 const listeners = new Set<() => void>();
 
-function emit() {
+function set(next: Product[]) {
+  state = next;
   listeners.forEach((l) => l());
 }
 
-function set(next: Product[], save = true) {
-  state = next;
-  if (save) persist(state);
-  emit();
-}
-
-async function hydrate() {
-  const stored = loadStored();
-  const hydrated = await Promise.all(
-    stored.map(async (p) => ({
-      ...p,
-      image: (await resolveMedia(p.image)) || PLACEHOLDER,
-      images: p.images ? await Promise.all(p.images.map(resolveMedia)) : undefined,
-      video: p.video ? (await resolveMedia(p.video)) || undefined : undefined,
-    })),
-  );
-  set(hydrated, false);
-}
-if (typeof window !== "undefined" && stored()) void hydrate();
-function stored() {
+export async function refreshProducts() {
   try {
-    return !!localStorage.getItem(KEY);
+    const list = await api<ApiProduct[]>("/products?limit=1000", { auth: false });
+    loaded = true;
+    set(list.map(fromApi));
   } catch {
-    return false;
+    /* keep whatever is shown (demo catalog) when the backend is unreachable */
   }
 }
+if (typeof window !== "undefined") void refreshProducts();
 
 function subscribe(l: () => void) {
   listeners.add(l);
@@ -86,24 +74,21 @@ export function useProducts() {
   const products = useSyncExternalStore(subscribe, getSnapshot);
   return {
     products,
-    saveProduct(product: Product) {
+    loaded,
+    /** Creates or updates a product. Throws with a readable message if the server refuses. */
+    async saveProduct(product: Product) {
       const exists = state.some((p) => p.id === product.id);
-      set(
-        exists
-          ? state.map((p) => (p.id === product.id ? product : p))
-          : [product, ...state],
-      );
-    },
-    deleteProduct(id: string) {
-      set(state.filter((p) => p.id !== id));
-    },
-    resetProducts() {
-      try {
-        localStorage.removeItem(KEY);
-      } catch {
-        /* ignore */
+      if (exists) {
+        const saved = fromApi(await api<ApiProduct>(`/products/${product.id}`, { method: "PUT", body: toApi(product) }));
+        set(state.map((p) => (p.id === product.id ? saved : p)));
+      } else {
+        const saved = fromApi(await api<ApiProduct>("/products", { method: "POST", body: toApi(product) }));
+        set([saved, ...state]);
       }
-      set(seedProducts, false);
+    },
+    async deleteProduct(id: string) {
+      await api(`/products/${id}`, { method: "DELETE" });
+      set(state.filter((p) => p.id !== id));
     },
   };
 }

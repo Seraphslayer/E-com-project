@@ -44,14 +44,14 @@ function SettingsCard({
 }
 
 export default function AdminSettingsPage() {
-  const [storeName, setStoreName] = useState("MERX");
+  const [storeName, setStoreName] = useState("FGT Trading OPC");
   const [storeDescription, setStoreDescription] = useState(
-    "Electronics, apparel, and everyday essentials curated for the modern buyer.",
+    "Supply, installation, and support for land mobile communication, CCTV, access control, audio-visual, and IT equipment.",
   );
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("PHP");
 
-  const [freeShippingThreshold, setFreeShippingThreshold] = useState("75");
-  const [flatRate, setFlatRate] = useState("9.99");
+  const [freeShippingThreshold, setFreeShippingThreshold] = useState("20000");
+  const [flatRate, setFlatRate] = useState("850");
 
   const [paymentMethods, setPaymentMethods] = useState({
     card: true,
@@ -124,8 +124,8 @@ export default function AdminSettingsPage() {
               onChange={(e) => setCurrency(e.target.value)}
               className="border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A] bg-white"
             >
-              <option value="USD">USD ($)</option>
               <option value="PHP">PHP (₱)</option>
+              <option value="USD">USD ($)</option>
             </select>
           </div>
         </SettingsCard>
@@ -134,7 +134,7 @@ export default function AdminSettingsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
-                Free Shipping Threshold ($)
+                Free Shipping Threshold (₱)
               </label>
               <input
                 type="number"
@@ -145,7 +145,7 @@ export default function AdminSettingsPage() {
             </div>
             <div>
               <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">
-                Flat Rate ($)
+                Flat Rate (₱)
               </label>
               <input
                 type="number"

@@ -10,7 +10,9 @@ import CheckoutPage from "./pages/storefront/CheckoutPage";
 import OrdersPage from "./pages/storefront/OrdersPage";
 import MicroblogPage from "./pages/storefront/MicroblogPage";
 import QuoteRequestPage from "./pages/storefront/QuoteRequestPage";
+import InfoPage from "./pages/storefront/InfoPage";
 import AdminLayout from "./pages/admin/AdminLayout";
+import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import InventoryPage from "./pages/admin/InventoryPage";
 import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
@@ -21,6 +23,7 @@ import AdminContentPage from "./pages/admin/AdminContentPage";
 import QRPage from "./pages/admin/QRPage";
 import AdminChatPage from "./pages/admin/AdminChatPage";
 import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
+import QuoteRequestsPage from "./pages/admin/QuoteRequestsPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,12 +49,15 @@ export default function App() {
           <Route path="orders" element={<OrdersPage />} />
           <Route path="community" element={<MicroblogPage />} />
           <Route path="quote" element={<QuoteRequestPage />} />
+          <Route path="info/:topic" element={<InfoPage />} />
         </Route>
 
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
+          <Route path="quotes" element={<QuoteRequestsPage />} />
           <Route path="customers" element={<AdminCustomersPage />} />
           <Route path="payments" element={<PaymentsPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />

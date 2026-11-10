@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { api, getToken, setToken } from "../../lib/api";
 import {
   LayoutDashboard,
   Package,
@@ -15,12 +16,14 @@ import {
   Users,
   Menu,
   X,
+  FileText,
 } from "lucide-react";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/inventory", label: "Inventory", icon: Package },
   { to: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/admin/quotes", label: "Quote Requests", icon: FileText },
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/payments", label: "Payments", icon: CreditCard },
   { to: "/admin/reviews", label: "Reviews", icon: Star },
@@ -32,17 +35,26 @@ const navItems = [
 const notifications = [
   {
     id: "n1",
-    text: "Low stock alert: Mechanical Keyboard TKL (22 left)",
+    text: "Low stock alert: IC-Card Turnstile Gate (6 left)",
     time: "10m ago",
   },
   { id: "n2", text: "New order ORD-20095 received", time: "1h ago" },
-  { id: "n3", text: "New review flagged for moderation", time: "3h ago" },
+  { id: "n3", text: "New quote request received", time: "3h ago" },
 ];
 
 export default function AdminLayout() {
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const signedIn = !!getToken();
+
+  // Make sure the saved login is still valid (it expires after a while).
+  useEffect(() => {
+    if (!signedIn) return;
+    api("/auth/me").catch(() => navigate("/admin/login", { replace: true }));
+  }, [signedIn, navigate]);
+
+  if (!signedIn) return <Navigate to="/admin/login" replace />;
 
   return (
     <div className="min-h-screen bg-[#F0F1F1] flex">
@@ -60,12 +72,15 @@ export default function AdminLayout() {
       >
         <div className="px-5 py-5 border-b border-white/10">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => {
+              setToken(null);
+              navigate("/");
+            }}
             className="flex items-center gap-1.5 text-white/30 hover:text-white/60 transition-colors mb-4 group"
           >
             <ArrowLeft size={12} />
             <span className="font-mono text-[10px] tracking-widest uppercase">
-              Exit
+              Sign out
             </span>
           </button>
           <div className="flex items-center gap-2">
