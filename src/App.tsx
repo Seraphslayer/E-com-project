@@ -12,6 +12,7 @@ import MicroblogPage from "./pages/storefront/MicroblogPage";
 import QuoteRequestPage from "./pages/storefront/QuoteRequestPage";
 import InfoPage from "./pages/storefront/InfoPage";
 import AdminLayout from "./pages/admin/AdminLayout";
+import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import InventoryPage from "./pages/admin/InventoryPage";
 import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="info/:topic" element={<InfoPage />} />
         </Route>
 
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="inventory" element={<InventoryPage />} />

@@ -1,14 +1,18 @@
-import { Package, Truck, CheckCircle, Clock, XCircle, ExternalLink } from 'lucide-react'
+import { useState } from 'react'
+import { Package, Truck, CheckCircle, Clock, XCircle, Search } from 'lucide-react'
 import { formatPHP } from '../../data/companyInfo'
+import { api } from '../../lib/api'
+
+interface MyOrder {
+  id: string
+  createdAt: string
+  status: Status
+  total: number
+  tracking?: string
+  items: { name: string; quantity: number; price: number }[]
+}
 
 type Status = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
-
-const myOrders = [
-  { id: 'ORD-20095', date: 'Aug 8, 2026', status: 'processing' as Status, items: [{ name: 'NX-5700 VHF/UHF Portable Radio', qty: 1, price: 8500 }], total: 8500 },
-  { id: 'ORD-20094', date: 'Aug 6, 2026', status: 'shipped' as Status, items: [{ name: 'DS-2CD2387 4K Turret Network Camera', qty: 2, price: 6950 }, { name: 'Back-UPS Pro 1500VA', qty: 1, price: 9800 }], total: 23700, tracking: 'LBC1Z9999W01234567', eta: 'Aug 10, 2026' },
-  { id: 'ORD-20091', date: 'Jul 29, 2026', status: 'delivered' as Status, items: [{ name: 'AC-200 Biometric Access Controller', qty: 1, price: 11300 }], total: 11300, deliveredOn: 'Aug 2, 2026' },
-  { id: 'ORD-20089', date: 'Jul 20, 2026', status: 'cancelled' as Status, items: [{ name: 'Shure SM58 Wired Dynamic Mic', qty: 2, price: 7200 }], total: 14400 },
-]
 
 const statusConfig: Record<Status, { icon: any; label: string; color: string; bg: string }> = {
   pending: { icon: Clock, label: 'Pending', color: '#FF8C00', bg: '#FFF3E0' },
@@ -53,71 +57,85 @@ function TrackBar({ status }: { status: Status }) {
 }
 
 export default function OrdersPage() {
+  const [orderId, setOrderId] = useState('')
+  const [email, setEmail] = useState('')
+  const [order, setOrder] = useState<MyOrder | null>(null)
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+
+  const lookup = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setBusy(true)
+    setError('')
+    setOrder(null)
+    try {
+      const q = new URLSearchParams({ id: orderId.trim(), email: email.trim() })
+      setOrder(await api<MyOrder>(`/orders/track?${q}`, { auth: false }))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not find that order.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const cfg = order ? statusConfig[order.status] : null
+  const Icon = cfg?.icon
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-[#6B6B6B] tracking-widest uppercase mb-1">Orders — Service 05</p>
-        <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Your Orders</h1>
+        <h1 className="font-display font-bold text-3xl text-[#0D0D0D] tracking-tight">Track Your Order</h1>
+        <p className="text-sm text-[#6B6B6B] mt-1">Enter your order number and the email you used at checkout.</p>
       </div>
 
-      <div className="space-y-4">
-        {myOrders.map(order => {
-          const cfg = statusConfig[order.status]
-          const Icon = cfg.icon
+      <form onSubmit={lookup} className="bg-white border border-[#E2E2E2] p-5 mb-6 grid sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+        <div>
+          <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Order number</label>
+          <input required value={orderId} onChange={e => setOrderId(e.target.value)} placeholder="ORD-20101" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm outline-none focus:border-[#D4B63A]" />
+        </div>
+        <div>
+          <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Email</label>
+          <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@company.com" className="w-full border border-[#E2E2E2] px-3 py-2.5 text-sm outline-none focus:border-[#D4B63A]" />
+        </div>
+        <button type="submit" disabled={busy} className="bg-[#EACD51] text-[#0D0D0D] px-6 py-3 font-mono text-xs tracking-widest uppercase hover:bg-[#D4B63A] transition-colors flex items-center justify-center gap-2 disabled:opacity-60">
+          <Search size={13} /> {busy ? 'Searching...' : 'Track'}
+        </button>
+      </form>
 
-          return (
-            <div key={order.id} className="bg-white border border-[#E2E2E2] overflow-hidden">
-              {/* Order header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#E2E2E2]">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <p className="font-mono text-sm font-semibold text-[#0D0D0D]">{order.id}</p>
-                    <p className="font-mono text-[11px] text-[#6B6B6B]">{order.date}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span
-                    className="flex items-center gap-1.5 px-3 py-1 font-mono text-[11px] tracking-widest uppercase"
-                    style={{ color: cfg.color, background: cfg.bg }}
-                  >
-                    <Icon size={11} />
-                    {cfg.label}
-                  </span>
-                  <span className="font-display font-bold text-lg text-[#0D0D0D]">{formatPHP(order.total)}</span>
-                </div>
-              </div>
+      {error && <p className="font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2 mb-4">{error}</p>}
 
-              {/* Items */}
-              <div className="px-5 py-3 space-y-2">
-                {order.items.map(item => (
-                  <div key={item.name} className="flex justify-between items-center">
-                    <span className="font-sans text-sm text-[#0D0D0D]">{item.name} <span className="text-[#6B6B6B]">×{item.qty}</span></span>
-                    <span className="font-mono text-sm text-[#6B6B6B]">{formatPHP(item.price)}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Tracking bar */}
-              <div className="px-5 pb-4">
-                <TrackBar status={order.status} />
-                {order.tracking && (
-                  <div className="mt-2 flex items-center gap-2">
-                    <span className="font-mono text-[11px] text-[#6B6B6B]">Tracking:</span>
-                    <span className="font-mono text-[11px] text-[#856A00]">{order.tracking}</span>
-                    <ExternalLink size={10} className="text-[#856A00]" />
-                    {order.eta && (
-                      <span className="font-mono text-[11px] text-[#6B6B6B] ml-2">ETA: {order.eta}</span>
-                    )}
-                  </div>
-                )}
-                {order.deliveredOn && (
-                  <p className="font-mono text-[11px] text-[#00875A] mt-2">Delivered on {order.deliveredOn}</p>
-                )}
-              </div>
+      {order && cfg && Icon && (
+        <div className="bg-white border border-[#E2E2E2] overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-[#E2E2E2]">
+            <div>
+              <p className="font-mono text-sm font-semibold text-[#0D0D0D]">{order.id}</p>
+              <p className="font-mono text-[11px] text-[#6B6B6B]">{new Date(order.createdAt).toLocaleDateString('en-PH', { dateStyle: 'medium' })}</p>
             </div>
-          )
-        })}
-      </div>
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5 px-3 py-1 font-mono text-[11px] tracking-widest uppercase" style={{ color: cfg.color, background: cfg.bg }}>
+                <Icon size={11} />
+                {cfg.label}
+              </span>
+              <span className="font-display font-bold text-lg text-[#0D0D0D]">{formatPHP(order.total)}</span>
+            </div>
+          </div>
+          <div className="px-5 py-3 space-y-2">
+            {order.items.map(item => (
+              <div key={item.name} className="flex justify-between items-center gap-3">
+                <span className="font-sans text-sm text-[#0D0D0D]">{item.name} <span className="text-[#6B6B6B]">×{item.quantity}</span></span>
+                <span className="font-mono text-sm text-[#6B6B6B]">{formatPHP(item.price * item.quantity)}</span>
+              </div>
+            ))}
+          </div>
+          <div className="px-5 pb-4">
+            <TrackBar status={order.status} />
+            {order.tracking && (
+              <p className="mt-2 font-mono text-[11px] text-[#6B6B6B]">Tracking: <span className="text-[#856A00]">{order.tracking}</span></p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

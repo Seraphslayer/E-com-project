@@ -41,8 +41,8 @@ export default function MediaUploader({
     try {
       const urls = await Promise.all(list.map(uploadMedia));
       onImagesChange([...images, ...urls]);
-    } catch {
-      setError("Could not process that image. Try another file.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not upload that image.");
     } finally {
       setBusy(false);
     }
@@ -61,8 +61,8 @@ export default function MediaUploader({
     setBusy(true);
     try {
       onVideoChange(await uploadMedia(file));
-    } catch {
-      setError("Could not save that video. Try another file.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not upload that video.");
     } finally {
       setBusy(false);
     }

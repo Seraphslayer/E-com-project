@@ -3,9 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import { CheckCircle, CreditCard, Lock, Truck, ChevronRight } from 'lucide-react'
 import { useCart } from '../../store/cartStore'
 import { formatPHP } from '../../data/companyInfo'
+import { api } from '../../lib/api'
 
 type Step = 'shipping' | 'payment' | 'confirm'
 type ShipMethod = 'std' | 'exp' | 'ins'
+type PayMethod = 'bank_transfer' | 'cod'
+
+const apiShipMethod: Record<ShipMethod, string> = { std: 'standard', exp: 'priority', ins: 'installation' }
+
+const payOptions: { id: PayMethod; label: string; hint: string }[] = [
+  { id: 'bank_transfer', label: 'Bank transfer', hint: 'We email you our bank details. Your order is processed once payment is received.' },
+  { id: 'cod', label: 'Pay on delivery', hint: 'Pay our courier or installer when your order arrives.' },
+]
+
+const emptyForm = { name: '', organization: '', email: '', phone: '', line1: '', city: '', province: '', country: 'Philippines' }
 
 // Same pricing rules as the backend: standard is free over ₱20,000 (else ₱850);
 // priority adds ₱650 and delivery + installation adds ₱1,500 on top.
@@ -21,6 +32,10 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<Step>('shipping')
   const [placed, setPlaced] = useState<string | null>(null)
   const [shipMethod, setShipMethod] = useState<ShipMethod>('std')
+  const [payMethod, setPayMethod] = useState<PayMethod>('bank_transfer')
+  const [form, setForm] = useState(emptyForm)
+  const [formError, setFormError] = useState('')
+  const [placing, setPlacing] = useState(false)
   const { cart, total, clearCart } = useCart()
   const navigate = useNavigate()
 
@@ -30,11 +45,52 @@ export default function CheckoutPage() {
 
   const stepIndex = steps.findIndex(s => s.key === step)
 
-  const placeOrder = () => {
-    // Demo order number; the backend assigns the real one.
-    const id = `ORD-${Date.now().toString().slice(-6)}`
-    clearCart()
-    setPlaced(id)
+  const goToPayment = () => {
+    const missing = (['name', 'email', 'phone', 'line1', 'city', 'province'] as const).find(k => !form[k].trim())
+    if (missing) {
+      setFormError('Please fill in your contact person, email, phone, address, city and province.')
+      return
+    }
+    if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) {
+      setFormError('Please enter a valid email address.')
+      return
+    }
+    setFormError('')
+    setStep('payment')
+  }
+
+  const placeOrder = async () => {
+    setPlacing(true)
+    setFormError('')
+    try {
+      const order = await api<{ id: string }>('/orders', {
+        method: 'POST',
+        auth: false,
+        body: {
+          customer: {
+            name: form.name.trim(),
+            organization: form.organization.trim() || undefined,
+            email: form.email.trim(),
+            phone: form.phone.trim(),
+          },
+          shippingAddress: {
+            line1: form.line1.trim(),
+            city: form.city.trim(),
+            province: form.province.trim(),
+            country: form.country.trim() || 'Philippines',
+          },
+          items: cart.map(i => ({ productId: i.product.id, quantity: i.quantity })),
+          shippingMethod: apiShipMethod[shipMethod],
+          paymentMethod: payMethod,
+        },
+      })
+      clearCart()
+      setPlaced(order.id)
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : 'Could not place your order. Please try again.')
+    } finally {
+      setPlacing(false)
+    }
   }
 
   if (cart.length === 0 && !placed) {
@@ -122,20 +178,23 @@ export default function CheckoutPage() {
                 <h2 className="font-display font-semibold text-[#0D0D0D]">Shipping Address</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { label: 'Contact Person', placeholder: 'Juan Dela Cruz', span: 1 },
-                  { label: 'Office / Department', placeholder: 'General Services Office', span: 1 },
-                  { label: 'Email', placeholder: 'procurement@lgu.gov.ph', span: 2 },
-                  { label: 'Delivery Address', placeholder: 'City Hall Compound, Brgy. Poblacion', span: 2 },
-                  { label: 'City / Municipality', placeholder: 'Dasmariñas City', span: 1 },
-                  { label: 'Province', placeholder: 'Cavite', span: 1 },
-                  { label: 'Country', placeholder: 'Philippines', span: 2 },
-                ].map(({ label, placeholder, span }) => (
-                  <div key={label} className={span === 2 ? 'sm:col-span-2' : ''}>
+                {([
+                  { key: 'name', label: 'Contact Person', placeholder: 'Juan Dela Cruz', span: 1 },
+                  { key: 'organization', label: 'Office / Department (optional)', placeholder: 'General Services Office', span: 1 },
+                  { key: 'email', label: 'Email', placeholder: 'procurement@lgu.gov.ph', span: 1 },
+                  { key: 'phone', label: 'Phone', placeholder: '0917 123 4567', span: 1 },
+                  { key: 'line1', label: 'Delivery Address', placeholder: 'City Hall Compound, Brgy. Poblacion', span: 2 },
+                  { key: 'city', label: 'City / Municipality', placeholder: 'Dasmariñas City', span: 1 },
+                  { key: 'province', label: 'Province', placeholder: 'Cavite', span: 1 },
+                  { key: 'country', label: 'Country', placeholder: 'Philippines', span: 2 },
+                ] as const).map(({ key, label, placeholder, span }) => (
+                  <div key={key} className={span === 2 ? 'sm:col-span-2' : ''}>
                     <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">{label}</label>
                     <input
-                      type="text"
-                      defaultValue={placeholder}
+                      type={key === 'email' ? 'email' : 'text'}
+                      value={form[key]}
+                      placeholder={placeholder}
+                      onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                       className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
                     />
                   </div>
@@ -157,7 +216,8 @@ export default function CheckoutPage() {
                   ))}
                 </div>
               </div>
-              <button onClick={() => setStep('payment')} className="mt-6 bg-[#EACD51] text-[#0D0D0D] px-8 py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors flex items-center gap-2">
+              {formError && <p className="mt-4 font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2">{formError}</p>}
+              <button onClick={goToPayment} className="mt-6 bg-[#EACD51] text-[#0D0D0D] px-8 py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors flex items-center gap-2">
                 Continue to Payment <ChevronRight size={14} />
               </button>
             </div>
@@ -173,37 +233,19 @@ export default function CheckoutPage() {
                   <span className="font-mono text-[10px] tracking-wide">SSL Secured</span>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2">
-                  <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Card Number</label>
-                  <input
-                    type="text"
-                    defaultValue="4242 4242 4242 4242"
-                    className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Expiry</label>
-                  <input defaultValue="09/28" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors" />
-                </div>
-                <div>
-                  <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">CVV</label>
-                  <input defaultValue="•••" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-mono text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors" />
-                </div>
-                <div className="sm:col-span-2">
-                  <label className="block font-mono text-[10px] text-[#6B6B6B] tracking-widest uppercase mb-1.5">Name on Card</label>
-                  <input defaultValue="Juan Dela Cruz" className="w-full border border-[#E2E2E2] px-3 py-2.5 font-sans text-sm text-[#0D0D0D] outline-none focus:border-[#D4B63A] transition-colors" />
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-4 gap-2">
-                {["Card", "GCash", "Maya", "GrabPay"].map((method) => (
-                  <div key={method} className="border border-[#E2E2E2] px-2 py-1.5 text-center">
-                    <p className="font-mono text-[9px] text-[#6B6B6B] tracking-wide">{method}</p>
-                  </div>
+              <div className="space-y-2">
+                {payOptions.map(opt => (
+                  <label key={opt.id} className="flex items-start gap-3 border border-[#E2E2E2] px-4 py-3 cursor-pointer hover:border-[#D4B63A] transition-colors">
+                    <input type="radio" name="payment" checked={payMethod === opt.id} onChange={() => setPayMethod(opt.id)} className="accent-[#D4B63A] mt-1" />
+                    <span>
+                      <span className="block font-sans text-sm text-[#0D0D0D] font-medium">{opt.label}</span>
+                      <span className="block font-mono text-[11px] text-[#6B6B6B]">{opt.hint}</span>
+                    </span>
+                  </label>
                 ))}
               </div>
               <div className="mt-4 bg-[#EBF0F0] px-4 py-3">
-                <p className="font-mono text-[11px] text-[#6B6B6B]">Demo mode: no real payment is processed. Secured by PayMongo.</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B]">Online payment by card, GCash, Maya and GrabPay (PayMongo) is coming soon.</p>
               </div>
               <div className="mt-6 flex gap-3">
                 <button onClick={() => setStep('shipping')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>
@@ -240,10 +282,11 @@ export default function CheckoutPage() {
                   <span className="font-display font-bold text-lg text-[#856A00]">{formatPHP(Math.round(orderTotal))}</span>
                 </div>
               </div>
+              {formError && <p className="mb-4 font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2">{formError}</p>}
               <div className="flex gap-3">
                 <button onClick={() => setStep('payment')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>
-                <button onClick={placeOrder} className="flex-1 bg-[#EACD51] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors flex items-center justify-center gap-2">
-                  <Lock size={14} /> Place Order — {formatPHP(Math.round(orderTotal))}
+                <button onClick={placeOrder} disabled={placing} className="flex-1 disabled:opacity-60 bg-[#EACD51] text-[#0D0D0D] py-3 font-mono text-sm tracking-widest uppercase hover:bg-[#D4B63A] transition-colors flex items-center justify-center gap-2">
+                  <Lock size={14} /> {placing ? 'Placing order...' : `Place Order — ${formatPHP(Math.round(orderTotal))}`}
                 </button>
               </div>
             </div>

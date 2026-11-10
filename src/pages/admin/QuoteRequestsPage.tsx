@@ -10,7 +10,10 @@ const statuses: { key: QuoteStatus; label: string; color: string }[] = [
 ];
 
 export default function QuoteRequestsPage() {
-  const { quotes, updateStatus, deleteQuote } = useQuotes();
+  const { quotes, error, loading, updateStatus: setStatus, deleteQuote: removeQuote } = useQuotes();
+  const run = (fn: () => Promise<void>) => fn().catch((e) => alert(e instanceof Error ? e.message : "Something went wrong."));
+  const updateStatus = (id: string, status: QuoteStatus) => run(() => setStatus(id, status));
+  const deleteQuote = (id: string) => confirm("Delete this quote request?") && run(() => removeQuote(id));
   const [filter, setFilter] = useState<QuoteStatus | "all">("all");
   const shown = filter === "all" ? quotes : quotes.filter((q) => q.status === filter);
 
@@ -43,10 +46,11 @@ export default function QuoteRequestsPage() {
         ))}
       </div>
 
+      {error && <p className="font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2 mb-4">{error}</p>}
       {shown.length === 0 ? (
         <div className="bg-white border border-dashed border-[#E2E2E2] py-16 text-center">
           <FileText size={28} className="mx-auto text-[#B0B0B0] mb-3" />
-          <p className="font-mono text-sm text-[#6B6B6B]">No quote requests yet.</p>
+          <p className="font-mono text-sm text-[#6B6B6B]">{loading ? 'Loading...' : 'No quote requests yet.'}</p>
         </div>
       ) : (
         <div className="space-y-4">

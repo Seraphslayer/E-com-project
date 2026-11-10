@@ -1,9 +1,8 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+import { api } from "../lib/api";
 
-// Quote requests submitted from the storefront, read by the admin portal.
-//
-// FRONTEND DEMO: persisted in localStorage (this browser only). When the backend exists,
-// replace submitQuote/updateStatus with API calls (POST /api/quotes, PATCH /api/quotes/:id).
+// Quote requests submitted from the storefront (POST /api/quotes, public) and read by the
+// admin portal (GET/PATCH/DELETE /api/quotes, admin login required).
 
 export type QuoteStatus = "new" | "contacted" | "quoted" | "closed";
 
@@ -20,42 +19,36 @@ export interface QuoteRequest {
   status: QuoteStatus;
 }
 
-const KEY = "fgt.quotes.v1";
+export type QuoteInput = Omit<QuoteRequest, "id" | "createdAt" | "status">;
 
-function load(): QuoteRequest[] {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw) as QuoteRequest[];
-  } catch {
-    /* storage unavailable or corrupt */
-  }
-  return [];
+/** Sends a quote request from the storefront. Throws with a readable message on failure. */
+export async function submitQuote(data: QuoteInput): Promise<void> {
+  await api("/quotes", { method: "POST", body: data, auth: false });
 }
 
-let state: QuoteRequest[] = load();
+let state: QuoteRequest[] = [];
+let error = "";
+let loading = false;
 const listeners = new Set<() => void>();
+let snapshot = { quotes: state, error, loading };
 
-function set(next: QuoteRequest[]) {
-  state = next;
-  try {
-    localStorage.setItem(KEY, JSON.stringify(state));
-  } catch {
-    /* ignore quota / private-mode errors */
-  }
+function publish() {
+  snapshot = { quotes: state, error, loading };
   listeners.forEach((l) => l());
 }
 
-export function submitQuote(
-  data: Omit<QuoteRequest, "id" | "createdAt" | "status">,
-): QuoteRequest {
-  const next: QuoteRequest = {
-    ...data,
-    id: `QR-${Date.now().toString(36).toUpperCase()}`,
-    createdAt: new Date().toISOString(),
-    status: "new",
-  };
-  set([next, ...state]);
-  return next;
+export async function refreshQuotes() {
+  loading = true;
+  error = "";
+  publish();
+  try {
+    const res = await api<{ items: QuoteRequest[] }>("/quotes?limit=200");
+    state = res.items;
+  } catch (err) {
+    error = err instanceof Error ? err.message : "Could not load quote requests.";
+  }
+  loading = false;
+  publish();
 }
 
 function subscribe(l: () => void) {
@@ -64,14 +57,23 @@ function subscribe(l: () => void) {
 }
 
 export function useQuotes() {
-  const quotes = useSyncExternalStore(subscribe, () => state);
+  const snap = useSyncExternalStore(subscribe, () => snapshot);
+  useEffect(() => {
+    void refreshQuotes();
+  }, []);
   return {
-    quotes,
-    updateStatus(id: string, status: QuoteStatus) {
-      set(state.map((q) => (q.id === id ? { ...q, status } : q)));
+    quotes: snap.quotes,
+    error: snap.error,
+    loading: snap.loading,
+    async updateStatus(id: string, status: QuoteStatus) {
+      const saved = await api<QuoteRequest>(`/quotes/${id}`, { method: "PATCH", body: { status } });
+      state = state.map((q) => (q.id === id ? { ...q, ...saved } : q));
+      publish();
     },
-    deleteQuote(id: string) {
-      set(state.filter((q) => q.id !== id));
+    async deleteQuote(id: string) {
+      await api(`/quotes/${id}`, { method: "DELETE" });
+      state = state.filter((q) => q.id !== id);
+      publish();
     },
   };
 }

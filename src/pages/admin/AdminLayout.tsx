@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { api, getToken, setToken } from "../../lib/api";
 import {
   LayoutDashboard,
   Package,
@@ -45,6 +46,15 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const signedIn = !!getToken();
+
+  // Make sure the saved login is still valid (it expires after a while).
+  useEffect(() => {
+    if (!signedIn) return;
+    api("/auth/me").catch(() => navigate("/admin/login", { replace: true }));
+  }, [signedIn, navigate]);
+
+  if (!signedIn) return <Navigate to="/admin/login" replace />;
 
   return (
     <div className="min-h-screen bg-[#F0F1F1] flex">
@@ -62,12 +72,15 @@ export default function AdminLayout() {
       >
         <div className="px-5 py-5 border-b border-white/10">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => {
+              setToken(null);
+              navigate("/");
+            }}
             className="flex items-center gap-1.5 text-white/30 hover:text-white/60 transition-colors mb-4 group"
           >
             <ArrowLeft size={12} />
             <span className="font-mono text-[10px] tracking-widest uppercase">
-              Exit
+              Sign out
             </span>
           </button>
           <div className="flex items-center gap-2">
