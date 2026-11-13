@@ -178,7 +178,7 @@ export default function AdminSettingsPage() {
             </div>
           ))}
           <p className="font-mono text-[10px] text-[#6B6B6B] pt-2 border-t border-[#E2E2E2]">
-            Processed via PayMongo
+            Processed via Maya
           </p>
         </SettingsCard>
 

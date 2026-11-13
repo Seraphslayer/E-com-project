@@ -73,7 +73,15 @@ export default function OrdersPage() {
     setOrder(null)
     try {
       const q = new URLSearchParams({ id: orderId.trim(), email: email.trim() })
-      setOrder(await api<MyOrder>(`/orders/track?${q}`, { auth: false }))
+      const found = await api<MyOrder>(`/orders/track?${q}`, { auth: false })
+      // Ask the server to re-check with Maya so a just-paid order shows as paid right away.
+      if (found.paymentStatus === 'pending') {
+        try {
+          const s = await api<{ paymentStatus: string }>(`/payments/status?${q}`, { auth: false })
+          found.paymentStatus = s.paymentStatus
+        } catch { /* keep what we have */ }
+      }
+      setOrder(found)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not find that order.')
     } finally {
@@ -95,6 +103,11 @@ export default function OrdersPage() {
       {params.get('paid') && (
         <p className="font-mono text-xs text-[#00875A] bg-[#E8F5F0] px-3 py-2 mb-4">
           Thank you! Your payment is being confirmed. Enter your email below to see your order status.
+        </p>
+      )}
+      {params.get('failed') && (
+        <p className="font-mono text-xs text-[#DC2626] bg-[#FEF2F2] px-3 py-2 mb-4">
+          The payment did not go through. Your order is saved. Please contact us to pay for it, or place a new order.
         </p>
       )}
       {params.get('cancelled') && (
