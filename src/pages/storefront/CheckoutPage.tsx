@@ -16,7 +16,7 @@ const payOptions: { id: PayMethod; label: string; hint: string }[] = [
   { id: 'gcash', label: 'GCash', hint: 'Pay securely online with your GCash wallet.' },
   { id: 'maya', label: 'Maya', hint: 'Pay securely online with your Maya wallet.' },
   { id: 'grabpay', label: 'GrabPay', hint: 'Pay securely online with GrabPay.' },
-  { id: 'card', label: 'Credit / debit card', hint: 'Visa or Mastercard, paid on PayMongo\'s secure page.' },
+  { id: 'card', label: 'Credit / debit card', hint: 'Visa or Mastercard, paid on Maya\'s secure page.' },
   { id: 'bank_transfer', label: 'Bank transfer', hint: 'We email you our bank details. Your order is processed once payment is received.' },
   { id: 'cod', label: 'Pay on delivery', hint: 'Pay our courier or installer when your order arrives.' },
 ]
@@ -98,7 +98,7 @@ export default function CheckoutPage() {
             body: { orderId: order.id, email: form.email.trim() },
           })
           clearCart()
-          window.location.href = pay.checkoutUrl // PayMongo's secure payment page
+          window.location.href = pay.checkoutUrl // Maya's secure payment page
           return
         } catch (err) {
           // The order itself is saved; only the online payment could not be started.
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
                 ))}
               </div>
               <div className="mt-4 bg-[#EBF0F0] px-4 py-3">
-                <p className="font-mono text-[11px] text-[#6B6B6B]">Online payments are processed on PayMongo's secure page. We never see or store your card details.</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B]">Online payments are processed on Maya's secure page. We never see or store your card details.</p>
               </div>
               <div className="mt-6 flex gap-3">
                 <button onClick={() => setStep('shipping')} className="border border-[#E2E2E2] px-6 py-3 font-mono text-sm tracking-widest uppercase hover:border-[#0D0D0D] transition-colors">Back</button>

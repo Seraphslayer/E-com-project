@@ -198,7 +198,7 @@ export default function CartPage() {
                 </div>
               ))}
             </div>
-            <p className="font-mono text-[9px] text-[#B0B0B0] mt-2 text-center">Secured by PayMongo</p>
+            <p className="font-mono text-[9px] text-[#B0B0B0] mt-2 text-center">Secured by Maya</p>
           </div>
 
           {/* Promo code */}

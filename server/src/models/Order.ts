@@ -61,7 +61,7 @@ const orderSchema = new Schema<IOrder>(
     status: { type: String, enum: ORDER_STATUSES, default: "pending", index: true },
     paymentMethod: { type: String, enum: PAYMENT_METHODS, required: true },
     paymentStatus: { type: String, enum: PAYMENT_STATUSES, default: "pending" },
-    paymentReference: String, // e.g. PayMongo payment intent id, filled in by the payment integration
+    paymentReference: String, // e.g. Maya checkout id, filled in by the payment integration
     tracking: String,
     notes: String,
   },

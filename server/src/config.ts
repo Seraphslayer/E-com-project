@@ -12,11 +12,12 @@ const schema = z.object({
   // On Vercel the project folder is read-only, so only /tmp is writable.
   UPLOAD_DIR: z.string().default(process.env.VERCEL ? "/tmp/uploads" : "./uploads"),
   MAX_UPLOAD_MB: z.coerce.number().default(50),
-  // PayMongo online payments (card, GCash, Maya, GrabPay). Use the sk_test_ key until the account is live.
-  PAYMONGO_SECRET_KEY: z.string().optional(),
-  // Signing secret returned when the webhook is created in the PayMongo dashboard.
-  PAYMONGO_WEBHOOK_SECRET: z.string().optional(),
-  PAYMONGO_API_URL: z.string().default("https://api.paymongo.com/v1"),
+  // Maya Checkout online payments (card, Maya, GCash, GrabPay... the customer picks on Maya's page).
+  // Public key creates the checkout, secret key confirms the payment. Sandbox keys charge nothing.
+  MAYA_PUBLIC_KEY: z.string().optional(),
+  MAYA_SECRET_KEY: z.string().optional(),
+  // Sandbox by default. Production is https://pg.maya.ph
+  MAYA_API_URL: z.string().default("https://pg-sandbox.paymaya.com"),
   // Public address of the website, used for the return links after payment. Defaults to the first CORS origin.
   SITE_URL: z.string().optional(),
   // Optional: create the first admin account on startup if no users exist.

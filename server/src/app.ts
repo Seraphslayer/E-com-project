@@ -32,15 +32,7 @@ export function createApp() {
     }),
   );
   app.use(morgan(config.isProd ? "combined" : "dev"));
-  // Keep the raw bytes: PayMongo webhook signatures are computed over the exact request body.
-  app.use(
-    express.json({
-      limit: "100kb",
-      verify: (req, _res, buf) => {
-        (req as unknown as { rawBody?: Buffer }).rawBody = buf;
-      },
-    }),
-  );
+  app.use(express.json({ limit: "100kb" }));
 
   app.get("/api/health", (_req, res) => {
     const dbUp = mongoose.connection.readyState === 1;
