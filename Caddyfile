@@ -1,0 +1,49 @@
+# Web server for the live site. Caddy gets and renews the HTTPS certificates by itself.
+# STORE_DOMAIN and ADMIN_DOMAIN come from .env (see .env.example), e.g. fgttrading.ph and admin.fgttrading.ph.
+# For a test on your own computer use  STORE_DOMAIN=http://localhost  ADMIN_DOMAIN=http://admin.localhost
+
+(app) {
+	encode gzip
+
+	# The API and uploaded photos/videos are served by the Node container.
+	handle /api/* {
+		request_body {
+			max_size 60MB
+		}
+		reverse_proxy api:4000
+	}
+	handle /uploads/* {
+		reverse_proxy api:4000
+	}
+
+	# Built files never change under the same name, so browsers may keep them for a year.
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+
+# Customer storefront
+{$STORE_DOMAIN} {
+	import app
+	handle {
+		root * /srv/store
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+# Admin portal (its own address, nothing from the storefront is in it)
+{$ADMIN_DOMAIN} {
+	import app
+	handle {
+		root * /srv/admin
+		try_files {path} /index.html
+		file_server
+	}
+	# Keep search engines out of the admin.
+	header X-Robots-Tag "noindex, nofollow"
+}

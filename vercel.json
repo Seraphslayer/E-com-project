@@ -1,12 +1,14 @@
 {
   "installCommand": "npm install && npm install --prefix server",
-  "buildCommand": "npm --prefix server run build && npm run build",
-  "outputDirectory": "dist",
+  "buildCommand": "npm --prefix server run build && npm run build:store && ADMIN_BASE=/admin-app/ npm run build:admin && mkdir -p dist/store/admin-app && cp -r dist/admin/. dist/store/admin-app/",
+  "outputDirectory": "dist/store",
   "functions": {
     "api/index.js": { "includeFiles": "server/dist/**", "maxDuration": 30 }
   },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/admin", "destination": "/admin-app/index.html" },
+    { "source": "/admin/(.*)", "destination": "/admin-app/index.html" },
+    { "source": "/((?!api/|admin-app/).*)", "destination": "/index.html" }
   ]
 }

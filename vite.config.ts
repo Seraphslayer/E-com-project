@@ -2,19 +2,36 @@ import { defineConfig, type HtmlTagDescriptor, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
+import fs from 'node:fs'
 
 import siteConfiguration from './.figma/make/site.json'
 
 // Vite config — https://vitejs.dev/config/
+// The storefront and the admin portal are two separate apps built from this one repo:
+//   APP=store (default)  entry index.html  -> dist/store   dev port 8443
+//   APP=admin            entry admin.html  -> dist/admin   dev port 8444
+// Use the npm scripts (dev:store, dev:admin, build:store, build:admin) rather than setting APP by hand.
 export default defineConfig(({ mode }) => {
   // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
   const emitSourcemaps = mode === 'development'
+  const app = process.env.APP === 'admin' ? 'admin' : 'store'
+  const entry = app === 'admin' ? 'admin.html' : 'index.html'
+  // Where the admin app is hosted. '/' when it has its own (sub)domain; set ADMIN_BASE=/admin-app/ when it
+  // shares a domain with the storefront (the Vercel demo does this).
+  const base = process.env.FIGMA_PUBLIC_URL
+    ? `${process.env.FIGMA_PUBLIC_URL}/`
+    : app === 'admin'
+      ? process.env.ADMIN_BASE || '/'
+      : '/'
 
   return {
-    base: process.env.FIGMA_PUBLIC_URL ? `${process.env.FIGMA_PUBLIC_URL}/` : '/',
+    base,
     build: {
+      outDir: `dist/${app}`,
+      emptyOutDir: true,
       sourcemap: emitSourcemaps ? 'inline' : false,
       minify: !emitSourcemaps,
+      rollupOptions: { input: path.resolve(__dirname, entry) },
     },
     plugins: [
       react(),
@@ -23,6 +40,7 @@ export default defineConfig(({ mode }) => {
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),
+      separateApp(app),
     ],
     resolve: {
       alias: {
@@ -31,7 +49,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: '0.0.0.0',
-      port: parseInt(process.env.PORT || '8443'),
+      port: parseInt(process.env.PORT || (app === 'admin' ? '8444' : '8443')),
       strictPort: true,
       watch: { ignored: ['**/.figma/**'] },
       // Forward API and uploaded-file requests to the backend (server/) during development.
@@ -42,7 +60,7 @@ export default defineConfig(({ mode }) => {
     },
     preview: {
       host: '0.0.0.0',
-      port: parseInt(process.env.PORT || '8443'),
+      port: parseInt(process.env.PORT || (app === 'admin' ? '8444' : '8443')),
     },
   }
 })
@@ -356,6 +374,30 @@ function figmaMakeKitPlugin(options: { storiesGlob: string | string[] }): Plugin
           next(err as Error)
         }
       })
+    },
+  }
+}
+
+/** Lets the admin app use admin.html as its entry: serve it in dev, and name it index.html in the build. */
+function separateApp(app: 'store' | 'admin'): Plugin {
+  if (app !== 'admin') return { name: 'separate-app-noop' }
+  let outDir = ''
+  return {
+    name: 'separate-app-admin',
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir)
+    },
+    configureServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        const url = req.url ?? ''
+        const isPage = req.headers.accept?.includes('text/html') && !url.split('?')[0].includes('.')
+        if (isPage) req.url = '/admin.html'
+        next()
+      })
+    },
+    closeBundle() {
+      const from = path.join(outDir, 'admin.html')
+      if (fs.existsSync(from)) fs.renameSync(from, path.join(outDir, 'index.html'))
     },
   }
 }
