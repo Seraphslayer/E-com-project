@@ -66,7 +66,7 @@ export default function AdminLogin() {
         </button>
         <button
           type="button"
-          onClick={() => navigate("/")}
+          onClick={() => window.location.assign(import.meta.env.VITE_STORE_URL || "/store")}
           className="w-full mt-3 font-mono text-[11px] text-[#6B6B6B] hover:text-[#0D0D0D] tracking-wide"
         >
           Back to site

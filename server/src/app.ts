@@ -24,11 +24,19 @@ export function createApp() {
 
   // Images and videos are loaded by the storefront from a different origin in some setups.
   app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+  // Allowed: the origins listed in CORS_ORIGINS, plus any page served from the same host as the API
+  // (the storefront and the admin portal each call /api on their own domain, and so do Vercel preview links).
   app.use(
-    cors({
-      origin: (origin, cb) =>
-        !origin || config.corsOrigins.includes(origin) ? cb(null, true) : cb(new HttpError(403, "Origin not allowed")),
-      exposedHeaders: ["X-Total-Count"],
+    cors((req, cb) => {
+      const origin = req.headers.origin;
+      let sameHost = false;
+      try {
+        sameHost = !!origin && new URL(origin).host === req.headers.host;
+      } catch {
+        /* not a valid origin: fall through to the list */
+      }
+      const ok = !origin || sameHost || config.corsOrigins.includes(origin);
+      ok ? cb(null, { origin: true, exposedHeaders: ["X-Total-Count"] }) : cb(new HttpError(403, "Origin not allowed"));
     }),
   );
   app.use(morgan(config.isProd ? "combined" : "dev"));
